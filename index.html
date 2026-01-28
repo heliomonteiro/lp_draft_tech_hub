@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO BLINDADO -->
+    <title>Draft Tech Hub | Engenharia Digital em Uberaba e Ribeirão Preto</title>
+    <meta name="description" content="Transforme seu negócio com Landing Pages de alta performance, Dashboards de BI e Automação. Tecnologia de grandes corporações acessível para Uberaba, Ribeirão Preto e região.">
+    <meta name="keywords" content="Desenvolvimento Web, Laravel, Uberaba, Ribeirão Preto, Power BI, Automação, Landing Page, Site Rápido, Consultoria de TI">
+    <meta name="author" content="Draft Tech Hub">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drafttechhub.com.br/">
+    <meta property="og:title" content="Draft Tech Hub | Engenharia Digital de Alta Performance">
+    <meta property="og:description" content="Estrutura de multinacional para o seu negócio. Sites rápidos, dados precisos e automação.">
+    <meta property="og:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        draft: {
+                            black: '#050505',      
+                            dark: '#0a0a0a',       
+                            panel: '#111111',      
+                            border: '#262626',     
+                            red: '#ef4444',        
+                            redDark: '#b91c1c',    
+                            text: '#e5e5e5',       
+                            muted: '#a3a3a3'       
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #222 1px, transparent 1px), linear-gradient(to bottom, #222 1px, transparent 1px)",
+                    },
+                    cursor: {
+                        'none': 'none',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '0%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' },
+                            '100%': { transform: 'translate(0)' },
+                        }
+                    },
+                    animation: {
+                        'glitch': 'glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; }
+        
+        /* Cursor Personalizado */
+        #cursor-dot, #cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+        }
+        #cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        body.hovering #cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+        }
+
+        /* Grid de Fundo */
+        .bg-tech-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%); 
+            /* Mudado para radial para focar no centro */
+        }
+
+        /* Boot Loader */
+        #boot-loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            color: #ef4444;
+        }
+        .boot-text { opacity: 0; animation: fadeIn 0.1s forwards; }
+
+        /* Glitch Effect Classes */
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #ef4444;
+        }
+
+        /* Modo DEBUG */
+        body.debug-mode * {
+            outline: 1px solid rgba(239, 68, 68, 0.15) !important;
+        }
+
+        /* Animações */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+
+        /* Barra de Progresso */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #ef4444;
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
+        }
+
+        /* TILT 3D EFFECT */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            will-change: transform;
+        }
+        .tilt-content {
+            transform: translateZ(20px);
+        }
+        
+        /* Cursor de digitação */
+        .typing-cursor::after {
+            content: '_';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body class="antialiased h-screen overflow-hidden" id="main-body">
+
+    <!-- BOOT LOADER (Tela de Inicialização) -->
+    <div id="boot-loader">
+        <div class="w-64">
+            <div id="boot-log" class="text-xs md:text-sm space-y-1 text-left"></div>
+            <div class="mt-4 h-1 w-full bg-gray-900 rounded overflow-hidden">
+                <div id="boot-bar" class="h-full bg-draft-red w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elementos do Cursor -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- Barra de Telemetria -->
+    <div id="scroll-progress"></div>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/seunumeroy" target="_blank" class="hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 bg-draft-black/95 border-b border-draft-border backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 cursor-pointer group hover-trigger" onclick="window.scrollTo(0,0)">
+                    <span class="glitch-hover text-2xl font-bold tracking-tighter text-white transition-colors block">
+                        DRAFT<span class="text-draft-red">.</span>HUB
+                    </span>
+                    <p class="text-[10px] text-draft-muted uppercase tracking-[0.2em] font-mono group-hover:text-draft-red transition-colors">Tech Studio</p>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#solucoes" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Soluções</a>
+                        <a href="#metodo" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Método</a>
+                        <a href="#portfolio" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Cases</a>
+                        <a href="#contato" class="hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-5 py-2 rounded-sm text-sm font-bold transition-all border border-transparent hover:scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                            DIAGNÓSTICO TÉCNICO
+                        </a>
+                    </div>
+                </div>
+
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMenu()" aria-label="Abrir Menu" class="hover-trigger inline-flex items-center justify-center p-2 rounded-md text-draft-muted hover:text-white hover:bg-draft-panel focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-draft-black border-b border-draft-border" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#solucoes" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Soluções</a>
+                <a href="#metodo" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Método</a>
+                <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Cases</a>
+                <a href="#contato" class="block w-full text-center mt-4 bg-draft-red text-white px-5 py-3 rounded-sm font-bold">SOLICITAR DIAGNÓSTICO</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <div class="absolute inset-0 bg-tech-grid z-0 opacity-60"></div>
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-draft-red/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            
+            <div class="inline-block mb-6 px-4 py-1.5 border border-draft-border rounded-full bg-draft-panel/80 fade-in-up cursor-default group hover:border-draft-red/50 transition-colors">
+                <span class="text-xs font-semibold tracking-wider uppercase text-draft-red font-mono flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-draft-red animate-pulse"></span>
+                    System Status: Online
+                </span>
+            </div>
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-8 fade-in-up leading-[0.9]" style="animation-delay: 0.1s;">
+                ENGENHARIA <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600 glitch-hover cursor-default">DIGITAL</span>
+            </h1>
+
+            <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-draft-muted fade-in-up font-light leading-relaxed" style="animation-delay: 0.2s;">
+                A robustez técnica de grandes corporações com a agilidade de um estúdio especializado. 
+                Infraestrutura de alta performance para escalar o seu negócio.
+            </p>
+
+            <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4 fade-in-up" style="animation-delay: 0.3s;">
+                <a href="#contato" class="hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-10 py-5 rounded-sm text-base font-bold transition-all hover:-translate-y-1 flex items-center justify-center border border-transparent shadow-[0_4px_14px_0_rgba(239,68,68,0.39)]">
+                    QUERO ESCALAR <i class="fas fa-arrow-right ml-3"></i>
+                </a>
+                <a href="#solucoes" class="hover-trigger border border-draft-border hover:border-white text-draft-text hover:text-white px-10 py-5 rounded-sm text-base font-bold transition-all bg-draft-panel/50 backdrop-blur-sm flex items-center justify-center">
+                    Ver Soluções
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Counter (IMPACTO) -->
+    <section class="border-y border-draft-border bg-draft-dark py-12 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center cursor-default">
+            
+            <div class="fade-in-up">
+                <div class="text-4xl font-black text-white font-mono flex justify-center items-center">
+                    <span class="counter" data-target="98">0</span>%
+                </div>
+                <p class="text-xs text-draft-muted uppercase tracking-widest mt-2">Lighthouse Score</p>
+            </div>
+
+            <div class="fade-in-up" style="animation-delay: 0.1s;">
+                <div class="text-4xl font-black text-white font-mono flex justify-center items-center">
+                    <span class="counter" data-target="100">0</span>%
+                </div>
+                <p class="text-xs text-draft-muted uppercase tracking-widest mt-2">Personalização</p>
+            </div>
+
+            <div class="fade-in-up" style="animation-delay: 0.2s;">
+                <div class="text-4xl font-black text-white font-mono flex justify-center items-center">
+                    +<span class="counter" data-target="15">0</span>
+                </div>
+                <p class="text-xs text-draft-muted uppercase tracking-widest mt-2">Sistemas Entregues</p>
+            </div>
+
+            <div class="fade-in-up" style="animation-delay: 0.3s;">
+                <div class="text-4xl font-black text-white font-mono flex justify-center items-center">
+                    <span class="counter" data-target="24">0</span>/<span class="counter" data-target="7">0</span>
+                </div>
+                <p class="text-xs text-draft-muted uppercase tracking-widest mt-2">Monitoramento</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Methodology -->
+    <section id="metodo" class="py-32 bg-draft-black relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="fade-in-up">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight">
+                        Eficiência Técnica, <br>
+                        <span class="text-draft-red">Zero Burocracia.</span>
+                    </h2>
+                    <p class="text-draft-muted text-lg mb-8 leading-relaxed">
+                        Grandes consultorias vendem horas e reuniões. Nós vendemos arquitetura e resultado.
+                    </p>
+                    <p class="text-draft-muted text-lg mb-10 leading-relaxed border-l-2 border-draft-red pl-6">
+                        Trazemos a bagagem técnica de quem atuou na estrutura de grandes players (como a centenária <strong>Zema</strong> e grupos de alto faturamento), aplicando frameworks modernos que eliminam o desperdício de código. 
+                    </p>
+                    
+                    <ul class="space-y-5 font-mono text-sm">
+                        <li class="flex items-center text-draft-text group cursor-default">
+                            <span class="text-draft-red mr-4 group-hover:translate-x-1 transition-transform">>></span> Metodologia Ágil Real
+                        </li>
+                        <li class="flex items-center text-draft-text group cursor-default">
+                            <span class="text-draft-red mr-4 group-hover:translate-x-1 transition-transform">>></span> Arquitetura Escalável
+                        </li>
+                        <li class="flex items-center text-draft-text group cursor-default">
+                            <span class="text-draft-red mr-4 group-hover:translate-x-1 transition-transform">>></span> Decisões Baseadas em Dados
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="relative fade-in-up delay-200">
+                    <!-- Visualização de "Terminal" com TILT e TYPING -->
+                    <div class="tilt-card hover-trigger border border-draft-border bg-draft-dark p-6 rounded-sm relative z-10 shadow-2xl group hover:border-draft-red/50 transition-colors">
+                        <div class="flex items-center justify-between mb-6 border-b border-draft-border pb-4 tilt-content">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-draft-red"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-600"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-600"></div>
+                            </div>
+                            <span class="text-xs text-draft-muted font-mono">system_architecture.draft</span>
+                        </div>
+                        <div class="space-y-3 font-mono text-sm tilt-content" id="terminal-content">
+                            <!-- Conteúdo será injetado via JS -->
+                            <p class="text-green-500 typing-cursor" id="line-1"></p>
+                            <p class="text-draft-muted hidden" id="line-2"></p>
+                            <p class="text-draft-muted hidden" id="line-3"></p>
+                            <p class="text-draft-muted hidden" id="line-4"></p>
+                            <p class="text-draft-red mt-4 hidden" id="line-5"></p>
+                        </div>
+                        <div class="mt-8 h-32 bg-draft-panel border border-draft-border relative overflow-hidden opacity-50 tilt-content">
+                            <!-- Gráfico decorativo -->
+                            <div class="absolute bottom-0 left-0 right-0 h-full flex items-end px-2 gap-1">
+                                <div class="w-1/6 bg-draft-border h-[20%] group-hover:bg-draft-red/20 transition-colors duration-500"></div>
+                                <div class="w-1/6 bg-draft-border h-[35%] group-hover:bg-draft-red/30 transition-colors duration-500"></div>
+                                <div class="w-1/6 bg-draft-border h-[40%] group-hover:bg-draft-red/40 transition-colors duration-500"></div>
+                                <div class="w-1/6 bg-red-900 h-[60%]"></div>
+                                <div class="w-1/6 bg-red-800 h-[75%]"></div>
+                                <div class="w-1/6 bg-red-600 h-[95%]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-5 -right-5 w-full h-full border border-draft-border z-0"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions -->
+    <section id="solucoes" class="py-32 bg-draft-dark relative border-t border-draft-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 fade-in-up">
+                <h2 class="text-3xl font-bold text-white">Nossas Verticais Técnicas</h2>
+                <p class="mt-4 text-draft-muted">O ecossistema completo para sustentar o seu crescimento.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default">
+                    <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
+                        <i class="fas fa-laptop-code text-draft-red text-2xl"></i>
+                    </div>
+                    <h3 class="tilt-content text-xl font-bold text-white mb-4">Vitrine de Alta Conversão</h3>
+                    <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
+                        Landing Pages e Portais desenvolvidos em <strong>Laravel & Livewire</strong>. Focados em velocidade extrema (Lighthouse 90+) e SEO técnico.
+                    </p>
+                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Design Responsivo</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Carregamento Instantâneo</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.1s;">
+                    <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
+                        <i class="fas fa-chart-bar text-draft-red text-2xl"></i>
+                    </div>
+                    <h3 class="tilt-content text-xl font-bold text-white mb-4">Hub de Dados & BI</h3>
+                    <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
+                        Transformamos planilhas soltas em <strong>Dashboards de Decisão</strong>. Visualize lucro, churn e metas em tempo real.
+                    </p>
+                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Power BI & SQL</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Relatórios Automáticos</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.2s;">
+                    <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
+                        <i class="fas fa-cogs text-draft-red text-2xl"></i>
+                    </div>
+                    <h3 class="tilt-content text-xl font-bold text-white mb-4">Motor de Operação</h3>
+                    <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
+                        Desenvolvimento de sistemas internos sob medida para organizar o fluxo de trabalho da sua equipe.
+                    </p>
+                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Redução de Erro Humano</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Integração de APIs</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-32 bg-draft-black border-t border-draft-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-up">
+                <div>
+                    <h2 class="text-3xl font-bold text-white">Cases & Soluções</h2>
+                    <p class="mt-2 text-draft-muted">Tecnologia aplicada na prática.</p>
+                </div>
+                <div class="hidden md:block px-4 py-2 border border-draft-border rounded-sm text-xs text-draft-muted font-mono uppercase tracking-widest">
+                    Selected Works 2024-2025
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Case 1 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
+                        <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png" alt="CT Conectados" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
+                    </div>
+                    <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Performance Web</span>
+                        <h3 class="text-lg font-bold text-white mt-1">CT Conectados</h3>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none" style="animation-delay: 0.1s;">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
+                        <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png" alt="Dra Camila Costa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
+                    </div>
+                    <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Saúde & Estética</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Dra. Camila Costa</h3>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none" style="animation-delay: 0.2s;">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
+                        <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png" alt="Open In Your Closet" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
+                    </div>
+                    <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">E-commerce</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Open In Your Closet</h3>
+                    </div>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
+                        <i class="fas fa-chart-line text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                    </div>
+                    <div class="p-6 tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">BI & Dados</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Dashboard ZM</h3>
+                        <p class="text-xs text-draft-muted mt-2">DRE e fluxo de caixa em tempo real.</p>
+                    </div>
+                </div>
+
+                <!-- Case 5 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
+                        <i class="fas fa-network-wired text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                    </div>
+                    <div class="p-6 tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Sistema Interno</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Gestor de Estoque Pro</h3>
+                        <p class="text-xs text-draft-muted mt-2">Controle de entrada/saída com alertas.</p>
+                    </div>
+                </div>
+
+                <!-- Case 6 -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
+                        <i class="fas fa-robot text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                    </div>
+                    <div class="p-6 tilt-content bg-draft-panel relative z-10">
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Automação</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Bot de Triagem</h3>
+                        <p class="text-xs text-draft-muted mt-2">Filtro de leads via API.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Area -->
+    <section id="contato" class="py-32 relative overflow-hidden border-t border-draft-border bg-draft-dark">
+        <div class="absolute inset-0 bg-tech-grid opacity-30"></div>
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-gradient-to-t from-draft-red/10 to-transparent blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 fade-in-up">
+            <h2 class="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">Pronto para estruturar <br> o crescimento?</h2>
+            <p class="text-xl text-draft-muted mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                Vamos agendar uma conversa técnica. Sem "papo de vendedor", direto ao ponto sobre o que seu negócio precisa.
+            </p>
+            
+            <a href="https://wa.me/seunumeroy" class="hover-trigger inline-flex items-center justify-center bg-draft-red hover:bg-draft-redDark text-white px-12 py-6 rounded-sm text-xl font-bold transition-all hover:-translate-y-2 shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:shadow-[0_0_50px_rgba(239,68,68,0.5)] group">
+                <i class="fab fa-whatsapp mr-4 text-3xl group-hover:animate-bounce"></i> AGENDAR DIAGNÓSTICO
+            </a>
+            
+            <p class="mt-8 text-xs text-draft-muted font-mono uppercase tracking-[0.2em] opacity-70">
+                Uberaba • Triângulo Mineiro • Ribeirão Preto
+            </p>
+        </div>
+    </section>
+
+    <footer class="bg-draft-black border-t border-draft-border py-12">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-draft-muted">
+            <div class="mb-4 md:mb-0 text-center md:text-left">
+                <span class="text-white font-bold text-lg tracking-tighter">DRAFT<span class="text-draft-red">.</span>HUB</span>
+                <p class="text-xs mt-1">Engenharia Digital & Performance.</p>
+                <p class="text-[10px] mt-2 text-gray-700 font-mono">Pressione 'D' para modo Arquiteto.</p>
+            </div>
+            <div class="font-mono text-xs text-gray-600">
+                © 2026 Draft Tech Hub. All systems operational.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // === 0. BOOT SEQUENCE (Loader) ===
+        document.addEventListener("DOMContentLoaded", () => {
+            const logs = [
+                "> Initializing Draft Core...",
+                "> Loading Architecture Modules...",
+                "> Optimizing Assets...",
+                "> System Ready."
+            ];
+            const logContainer = document.getElementById('boot-log');
+            const bootBar = document.getElementById('boot-bar');
+            const loader = document.getElementById('boot-loader');
+            const body = document.getElementById('main-body');
+            
+            let delay = 0;
+            logs.forEach((log, index) => {
+                setTimeout(() => {
+                    const p = document.createElement('div');
+                    p.className = 'boot-text';
+                    p.innerText = log;
+                    logContainer.appendChild(p);
+                    
+                    // Update bar
+                    const progress = ((index + 1) / logs.length) * 100;
+                    bootBar.style.width = `${progress}%`;
+
+                }, delay);
+                delay += 400; // Tempo entre linhas
+            });
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                loader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    body.classList.remove('overflow-hidden');
+                    body.classList.remove('h-screen');
+                }, 500);
+            }, delay + 400);
+        });
+
+        // === 1. Menu Mobile ===
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // === 2. Scroll Progress ===
+        window.onscroll = function() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        };
+
+        // === 3. Observer: FadeIn, Counters & Terminal Typing ===
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Contadores
+                    const counters = entry.target.querySelectorAll('.counter');
+                    if (counters.length > 0) {
+                        counters.forEach(counter => {
+                            const target = +counter.getAttribute('data-target');
+                            const speed = 200; 
+                            const updateCount = () => {
+                                const count = +counter.innerText;
+                                const inc = target / speed;
+                                if(count < target) {
+                                    counter.innerText = Math.ceil(count + inc);
+                                    setTimeout(updateCount, 20);
+                                } else {
+                                    counter.innerText = target;
+                                }
+                            }
+                            updateCount();
+                        });
+                    }
+
+                    // Terminal Typing Effect
+                    if (entry.target.querySelector('#terminal-content')) {
+                        typeTerminal();
+                    }
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+        // Função de Digitação do Terminal
+        function typeTerminal() {
+            const lines = [
+                { id: 'line-1', text: '> Initializing Core Systems...' },
+                { id: 'line-2', text: '> Optimizing Database Queries... [OK]' },
+                { id: 'line-3', text: '> Loading High-Performance Assets... [OK]' },
+                { id: 'line-4', text: '> Deploying Analytics Hub... [OK]' },
+                { id: 'line-5', text: '> Ready for Scale_' }
+            ];
+
+            let delay = 0;
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    const el = document.getElementById(line.id);
+                    el.classList.remove('hidden');
+                    
+                    // Remove cursor from previous line
+                    if(index > 0) {
+                         document.getElementById(lines[index-1].id).classList.remove('typing-cursor');
+                    }
+                    
+                    // Add cursor to current
+                    if(index < lines.length -1) {
+                         el.classList.add('typing-cursor');
+                    }
+                    
+                    // "Type" the text (simple implementation: just show it, 
+                    // for real char-by-char we'd need more complex JS, 
+                    // this simulates line-by-line logging)
+                    el.innerText = line.text; 
+
+                }, delay);
+                delay += 800;
+            });
+        }
+
+        // === 4. Cursor Personalizado ===
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+        const body = document.body;
+
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        const hoverTriggers = document.querySelectorAll('a, button, .hover-trigger');
+        hoverTriggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => body.classList.add('hovering'));
+            trigger.addEventListener('mouseleave', () => body.classList.remove('hovering'));
+        });
+
+        // === 5. Easter Egg (Debug) ===
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'd' || event.key === 'D') {
+                body.classList.toggle('debug-mode');
+            }
+        });
+
+        // === 6. Tilt Effect ===
+        const cards = document.querySelectorAll('.tilt-card');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -5; 
+                const rotateY = ((x - centerX) / centerX) * 5;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+                card.style.transition = 'transform 0.5s ease';
+                setTimeout(() => { card.style.transition = ''; }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
