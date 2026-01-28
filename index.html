@@ -7,7 +7,7 @@
     <!-- SEO BLINDADO -->
     <title>Draft Tech Hub | Engenharia Digital em Uberaba e Ribeirão Preto</title>
     <meta name="description" content="Transforme seu negócio com Landing Pages de alta performance, Dashboards de BI e Automação. Tecnologia de grandes corporações acessível para Uberaba, Ribeirão Preto e região.">
-    <meta name="keywords" content="Desenvolvimento Web, Laravel, Uberaba, Ribeirão Preto, Power BI, Automação, Landing Page, Site Rápido, Consultoria de TI">
+    <meta name="keywords" content="Desenvolvimento Web, Laravel, Uberaba, Ribeirão Preto, Power BI, Automação, Landing Page, Site Rápido, Consultoria de TI, Oracle, AWS">
     <meta name="author" content="Draft Tech Hub">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0a0a0a">
@@ -79,7 +79,7 @@
     <style>
         body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; transition: background-color 0.5s ease; }
         
-        /* === BLUEPRINT MODE (Visual Arquiteto/Engenheiro) === */
+        /* === BLUEPRINT MODE === */
         body.blueprint-mode {
             background-color: #0f172a; /* Slate 900 */
             color: #f8fafc;
@@ -100,26 +100,16 @@
         body.blueprint-mode .bg-draft-panel { background-color: #1e293b; border-color: #334155; }
         body.blueprint-mode .border-draft-border { border-color: #334155; }
         
-        /* Ajuste de Cursores no Blueprint */
         body.blueprint-mode #cursor-dot { background-color: #38bdf8; }
         body.blueprint-mode #cursor-outline { border-color: #38bdf8; }
         body.blueprint-mode.hovering #cursor-outline { background-color: rgba(56, 189, 248, 0.2); border-color: #38bdf8; }
 
         /* === DEBUG MODE === */
-        /* Modo Padrão (Dark/Red) */
-        body.debug-mode * { 
-            outline: 1px solid rgba(239, 68, 68, 0.25) !important; 
-        }
-        /* Modo Blueprint (Blue/Cyan) - Contraste alto */
-        body.blueprint-mode.debug-mode * { 
-            outline: 1px solid rgba(56, 189, 248, 0.4) !important; 
-        }
+        body.debug-mode * { outline: 1px solid rgba(239, 68, 68, 0.25) !important; }
+        body.blueprint-mode.debug-mode * { outline: 1px solid rgba(56, 189, 248, 0.4) !important; }
 
         /* === DEMAIS ESTILOS === */
-        #cursor-dot, #cursor-outline {
-            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-            border-radius: 50%; z-index: 9999; pointer-events: none;
-        }
+        #cursor-dot, #cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
         #cursor-dot { width: 8px; height: 8px; background-color: #ef4444; transition: background-color 0.3s; }
         #cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(239, 68, 68, 0.5); transition: all 0.2s; }
         body.hovering #cursor-outline { width: 60px; height: 60px; background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
@@ -639,6 +629,54 @@
         </div>
     </section>
 
+    <!-- Tech Stack / Arsenal Tecnológico (NOVA SEÇÃO) -->
+    <section id="tech-stack" class="py-24 bg-draft-black border-t border-draft-border transition-colors duration-500 relative">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-2xl font-bold text-draft-muted uppercase tracking-widest mb-4">Tech Stack & Infraestrutura</h2>
+                <p class="text-white text-3xl md:text-4xl font-bold">Powered by Industry Standards</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Infra -->
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fab fa-aws text-4xl text-draft-muted group-hover:text-[#FF9900] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">AWS Cloud</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fas fa-database text-4xl text-draft-muted group-hover:text-[#F80000] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Oracle Database</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fab fa-microsoft text-4xl text-draft-muted group-hover:text-[#00A4EF] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Microsoft Azure</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fab fa-docker text-4xl text-draft-muted group-hover:text-[#2496ED] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Docker</span>
+                </div>
+
+                <!-- Dev & Data -->
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fas fa-project-diagram text-4xl text-draft-muted group-hover:text-green-500 transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Apache Hop</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fas fa-chart-pie text-4xl text-draft-muted group-hover:text-[#F2C811] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Power BI</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fab fa-laravel text-4xl text-draft-muted group-hover:text-[#FF2D20] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Laravel</span>
+                </div>
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
+                    <i class="fas fa-bolt text-4xl text-draft-muted group-hover:text-[#FB70A9] transition-colors mb-3"></i>
+                    <span class="text-sm font-mono text-white">Livewire</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer Area -->
     <section id="contato" class="py-32 relative overflow-hidden border-t border-draft-border bg-draft-dark transition-colors duration-500">
         <div class="absolute inset-0 bg-tech-grid opacity-30"></div>
@@ -677,74 +715,28 @@
         </div>
     </footer>
 
-    <!-- MODAL DEEP DIVE -->
-    <div id="case-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-4">
-        <div class="bg-draft-panel border border-draft-border w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-sm relative shadow-2xl animate-fade-in-up">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-draft-muted hover:text-white z-10"><i class="fas fa-times text-2xl"></i></button>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2">
-                <div class="h-64 md:h-auto bg-black relative">
-                    <img id="modal-img" src="" class="w-full h-full object-cover opacity-80" alt="Case Image">
-                    <div class="absolute inset-0 bg-gradient-to-t from-draft-panel to-transparent"></div>
-                </div>
-                <div class="p-8">
-                    <span id="modal-tag" class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide mb-2 block">Tag</span>
-                    <h3 id="modal-title" class="text-3xl font-bold text-white mb-4">Title</h3>
-                    <p id="modal-desc" class="text-draft-muted text-sm mb-6 leading-relaxed">Description...</p>
-                    
-                    <div class="space-y-4 mb-8">
-                        <div>
-                            <span class="text-xs text-gray-500 uppercase">Desafio</span>
-                            <p id="modal-challenge" class="text-white text-sm">O desafio aqui...</p>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-500 uppercase">Solução</span>
-                            <p id="modal-solution" class="text-white text-sm">A solução aqui...</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4 border-t border-draft-border pt-6">
-                        <div>
-                            <div class="text-2xl font-bold text-white">99</div>
-                            <div class="text-xs text-draft-muted">Performance</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-white">100%</div>
-                            <div class="text-xs text-draft-muted">SEO Score</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- JS Logic -->
     <script>
         // === 0. BOOT SEQUENCE ===
         document.addEventListener("DOMContentLoaded", () => {
+            // Sequencia de boot simulada
             const logs = ["> Initializing Draft Core...", "> Loading Architecture...", "> Optimizing Assets...", "> System Ready."];
             const logContainer = document.getElementById('boot-log');
             const bootBar = document.getElementById('boot-bar');
             const loader = document.getElementById('boot-loader');
             const body = document.getElementById('main-body');
-            
             let delay = 0;
             logs.forEach((log, index) => {
                 setTimeout(() => {
-                    const p = document.createElement('div');
-                    p.className = 'boot-text'; p.innerText = log;
+                    const p = document.createElement('div'); p.className = 'boot-text'; p.innerText = log;
                     logContainer.appendChild(p);
                     bootBar.style.width = `${((index + 1) / logs.length) * 100}%`;
                 }, delay);
                 delay += 300;
             });
-
             setTimeout(() => {
-                loader.style.opacity = '0';
-                loader.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    body.classList.remove('overflow-hidden', 'h-screen');
-                }, 500);
+                loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => { loader.style.display = 'none'; body.classList.remove('overflow-hidden', 'h-screen'); }, 500);
             }, delay + 300);
 
             // Footer Hint Cycle
@@ -761,280 +753,145 @@
         const btnToggle = document.getElementById('blueprint-toggle');
         const btnToggleMobile = document.getElementById('blueprint-toggle-mobile');
         const body = document.body;
-
         function toggleBlueprint() {
             body.classList.toggle('blueprint-mode');
             const isBlue = body.classList.contains('blueprint-mode');
-            if (btnToggle) {
+            if(btnToggle) {
                 btnToggle.innerHTML = isBlue ? '<i class="fas fa-microchip"></i>' : '<i class="fas fa-ruler-combined"></i>';
                 btnToggle.title = isBlue ? "Voltar ao Modo Dark" : "Modo Blueprint";
             }
         }
+        if(btnToggle) btnToggle.addEventListener('click', toggleBlueprint);
+        if(btnToggleMobile) btnToggleMobile.addEventListener('click', toggleBlueprint);
 
-        // Correção de segurança para evitar erro de elemento nulo
-        if (btnToggle) btnToggle.addEventListener('click', toggleBlueprint);
-        if (btnToggleMobile) btnToggleMobile.addEventListener('click', toggleBlueprint);
-
-
-        // === 2. Project Simulator Logic ===
+        // === 2. Project Simulator ===
         function calculateProject() {
-            const type = document.querySelector('input[name="project_type"]:checked').value;
-            const urgency = document.querySelector('input[name="urgency"]:checked').value;
-            
+            const typeEl = document.querySelector('input[name="project_type"]:checked');
+            const urgencyEl = document.querySelector('input[name="urgency"]:checked');
+            if(!typeEl || !urgencyEl) return;
+
+            const type = typeEl.value;
+            const urgency = urgencyEl.value;
             let minPrice = 0, maxPrice = 0, time = "", stack = "", includes = "";
-
-            if (type === 'lp') {
-                minPrice = 1500; maxPrice = 2500; time = "7 a 14 dias";
-                stack = "Laravel, Livewire, Tailwind";
-                includes = "SEO, Analytics, Hosting Setup";
-            } else if (type === 'bi') {
-                minPrice = 3000; maxPrice = 5000; time = "15 a 30 dias";
-                stack = "Power BI, SQL, Python ETL";
-                includes = "Data Cleaning, Dashboard, Auto-Update";
-            } else if (type === 'system') {
-                minPrice = 5000; maxPrice = 15000; time = "30 a 60 dias";
-                stack = "Laravel, MySQL, React/Livewire";
-                includes = "Auth, Admin Panel, API, Database";
-            }
-
-            // Urgency Multiplier
-            if (urgency === 'high') {
-                minPrice *= 1.3; maxPrice *= 1.3;
-                time = "Prioridade Máxima (Express)";
-            }
-
-            // Animate Numbers
-            animateValue(document.getElementById('price-display'), minPrice, maxPrice);
-            document.getElementById('time-display').innerText = time;
-            document.getElementById('stack-display').innerText = stack;
-            document.getElementById('includes-display').innerText = includes;
+            if (type === 'lp') { minPrice = 1500; maxPrice = 2500; time = "7 a 14 dias"; stack = "Laravel, Livewire, Tailwind"; includes = "SEO, Analytics, Hosting Setup"; }
+            else if (type === 'bi') { minPrice = 3000; maxPrice = 5000; time = "15 a 30 dias"; stack = "Power BI, SQL, Python ETL"; includes = "Data Cleaning, Dashboard, Auto-Update"; }
+            else if (type === 'system') { minPrice = 5000; maxPrice = 15000; time = "30 a 60 dias"; stack = "Laravel, MySQL, React/Livewire"; includes = "Auth, Admin Panel, API, Database"; }
+            if (urgency === 'high') { minPrice *= 1.3; maxPrice *= 1.3; time = "Prioridade Máxima (Express)"; }
+            
+            const priceDisplay = document.getElementById('price-display');
+            if(priceDisplay) priceDisplay.innerHTML = `${minPrice.toLocaleString('pt-BR')} - ${maxPrice.toLocaleString('pt-BR')}`;
+            const timeDisplay = document.getElementById('time-display');
+            if(timeDisplay) timeDisplay.innerText = time;
+            const stackDisplay = document.getElementById('stack-display');
+            if(stackDisplay) stackDisplay.innerText = stack;
+            const includesDisplay = document.getElementById('includes-display');
+            if(includesDisplay) includesDisplay.innerText = includes;
         }
-
-        function updateUrgency(el) {
-            calculateProject();
-        }
-
-        function animateValue(obj, start, end) {
-            obj.innerHTML = `${start.toLocaleString('pt-BR')} - ${end.toLocaleString('pt-BR')}`;
-        }
+        function updateUrgency(el) { calculateProject(); }
 
         // === 3. Modal Logic ===
         const modal = document.getElementById('case-modal');
         const modalContent = {
-            'conectados': {
-                title: 'CT Conectados', tag: 'Performance Web',
-                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png',
-                desc: 'Landing Page de alta conversão.',
-                challenge: 'Aumentar conversão de leads.',
-                solution: 'LP ultra-leve em Laravel.'
-            },
-            'camila': {
-                title: 'Dra. Camila', tag: 'Saúde',
-                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png',
-                desc: 'Posicionamento digital premium.',
-                challenge: 'Transmitir sofisticação.',
-                solution: 'Design minimalista focado em fotografia.'
-            },
-            'open': {
-                title: 'Open Closet', tag: 'E-commerce',
-                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png',
-                desc: 'Catálogo digital moda circular.',
-                challenge: 'Gerenciar estoque único.',
-                solution: 'Catálogo integrado ao WhatsApp.'
-            },
-            'bi': {
-                title: 'Dashboard ZM', tag: 'BI & Dados',
-                img: '', 
-                desc: 'Painel financeiro 3 filiais.',
-                challenge: 'Dados dispersos.',
-                solution: 'ETL automatizado SQL + Power BI.'
-            }
+            'conectados': { title: 'CT Conectados', tag: 'Performance Web', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png', desc: 'Landing Page de alta conversão.', challenge: 'Aumentar conversão de leads.', solution: 'LP ultra-leve em Laravel.' },
+            'camila': { title: 'Dra. Camila', tag: 'Saúde', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png', desc: 'Posicionamento digital premium.', challenge: 'Transmitir sofisticação.', solution: 'Design minimalista focado em fotografia.' },
+            'open': { title: 'Open Closet', tag: 'E-commerce', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png', desc: 'Catálogo digital moda circular.', challenge: 'Gerenciar estoque único.', solution: 'Catálogo integrado ao WhatsApp.' },
+            'bi': { title: 'Dashboard ZM', tag: 'BI & Dados', img: '', desc: 'Painel financeiro 3 filiais.', challenge: 'Dados dispersos.', solution: 'ETL automatizado SQL + Power BI.' }
         };
-
         function openModal(id) {
+            if(!modal) return;
             const data = modalContent[id] || modalContent['conectados'];
             document.getElementById('modal-title').innerText = data.title;
             document.getElementById('modal-tag').innerText = data.tag;
             document.getElementById('modal-desc').innerText = data.desc;
             document.getElementById('modal-challenge').innerText = data.challenge;
             document.getElementById('modal-solution').innerText = data.solution;
-            
             const imgEl = document.getElementById('modal-img');
-            if(data.img) {
-                imgEl.src = data.img;
-                imgEl.parentElement.style.display = 'block';
-            } else {
-                imgEl.parentElement.style.display = 'none';
-            }
+            if(data.img) { imgEl.src = data.img; imgEl.parentElement.style.display = 'block'; } else { imgEl.parentElement.style.display = 'none'; }
+            modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open');
+        }
+        function closeModal() { if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); } }
+        if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-                body.classList.add('modal-open');
-            }
+        // === 4. General UI ===
+        function toggleMenu() { 
+            const menu = document.getElementById('mobile-menu');
+            if(menu) menu.classList.toggle('hidden'); 
         }
-
-        function closeModal() {
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                body.classList.remove('modal-open');
-            }
-        }
-        
-        // Segurança para o modal
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            })
-        }
-
-        // === 4. General UI (Scroll, Tilt, Cursor) ===
-        
-        function toggleMenu() {
-            const m = document.getElementById('mobile-menu');
-            if (m) m.classList.toggle('hidden');
-        }
-        
         window.onscroll = function() {
             var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             var scrolled = (winScroll / height) * 100;
             const progress = document.getElementById("scroll-progress");
-            if (progress) progress.style.width = scrolled + "%";
+            if(progress) progress.style.width = scrolled + "%";
         };
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    // Counters logic...
                     const counters = entry.target.querySelectorAll('.counter');
                     counters.forEach(counter => {
                         const target = +counter.getAttribute('data-target');
-                        let count = 0;
-                        const inc = target / 50;
-                        const update = () => {
-                            count += inc;
-                            if(count < target) { counter.innerText = Math.ceil(count); requestAnimationFrame(update); }
-                            else counter.innerText = target;
-                        }
-                        update();
+                        let count = 0; const inc = target / 50;
+                        const update = () => { count += inc; if(count < target) { counter.innerText = Math.ceil(count); requestAnimationFrame(update); } else counter.innerText = target; }; update();
                     });
-                    
                     if (entry.target.querySelector('#terminal-content')) typeTerminal();
                 }
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
 
         function typeTerminal() {
-            const lines = [
-                {id: 'line-1', text: '> Initializing...'},
-                {id: 'line-2', text: '> Database... [OK]'},
-                {id: 'line-3', text: '> Assets... [OK]'},
-                {id: 'line-4', text: '> Analytics... [OK]'},
-                {id: 'line-5', text: '> Ready.'}
-            ];
+            const lines = [{id: 'line-1', text: '> Initializing...'}, {id: 'line-2', text: '> Database... [OK]'}, {id: 'line-3', text: '> Assets... [OK]'}, {id: 'line-4', text: '> Analytics... [OK]'}, {id: 'line-5', text: '> Ready.'}];
             let delay = 0;
-            lines.forEach((l, i) => {
-                setTimeout(() => {
-                    const el = document.getElementById(l.id);
-                    if (el) {
-                        el.classList.remove('hidden');
-                        el.innerText = l.text;
-                    }
-                }, delay);
-                delay += 500;
-            });
+            lines.forEach((l, i) => { setTimeout(() => { const el = document.getElementById(l.id); if(el) { el.classList.remove('hidden'); el.innerText = l.text; } }, delay); delay += 500; });
         }
 
-        // Cursor Logic
-        const cDot = document.getElementById("cursor-dot");
-        const cOutline = document.getElementById("cursor-outline");
-        window.addEventListener("mousemove", (e) => {
-            if (cDot) { cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px"; }
-            if (cOutline) cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+        const cDot = document.getElementById("cursor-dot"); const cOutline = document.getElementById("cursor-outline");
+        window.addEventListener("mousemove", (e) => { 
+            if(cDot) { cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px"; }
+            if(cOutline) cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" }); 
         });
-        document.querySelectorAll('.hover-trigger, a, button').forEach(t => {
-            t.addEventListener('mouseenter', () => body.classList.add('hovering'));
-            t.addEventListener('mouseleave', () => body.classList.remove('hovering'));
-        });
+        document.querySelectorAll('.hover-trigger, a, button').forEach(t => { t.addEventListener('mouseenter', () => body.classList.add('hovering')); t.addEventListener('mouseleave', () => body.classList.remove('hovering')); });
 
-        // Tilt Logic
         document.querySelectorAll('.tilt-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2;
-                const y = e.clientY - rect.top - rect.height/2;
+                const x = e.clientX - rect.left - rect.width/2; const y = e.clientY - rect.top - rect.height/2;
                 card.style.transform = `perspective(1000px) rotateX(${-y/10}deg) rotateY(${x/10}deg)`;
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-            });
+            card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'; });
         });
 
         // Debug Key
         document.addEventListener('keydown', (e) => { if(e.key.toLowerCase() === 'd') body.classList.toggle('debug-mode'); });
 
-        // === 7. Konami Code (Matrix Rain) ===
+        // === 7. Konami Code ===
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0;
-        let matrixInterval;
-
+        let konamiIndex = 0; let matrixInterval;
         document.addEventListener('keydown', (e) => {
-            if (e.key === konamiCode[konamiIndex]) {
-                konamiIndex++;
-                if (konamiIndex === konamiCode.length) {
-                    toggleMatrix();
-                    konamiIndex = 0;
-                }
-            } else {
-                konamiIndex = 0;
-            }
+            if (e.key === konamiCode[konamiIndex]) { konamiIndex++; if (konamiIndex === konamiCode.length) { toggleMatrix(); konamiIndex = 0; } } else { konamiIndex = 0; }
         });
-
         function toggleMatrix() {
             body.classList.toggle('matrix-mode');
-            const canvas = document.getElementById('matrix-canvas');
-            if (!canvas) return;
+            const canvas = document.getElementById('matrix-canvas'); 
+            if(!canvas) return;
             const ctx = canvas.getContext('2d');
-
-            if (!body.classList.contains('matrix-mode')) {
-                clearInterval(matrixInterval);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                return;
-            }
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
+            if (!body.classList.contains('matrix-mode')) { clearInterval(matrixInterval); ctx.clearRect(0, 0, canvas.width, canvas.height); return; }
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            const fontSize = 16;
-            const columns = canvas.width / fontSize;
-            const rainDrops = Array.from({ length: columns }).fill(1);
-
+            const fontSize = 16; const columns = canvas.width / fontSize; const rainDrops = Array.from({ length: columns }).fill(1);
             const draw = () => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.fillStyle = '#0F0';
-                ctx.font = fontSize + 'px monospace';
-
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
                 for (let i = 0; i < rainDrops.length; i++) {
                     const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
                     ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        rainDrops[i] = 0;
-                    }
+                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
                     rainDrops[i]++;
                 }
             };
             matrixInterval = setInterval(draw, 30);
         }
-
     </script>
 </body>
 </html>
