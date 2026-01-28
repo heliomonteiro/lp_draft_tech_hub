@@ -33,7 +33,7 @@
     
     <script>
         tailwind.config = {
-            darkMode: 'class', // Habilita modo manual
+            darkMode: 'class', 
             theme: {
                 extend: {
                     colors: {
@@ -46,12 +46,6 @@
                             redDark: '#b91c1c',    
                             text: '#e5e5e5',       
                             muted: '#a3a3a3'       
-                        },
-                        blueprint: {
-                            bg: '#0f172a',       // Azul Marinho Slate
-                            line: '#334155',     // Linhas Azuis
-                            accent: '#38bdf8',   // Ciano (Cyan)
-                            text: '#f8fafc'      // Branco Gelo
                         }
                     },
                     fontFamily: {
@@ -85,48 +79,51 @@
     <style>
         body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; transition: background-color 0.5s ease; }
         
-        /* BLUEPRINT MODE OVERRIDES */
+        /* === BLUEPRINT MODE (Visual Arquiteto/Engenheiro) === */
         body.blueprint-mode {
             background-color: #0f172a; /* Slate 900 */
             color: #f8fafc;
         }
         body.blueprint-mode .bg-tech-grid {
             background-image: 
-                linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+                linear-gradient(to right, rgba(56, 189, 248, 0.15) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.15) 1px, transparent 1px);
+            mask-image: none; /* Grid total no blueprint */
+            opacity: 0.4;
         }
         body.blueprint-mode .text-draft-red { color: #38bdf8 !important; } /* Red -> Cyan */
         body.blueprint-mode .bg-draft-red { background-color: #38bdf8 !important; }
-        body.blueprint-mode .hover\:bg-draft-red:hover { background-color: #38bdf8 !important; }
+        body.blueprint-mode .hover\:bg-draft-red:hover { background-color: #0ea5e9 !important; }
         body.blueprint-mode .border-draft-red { border-color: #38bdf8 !important; }
-        body.blueprint-mode .bg-draft-black, 
-        body.blueprint-mode .bg-draft-dark,
-        body.blueprint-mode .bg-draft-panel {
-            background-color: #1e293b; /* Slate 800 */
-            border-color: #334155;
-        }
+        body.blueprint-mode .bg-draft-black { background-color: #0f172a; }
+        body.blueprint-mode .bg-draft-dark { background-color: #1e293b; }
+        body.blueprint-mode .bg-draft-panel { background-color: #1e293b; border-color: #334155; }
         body.blueprint-mode .border-draft-border { border-color: #334155; }
+        
+        /* Ajuste de Cursores no Blueprint */
         body.blueprint-mode #cursor-dot { background-color: #38bdf8; }
         body.blueprint-mode #cursor-outline { border-color: #38bdf8; }
-        body.blueprint-mode #scroll-progress { background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
-        body.blueprint-mode .shadow-\[0_0_20px_rgba\(239\,68\,68\,0\.2\)\] { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+        body.blueprint-mode.hovering #cursor-outline { background-color: rgba(56, 189, 248, 0.2); border-color: #38bdf8; }
 
-        /* Cursor Personalizado */
+        /* === DEBUG MODE === */
+        /* Modo Padrão (Dark/Red) */
+        body.debug-mode * { 
+            outline: 1px solid rgba(239, 68, 68, 0.25) !important; 
+        }
+        /* Modo Blueprint (Blue/Cyan) - Contraste alto */
+        body.blueprint-mode.debug-mode * { 
+            outline: 1px solid rgba(56, 189, 248, 0.4) !important; 
+        }
+
+        /* === DEMAIS ESTILOS === */
         #cursor-dot, #cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
         }
         #cursor-dot { width: 8px; height: 8px; background-color: #ef4444; transition: background-color 0.3s; }
         #cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(239, 68, 68, 0.5); transition: all 0.2s; }
         body.hovering #cursor-outline { width: 60px; height: 60px; background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
-        body.blueprint-mode.hovering #cursor-outline { background-color: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
 
-        /* Grid de Fundo */
         .bg-tech-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -134,37 +131,15 @@
             mask-image: radial-gradient(circle at center, black 40%, transparent 100%); 
         }
 
-        /* Boot Loader */
-        #boot-loader {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10001;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            color: #ef4444;
-        }
+        #boot-loader { position: fixed; inset: 0; background: #000; z-index: 10001; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; color: #ef4444; }
         .boot-text { opacity: 0; animation: fadeIn 0.1s forwards; }
 
-        /* Glitch Effect */
-        .glitch-hover:hover {
-            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
-            color: #ef4444;
-        }
+        .glitch-hover:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; color: #ef4444; }
         body.blueprint-mode .glitch-hover:hover { color: #38bdf8; }
 
-        /* Animações */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
@@ -173,41 +148,33 @@
         body.blueprint-mode ::-webkit-scrollbar-thumb { background: #334155; }
         body.blueprint-mode ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
 
-        /* Barra de Progresso */
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: #ef4444;
-            width: 0%;
-            z-index: 10000;
-            transition: width 0.1s;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
-        }
+        #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: #ef4444; width: 0%; z-index: 10000; transition: width 0.1s; box-shadow: 0 0 10px rgba(239, 68, 68, 0.7); }
+        body.blueprint-mode #scroll-progress { background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
 
-        /* TILT 3D */
         .tilt-card { transform-style: preserve-3d; transform: perspective(1000px); will-change: transform; }
         .tilt-content { transform: translateZ(20px); }
         
-        /* Typing Cursor */
         .typing-cursor::after { content: '_'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Modal Styles */
         #case-modal { backdrop-filter: blur(8px); }
         .modal-open { overflow: hidden; }
         
-        /* FAQ Styles */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
         details[open] summary ~ * { animation: sweep .5s ease-in-out; }
-        @keyframes sweep { 0%    {opacity: 0; transform: translateX(-10px)} 100%  {opacity: 1; transform: translateX(0)} }
+        @keyframes sweep { 0% {opacity: 0; transform: translateX(-10px)} 100% {opacity: 1; transform: translateX(0)} }
+
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: 9998; opacity: 0; pointer-events: none; transition: opacity 1s ease; }
+        body.matrix-mode #matrix-canvas { opacity: 0.8; }
+        
+        .hint-cycle { animation: fadeHint 6s infinite; }
+        @keyframes fadeHint { 0%, 100% { opacity: 0; } 10%, 90% { opacity: 1; } }
     </style>
 </head>
 <body class="antialiased h-screen overflow-hidden" id="main-body">
 
-    <!-- BOOT LOADER (Tela de Inicialização) -->
+    <!-- BOOT LOADER -->
     <div id="boot-loader">
         <div class="w-64">
             <div id="boot-log" class="text-xs md:text-sm space-y-1 text-left"></div>
@@ -217,14 +184,13 @@
         </div>
     </div>
 
-    <!-- Elementos do Cursor -->
+    <!-- UI Elements -->
     <div id="cursor-dot"></div>
     <div id="cursor-outline"></div>
-
-    <!-- Barra de Telemetria -->
     <div id="scroll-progress"></div>
+    <canvas id="matrix-canvas"></canvas>
 
-    <!-- Botão Flutuante WhatsApp -->
+    <!-- Botão WhatsApp -->
     <a href="https://wa.me/seunumeroy" target="_blank" class="hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none group">
         <i class="fab fa-whatsapp text-3xl"></i>
         <span class="absolute right-16 bg-white text-black px-3 py-1 rounded-sm text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Online Agora</span>
@@ -249,8 +215,7 @@
                         <a href="#contato" class="hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-5 py-2 rounded-sm text-sm font-bold transition-all border border-transparent hover:scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                             DIAGNÓSTICO
                         </a>
-                        
-                        <!-- Blueprint Toggle Button -->
+                        <!-- Blueprint Toggle -->
                         <button id="blueprint-toggle" class="hover-trigger ml-4 text-draft-muted hover:text-white transition-colors border border-draft-border p-2 rounded-sm" title="Alternar Modo Blueprint">
                             <i class="fas fa-ruler-combined"></i>
                         </button>
@@ -291,9 +256,10 @@
                 </span>
             </div>
 
+            <!-- Título Limpo -->
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-8 fade-in-up leading-[0.9]" style="animation-delay: 0.1s;">
                 ENGENHARIA <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600 glitch-hover cursor-default">DIGITAL</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-400 to-gray-600 cursor-default">DIGITAL</span>
             </h1>
 
             <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-draft-muted fade-in-up font-light leading-relaxed" style="animation-delay: 0.2s;">
@@ -312,7 +278,7 @@
         </div>
     </section>
 
-    <!-- Stats Counter (IMPACTO) -->
+    <!-- Stats Counter -->
     <section class="border-y border-draft-border bg-draft-dark py-12 relative z-10 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center cursor-default">
             
@@ -377,7 +343,6 @@
                 </div>
                 
                 <div class="relative fade-in-up delay-200">
-                    <!-- Visualização de "Terminal" com TILT e TYPING -->
                     <div class="tilt-card hover-trigger border border-draft-border bg-draft-dark p-6 rounded-sm relative z-10 shadow-2xl group hover:border-draft-red/50 transition-colors">
                         <div class="flex items-center justify-between mb-6 border-b border-draft-border pb-4 tilt-content">
                             <div class="flex space-x-2">
@@ -388,7 +353,6 @@
                             <span class="text-xs text-draft-muted font-mono">system_architecture.draft</span>
                         </div>
                         <div class="space-y-3 font-mono text-sm tilt-content" id="terminal-content">
-                            <!-- Conteúdo será injetado via JS -->
                             <p class="text-green-500 typing-cursor" id="line-1"></p>
                             <p class="text-draft-muted hidden" id="line-2"></p>
                             <p class="text-draft-muted hidden" id="line-3"></p>
@@ -396,7 +360,6 @@
                             <p class="text-draft-red mt-4 hidden transition-colors" id="line-5"></p>
                         </div>
                         <div class="mt-8 h-32 bg-draft-panel border border-draft-border relative overflow-hidden opacity-50 tilt-content">
-                            <!-- Gráfico decorativo -->
                             <div class="absolute bottom-0 left-0 right-0 h-full flex items-end px-2 gap-1">
                                 <div class="w-1/6 bg-draft-border h-[20%] group-hover:bg-draft-red/20 transition-colors duration-500"></div>
                                 <div class="w-1/6 bg-draft-border h-[35%] group-hover:bg-draft-red/30 transition-colors duration-500"></div>
@@ -413,7 +376,7 @@
         </div>
     </section>
 
-    <!-- Project Simulator (NOVA SEÇÃO: CALCULADORA) -->
+    <!-- Simulator -->
     <section id="simulador" class="py-24 bg-draft-dark border-y border-draft-border relative transition-colors duration-500">
         <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-12 fade-in-up">
@@ -422,7 +385,6 @@
             </div>
 
             <div class="bg-draft-panel border border-draft-border p-8 rounded-sm fade-in-up hover:border-draft-red transition-colors relative overflow-hidden group">
-                 <!-- Grid decorativo de fundo -->
                  <div class="absolute inset-0 bg-tech-grid opacity-20 pointer-events-none"></div>
 
                  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
@@ -491,7 +453,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
                 <!-- Card 1 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
@@ -506,7 +467,6 @@
                         <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Carregamento Instantâneo</li>
                     </ul>
                 </div>
-
                 <!-- Card 2 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.1s;">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
@@ -521,7 +481,6 @@
                         <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Relatórios Automáticos</li>
                     </ul>
                 </div>
-
                 <!-- Card 3 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.2s;">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
@@ -536,12 +495,11 @@
                         <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Integração de APIs</li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Portfolio (Com Deep Dive Modal) -->
+    <!-- Portfolio -->
     <section id="portfolio" class="py-32 bg-draft-black border-t border-draft-border transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-up">
@@ -555,7 +513,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
                 <!-- Case 1 -->
                 <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('conectados')">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
@@ -567,7 +524,6 @@
                         <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
-
                 <!-- Case 2 -->
                 <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('camila')" style="animation-delay: 0.1s;">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
@@ -579,7 +535,6 @@
                         <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
-
                 <!-- Case 3 -->
                 <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('open')" style="animation-delay: 0.2s;">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
@@ -591,8 +546,7 @@
                         <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
-                
-                <!-- Cases Fictícios com ícones -->
+                <!-- Fictional Case -->
                 <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('bi')">
                     <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
                         <i class="fas fa-chart-line text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
@@ -606,42 +560,79 @@
         </div>
     </section>
 
-    <!-- FAQ Section (Terminal Style) -->
+    <!-- Testimonials -->
+    <section class="py-24 bg-draft-black relative transition-colors duration-500">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-12 text-center">System Logs / Clientes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-sm">
+                <!-- Log 1 -->
+                <div class="bg-draft-dark border border-draft-border p-6 rounded-sm hover:border-draft-red/50 transition-colors">
+                    <div class="flex justify-between text-xs text-draft-muted mb-4 border-b border-draft-border pb-2">
+                        <span>[LOG_ID: 001]</span>
+                        <span class="text-green-500">STATUS: SUCCESS</span>
+                    </div>
+                    <p class="text-white mb-4">"A velocidade da Landing Page superou a expectativa. O carregamento instantâneo aumentou nossa retenção de leads em 40%."</p>
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-draft-panel rounded-full flex items-center justify-center mr-3 border border-draft-border">
+                            <i class="fas fa-dumbbell text-draft-red"></i>
+                        </div>
+                        <div>
+                            <div class="text-white font-bold">CT Conectados</div>
+                            <div class="text-draft-muted text-xs">Centro de Treinamento</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Log 2 -->
+                <div class="bg-draft-dark border border-draft-border p-6 rounded-sm hover:border-draft-red/50 transition-colors">
+                    <div class="flex justify-between text-xs text-draft-muted mb-4 border-b border-draft-border pb-2">
+                        <span>[LOG_ID: 002]</span>
+                        <span class="text-green-500">STATUS: SUCCESS</span>
+                    </div>
+                    <p class="text-white mb-4">"Profissionalismo técnico raro de encontrar. O projeto transmite exatamente a sofisticação que minha clínica precisava."</p>
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-draft-panel rounded-full flex items-center justify-center mr-3 border border-draft-border">
+                            <i class="fas fa-user-md text-draft-red"></i>
+                        </div>
+                        <div>
+                            <div class="text-white font-bold">Dra. Camila Costa</div>
+                            <div class="text-draft-muted text-xs">Médica</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
     <section class="py-24 bg-draft-dark border-t border-draft-border transition-colors duration-500">
         <div class="max-w-4xl mx-auto px-4">
             <h2 class="text-3xl font-bold text-white mb-10 text-center">Protocolos de Dúvidas (FAQ)</h2>
-            
             <div class="space-y-4">
-                <!-- Q1 -->
                 <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
                     <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
                         <span>> root@user:~$ "É caro contratar o Hub?"</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
                     </summary>
                     <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>Não trabalhamos com "caro" ou "barato", mas com retorno sobre investimento (ROI). Nossas soluções de Landing Page começam em valores acessíveis para pequenos negócios, enquanto sistemas complexos são orçados sob medida. Use o simulador acima para ter uma ideia!</p>
+                        <p>Não trabalhamos com "caro" ou "barato", mas com retorno sobre investimento (ROI). Nossas soluções de Landing Page começam em valores acessíveis para pequenos negócios.</p>
                     </div>
                 </details>
-
-                <!-- Q2 -->
                 <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
                     <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
                         <span>> root@user:~$ "Quanto tempo demora?"</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
                     </summary>
                     <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>Graças à nossa stack moderna (Laravel/Livewire), entregamos Landing Pages em 7 a 14 dias. Sistemas complexos dependem do escopo, mas nossa metodologia ágil garante entregas parciais funcionais em semanas, não meses.</p>
+                        <p>Graças à nossa stack moderna (Laravel/Livewire), entregamos Landing Pages em 7 a 14 dias.</p>
                     </div>
                 </details>
-
-                <!-- Q3 -->
                 <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
                     <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
                         <span>> root@user:~$ "Vocês dão manutenção?"</span>
                         <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
                     </summary>
                     <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>Sim. Todos os projetos incluem 30 dias de suporte pós-lançamento. Depois disso, oferecemos planos de sustentação para manter seu sistema seguro, atualizado e rodando 24/7.</p>
+                        <p>Sim. Todos os projetos incluem 30 dias de suporte pós-lançamento.</p>
                     </div>
                 </details>
             </div>
@@ -674,7 +665,11 @@
             <div class="mb-4 md:mb-0 text-center md:text-left">
                 <span class="text-white font-bold text-lg tracking-tighter">DRAFT<span class="text-draft-red transition-colors">.</span>HUB</span>
                 <p class="text-xs mt-1">Engenharia Digital & Performance.</p>
-                <p class="text-[10px] mt-2 text-gray-700 font-mono">Pressione 'D' para modo Debug.</p>
+                <!-- Dica Ciclica no Footer -->
+                <p class="text-[10px] mt-2 text-gray-700 font-mono hint-cycle">
+                    <span class="hint-1">Dica: 'D' para Modo Estrutural</span>
+                    <span class="hint-2 hidden">Segredo: ↑ ↑ ↓ ↓ ← → ← → B A</span>
+                </p>
             </div>
             <div class="font-mono text-xs text-gray-600">
                 © 2026 Draft Tech Hub. All systems operational.
@@ -751,6 +746,15 @@
                     body.classList.remove('overflow-hidden', 'h-screen');
                 }, 500);
             }, delay + 300);
+
+            // Footer Hint Cycle
+            const hints = document.querySelectorAll('.hint-cycle span');
+            let currentHint = 0;
+            setInterval(() => {
+                hints.forEach(h => h.classList.add('hidden'));
+                hints[currentHint].classList.remove('hidden');
+                currentHint = (currentHint + 1) % hints.length;
+            }, 4000);
         });
 
         // === 1. Blueprint Toggle ===
@@ -761,14 +765,15 @@
         function toggleBlueprint() {
             body.classList.toggle('blueprint-mode');
             const isBlue = body.classList.contains('blueprint-mode');
-            
-            // Troca ícone
-            btnToggle.innerHTML = isBlue ? '<i class="fas fa-microchip"></i>' : '<i class="fas fa-ruler-combined"></i>';
-            btnToggle.title = isBlue ? "Voltar ao Modo Dark" : "Modo Blueprint";
+            if (btnToggle) {
+                btnToggle.innerHTML = isBlue ? '<i class="fas fa-microchip"></i>' : '<i class="fas fa-ruler-combined"></i>';
+                btnToggle.title = isBlue ? "Voltar ao Modo Dark" : "Modo Blueprint";
+            }
         }
 
-        btnToggle.addEventListener('click', toggleBlueprint);
-        btnToggleMobile.addEventListener('click', toggleBlueprint);
+        // Correção de segurança para evitar erro de elemento nulo
+        if (btnToggle) btnToggle.addEventListener('click', toggleBlueprint);
+        if (btnToggleMobile) btnToggleMobile.addEventListener('click', toggleBlueprint);
 
 
         // === 2. Project Simulator Logic ===
@@ -806,15 +811,11 @@
         }
 
         function updateUrgency(el) {
-            const label = el.parentElement;
-            const textSpan = label.querySelector('span');
-            // Reset styles visually if needed, but CSS handles checked state mostly via logic
             calculateProject();
         }
 
         function animateValue(obj, start, end) {
             obj.innerHTML = `${start.toLocaleString('pt-BR')} - ${end.toLocaleString('pt-BR')}`;
-            // Simulação simples, num real usaria requestAnimationFrame para contar
         }
 
         // === 3. Modal Logic ===
@@ -823,30 +824,30 @@
             'conectados': {
                 title: 'CT Conectados', tag: 'Performance Web',
                 img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png',
-                desc: 'Landing Page de alta conversão para centro de treinamento.',
-                challenge: 'O cliente precisava aumentar a conversão de leads vindos do Instagram.',
-                solution: 'Desenvolvemos uma LP ultra-leve em Laravel com carregamento em <1s.'
+                desc: 'Landing Page de alta conversão.',
+                challenge: 'Aumentar conversão de leads.',
+                solution: 'LP ultra-leve em Laravel.'
             },
             'camila': {
                 title: 'Dra. Camila', tag: 'Saúde',
                 img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png',
-                desc: 'Posicionamento digital premium para área médica.',
-                challenge: 'Transmitir autoridade e sofisticação para público de alto padrão.',
-                solution: 'Design minimalista focado em tipografia e fotografia de alta qualidade.'
+                desc: 'Posicionamento digital premium.',
+                challenge: 'Transmitir sofisticação.',
+                solution: 'Design minimalista focado em fotografia.'
             },
             'open': {
                 title: 'Open Closet', tag: 'E-commerce',
                 img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png',
-                desc: 'Catálogo digital para moda circular.',
-                challenge: 'Gerenciar estoque único de peças exclusivas.',
-                solution: 'Sistema de catálogo dinâmico integrado ao WhatsApp.'
+                desc: 'Catálogo digital moda circular.',
+                challenge: 'Gerenciar estoque único.',
+                solution: 'Catálogo integrado ao WhatsApp.'
             },
             'bi': {
                 title: 'Dashboard ZM', tag: 'BI & Dados',
-                img: '', // Placeholder ou ícone
-                desc: 'Painel financeiro integrando 3 filiais.',
-                challenge: 'Dados dispersos em 15 planilhas Excel diferentes.',
-                solution: 'ETL automatizado no SQL Server + Power BI.'
+                img: '', 
+                desc: 'Painel financeiro 3 filiais.',
+                challenge: 'Dados dispersos.',
+                solution: 'ETL automatizado SQL + Power BI.'
             }
         };
 
@@ -866,32 +867,41 @@
                 imgEl.parentElement.style.display = 'none';
             }
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            body.classList.add('modal-open');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                body.classList.add('modal-open');
+            }
         }
 
         function closeModal() {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            body.classList.remove('modal-open');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                body.classList.remove('modal-open');
+            }
         }
         
-        // Fechar ao clicar fora
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        })
+        // Segurança para o modal
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            })
+        }
 
         // === 4. General UI (Scroll, Tilt, Cursor) ===
-        // ... (Mantendo a lógica anterior de Scroll, Tilt e Cursor) ...
         
-        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function toggleMenu() {
+            const m = document.getElementById('mobile-menu');
+            if (m) m.classList.toggle('hidden');
+        }
         
         window.onscroll = function() {
             var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             var scrolled = (winScroll / height) * 100;
-            document.getElementById("scroll-progress").style.width = scrolled + "%";
+            const progress = document.getElementById("scroll-progress");
+            if (progress) progress.style.width = scrolled + "%";
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -931,8 +941,10 @@
             lines.forEach((l, i) => {
                 setTimeout(() => {
                     const el = document.getElementById(l.id);
-                    el.classList.remove('hidden');
-                    el.innerText = l.text;
+                    if (el) {
+                        el.classList.remove('hidden');
+                        el.innerText = l.text;
+                    }
                 }, delay);
                 delay += 500;
             });
@@ -942,8 +954,8 @@
         const cDot = document.getElementById("cursor-dot");
         const cOutline = document.getElementById("cursor-outline");
         window.addEventListener("mousemove", (e) => {
-            cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px";
-            cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+            if (cDot) { cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px"; }
+            if (cOutline) cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
         });
         document.querySelectorAll('.hover-trigger, a, button').forEach(t => {
             t.addEventListener('mouseenter', () => body.classList.add('hovering'));
@@ -965,6 +977,63 @@
 
         // Debug Key
         document.addEventListener('keydown', (e) => { if(e.key.toLowerCase() === 'd') body.classList.toggle('debug-mode'); });
+
+        // === 7. Konami Code (Matrix Rain) ===
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        let matrixInterval;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    toggleMatrix();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        function toggleMatrix() {
+            body.classList.toggle('matrix-mode');
+            const canvas = document.getElementById('matrix-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            if (!body.classList.contains('matrix-mode')) {
+                clearInterval(matrixInterval);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const rainDrops = Array.from({ length: columns }).fill(1);
+
+            const draw = () => {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < rainDrops.length; i++) {
+                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        rainDrops[i] = 0;
+                    }
+                    rainDrops[i]++;
+                }
+            };
+            matrixInterval = setInterval(draw, 30);
+        }
 
     </script>
 </body>
