@@ -33,6 +33,7 @@
     
     <script>
         tailwind.config = {
+            darkMode: 'class', // Habilita modo manual
             theme: {
                 extend: {
                     colors: {
@@ -45,6 +46,12 @@
                             redDark: '#b91c1c',    
                             text: '#e5e5e5',       
                             muted: '#a3a3a3'       
+                        },
+                        blueprint: {
+                            bg: '#0f172a',       // Azul Marinho Slate
+                            line: '#334155',     // Linhas Azuis
+                            accent: '#38bdf8',   // Ciano (Cyan)
+                            text: '#f8fafc'      // Branco Gelo
                         }
                     },
                     fontFamily: {
@@ -76,8 +83,34 @@
     </script>
 
     <style>
-        body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; }
+        body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; transition: background-color 0.5s ease; }
         
+        /* BLUEPRINT MODE OVERRIDES */
+        body.blueprint-mode {
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+        }
+        body.blueprint-mode .bg-tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 1px, transparent 1px);
+        }
+        body.blueprint-mode .text-draft-red { color: #38bdf8 !important; } /* Red -> Cyan */
+        body.blueprint-mode .bg-draft-red { background-color: #38bdf8 !important; }
+        body.blueprint-mode .hover\:bg-draft-red:hover { background-color: #38bdf8 !important; }
+        body.blueprint-mode .border-draft-red { border-color: #38bdf8 !important; }
+        body.blueprint-mode .bg-draft-black, 
+        body.blueprint-mode .bg-draft-dark,
+        body.blueprint-mode .bg-draft-panel {
+            background-color: #1e293b; /* Slate 800 */
+            border-color: #334155;
+        }
+        body.blueprint-mode .border-draft-border { border-color: #334155; }
+        body.blueprint-mode #cursor-dot { background-color: #38bdf8; }
+        body.blueprint-mode #cursor-outline { border-color: #38bdf8; }
+        body.blueprint-mode #scroll-progress { background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8; }
+        body.blueprint-mode .shadow-\[0_0_20px_rgba\(239\,68\,68\,0\.2\)\] { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); }
+
         /* Cursor Personalizado */
         #cursor-dot, #cursor-outline {
             position: fixed;
@@ -88,23 +121,10 @@
             z-index: 9999;
             pointer-events: none;
         }
-        #cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #ef4444;
-        }
-        #cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid rgba(239, 68, 68, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-        body.hovering #cursor-outline {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(239, 68, 68, 0.1);
-            border-color: #ef4444;
-        }
+        #cursor-dot { width: 8px; height: 8px; background-color: #ef4444; transition: background-color 0.3s; }
+        #cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(239, 68, 68, 0.5); transition: all 0.2s; }
+        body.hovering #cursor-outline { width: 60px; height: 60px; background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+        body.blueprint-mode.hovering #cursor-outline { background-color: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
 
         /* Grid de Fundo */
         .bg-tech-grid {
@@ -112,7 +132,6 @@
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             mask-image: radial-gradient(circle at center, black 40%, transparent 100%); 
-            /* Mudado para radial para focar no centro */
         }
 
         /* Boot Loader */
@@ -130,16 +149,12 @@
         }
         .boot-text { opacity: 0; animation: fadeIn 0.1s forwards; }
 
-        /* Glitch Effect Classes */
+        /* Glitch Effect */
         .glitch-hover:hover {
             animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
             color: #ef4444;
         }
-
-        /* Modo DEBUG */
-        body.debug-mode * {
-            outline: 1px solid rgba(239, 68, 68, 0.15) !important;
-        }
+        body.blueprint-mode .glitch-hover:hover { color: #38bdf8; }
 
         /* Animações */
         .fade-in-up {
@@ -147,16 +162,16 @@
             transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        body.blueprint-mode ::-webkit-scrollbar-track { background: #0f172a; }
+        body.blueprint-mode ::-webkit-scrollbar-thumb { background: #334155; }
+        body.blueprint-mode ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
 
         /* Barra de Progresso */
         #scroll-progress {
@@ -171,22 +186,23 @@
             box-shadow: 0 0 10px rgba(239, 68, 68, 0.7);
         }
 
-        /* TILT 3D EFFECT */
-        .tilt-card {
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            will-change: transform;
-        }
-        .tilt-content {
-            transform: translateZ(20px);
-        }
+        /* TILT 3D */
+        .tilt-card { transform-style: preserve-3d; transform: perspective(1000px); will-change: transform; }
+        .tilt-content { transform: translateZ(20px); }
         
-        /* Cursor de digitação */
-        .typing-cursor::after {
-            content: '_';
-            animation: blink 1s step-end infinite;
-        }
+        /* Typing Cursor */
+        .typing-cursor::after { content: '_'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
+
+        /* Modal Styles */
+        #case-modal { backdrop-filter: blur(8px); }
+        .modal-open { overflow: hidden; }
+        
+        /* FAQ Styles */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: sweep .5s ease-in-out; }
+        @keyframes sweep { 0%    {opacity: 0; transform: translateX(-10px)} 100%  {opacity: 1; transform: translateX(0)} }
     </style>
 </head>
 <body class="antialiased h-screen overflow-hidden" id="main-body">
@@ -209,12 +225,13 @@
     <div id="scroll-progress"></div>
 
     <!-- Botão Flutuante WhatsApp -->
-    <a href="https://wa.me/seunumeroy" target="_blank" class="hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none">
+    <a href="https://wa.me/seunumeroy" target="_blank" class="hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none group">
         <i class="fab fa-whatsapp text-3xl"></i>
+        <span class="absolute right-16 bg-white text-black px-3 py-1 rounded-sm text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Online Agora</span>
     </a>
 
     <!-- Navbar -->
-    <nav class="fixed w-full z-40 bg-draft-black/95 border-b border-draft-border backdrop-blur-sm">
+    <nav class="fixed w-full z-40 bg-draft-black/95 border-b border-draft-border backdrop-blur-sm transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <div class="flex-shrink-0 cursor-pointer group hover-trigger" onclick="window.scrollTo(0,0)">
@@ -225,13 +242,18 @@
                 </div>
                 
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
+                    <div class="ml-10 flex items-center space-x-8">
                         <a href="#solucoes" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Soluções</a>
                         <a href="#metodo" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Método</a>
                         <a href="#portfolio" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Cases</a>
                         <a href="#contato" class="hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-5 py-2 rounded-sm text-sm font-bold transition-all border border-transparent hover:scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
-                            DIAGNÓSTICO TÉCNICO
+                            DIAGNÓSTICO
                         </a>
+                        
+                        <!-- Blueprint Toggle Button -->
+                        <button id="blueprint-toggle" class="hover-trigger ml-4 text-draft-muted hover:text-white transition-colors border border-draft-border p-2 rounded-sm" title="Alternar Modo Blueprint">
+                            <i class="fas fa-ruler-combined"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -247,6 +269,9 @@
                 <a href="#solucoes" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Soluções</a>
                 <a href="#metodo" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Método</a>
                 <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Cases</a>
+                <button id="blueprint-toggle-mobile" class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:text-draft-red text-draft-muted">
+                    <i class="fas fa-ruler-combined mr-2"></i> Modo Blueprint
+                </button>
                 <a href="#contato" class="block w-full text-center mt-4 bg-draft-red text-white px-5 py-3 rounded-sm font-bold">SOLICITAR DIAGNÓSTICO</a>
             </div>
         </div>
@@ -255,12 +280,12 @@
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
         <div class="absolute inset-0 bg-tech-grid z-0 opacity-60"></div>
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-draft-red/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-draft-red/5 rounded-full blur-[120px] pointer-events-none transition-colors duration-500"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             
             <div class="inline-block mb-6 px-4 py-1.5 border border-draft-border rounded-full bg-draft-panel/80 fade-in-up cursor-default group hover:border-draft-red/50 transition-colors">
-                <span class="text-xs font-semibold tracking-wider uppercase text-draft-red font-mono flex items-center gap-2">
+                <span class="text-xs font-semibold tracking-wider uppercase text-draft-red font-mono flex items-center gap-2 transition-colors">
                     <span class="w-2 h-2 rounded-full bg-draft-red animate-pulse"></span>
                     System Status: Online
                 </span>
@@ -288,7 +313,7 @@
     </section>
 
     <!-- Stats Counter (IMPACTO) -->
-    <section class="border-y border-draft-border bg-draft-dark py-12 relative z-10">
+    <section class="border-y border-draft-border bg-draft-dark py-12 relative z-10 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center cursor-default">
             
             <div class="fade-in-up">
@@ -323,18 +348,18 @@
     </section>
 
     <!-- Methodology -->
-    <section id="metodo" class="py-32 bg-draft-black relative">
+    <section id="metodo" class="py-32 bg-draft-black relative transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                 <div class="fade-in-up">
                     <h2 class="text-3xl md:text-5xl font-bold mb-8 leading-tight">
                         Eficiência Técnica, <br>
-                        <span class="text-draft-red">Zero Burocracia.</span>
+                        <span class="text-draft-red transition-colors">Zero Burocracia.</span>
                     </h2>
                     <p class="text-draft-muted text-lg mb-8 leading-relaxed">
                         Grandes consultorias vendem horas e reuniões. Nós vendemos arquitetura e resultado.
                     </p>
-                    <p class="text-draft-muted text-lg mb-10 leading-relaxed border-l-2 border-draft-red pl-6">
+                    <p class="text-draft-muted text-lg mb-10 leading-relaxed border-l-2 border-draft-red pl-6 transition-colors">
                         Trazemos a bagagem técnica de quem atuou na estrutura de grandes players (como a centenária <strong>Zema</strong> e grupos de alto faturamento), aplicando frameworks modernos que eliminam o desperdício de código. 
                     </p>
                     
@@ -368,7 +393,7 @@
                             <p class="text-draft-muted hidden" id="line-2"></p>
                             <p class="text-draft-muted hidden" id="line-3"></p>
                             <p class="text-draft-muted hidden" id="line-4"></p>
-                            <p class="text-draft-red mt-4 hidden" id="line-5"></p>
+                            <p class="text-draft-red mt-4 hidden transition-colors" id="line-5"></p>
                         </div>
                         <div class="mt-8 h-32 bg-draft-panel border border-draft-border relative overflow-hidden opacity-50 tilt-content">
                             <!-- Gráfico decorativo -->
@@ -388,8 +413,77 @@
         </div>
     </section>
 
+    <!-- Project Simulator (NOVA SEÇÃO: CALCULADORA) -->
+    <section id="simulador" class="py-24 bg-draft-dark border-y border-draft-border relative transition-colors duration-500">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl font-bold text-white mb-2">Simulador de Projeto</h2>
+                <p class="text-draft-muted">Selecione as variáveis para estimar o escopo.</p>
+            </div>
+
+            <div class="bg-draft-panel border border-draft-border p-8 rounded-sm fade-in-up hover:border-draft-red transition-colors relative overflow-hidden group">
+                 <!-- Grid decorativo de fundo -->
+                 <div class="absolute inset-0 bg-tech-grid opacity-20 pointer-events-none"></div>
+
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    <div>
+                        <label class="block text-draft-muted text-xs uppercase tracking-wider mb-3 font-bold">1. Tipo de Projeto</label>
+                        <div class="space-y-3">
+                            <label class="hover-trigger flex items-center p-3 border border-draft-border rounded-sm cursor-pointer hover:bg-draft-black hover:border-draft-red transition-all">
+                                <input type="radio" name="project_type" value="lp" class="form-radio text-draft-red bg-transparent border-gray-600 focus:ring-0" checked onchange="calculateProject()">
+                                <span class="ml-3 text-white font-mono text-sm">Landing Page High-Performance</span>
+                            </label>
+                            <label class="hover-trigger flex items-center p-3 border border-draft-border rounded-sm cursor-pointer hover:bg-draft-black hover:border-draft-red transition-all">
+                                <input type="radio" name="project_type" value="bi" class="form-radio text-draft-red bg-transparent border-gray-600 focus:ring-0" onchange="calculateProject()">
+                                <span class="ml-3 text-white font-mono text-sm">Dashboard BI & Dados</span>
+                            </label>
+                            <label class="hover-trigger flex items-center p-3 border border-draft-border rounded-sm cursor-pointer hover:bg-draft-black hover:border-draft-red transition-all">
+                                <input type="radio" name="project_type" value="system" class="form-radio text-draft-red bg-transparent border-gray-600 focus:ring-0" onchange="calculateProject()">
+                                <span class="ml-3 text-white font-mono text-sm">Sistema Web Sob Medida</span>
+                            </label>
+                        </div>
+
+                        <label class="block text-draft-muted text-xs uppercase tracking-wider mt-6 mb-3 font-bold">2. Prioridade</label>
+                        <div class="flex space-x-4">
+                            <label class="hover-trigger flex-1 flex items-center justify-center p-3 border border-draft-border rounded-sm cursor-pointer hover:bg-draft-black hover:border-draft-red transition-all">
+                                <input type="radio" name="urgency" value="standard" class="hidden" checked onchange="updateUrgency(this)">
+                                <span class="text-white font-mono text-sm" id="urg-std">Padrão</span>
+                            </label>
+                            <label class="hover-trigger flex-1 flex items-center justify-center p-3 border border-draft-border rounded-sm cursor-pointer hover:bg-draft-black hover:border-draft-red transition-all">
+                                <input type="radio" name="urgency" value="high" class="hidden" onchange="updateUrgency(this)">
+                                <span class="text-draft-muted font-mono text-sm" id="urg-high">ASAP (Urgente)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col justify-center border-l border-draft-border pl-8 relative">
+                        <div class="text-draft-muted text-xs uppercase tracking-wider mb-2 font-mono">Estimativa Preliminar</div>
+                        
+                        <div id="sim-result" class="transition-all duration-300">
+                            <div class="text-4xl font-bold text-white mb-2 tracking-tight">
+                                <span class="text-draft-red">R$</span> <span id="price-display">2.500 - 4.000</span>
+                            </div>
+                            <div class="text-sm text-draft-muted mb-6">
+                                <i class="far fa-clock mr-2"></i> Prazo estimado: <span id="time-display" class="text-white">7 a 14 dias</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-4 bg-draft-black border border-draft-border text-xs text-draft-muted font-mono rounded-sm">
+                            <p>> Includes: <span id="includes-display">SEO, Hosting Setup, Analytics</span></p>
+                            <p class="mt-1">> Tech Stack: <span id="stack-display">Laravel, Livewire, Tailwind</span></p>
+                        </div>
+
+                        <a href="#contato" class="hover-trigger mt-6 w-full bg-white text-black hover:bg-draft-red hover:text-white py-3 rounded-sm text-center font-bold text-sm transition-all uppercase tracking-wide">
+                            Solicitar Proposta Real
+                        </a>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Solutions -->
-    <section id="solucoes" class="py-32 bg-draft-dark relative border-t border-draft-border">
+    <section id="solucoes" class="py-32 bg-draft-dark relative border-t border-draft-border transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 fade-in-up">
                 <h2 class="text-3xl font-bold text-white">Nossas Verticais Técnicas</h2>
@@ -401,45 +495,45 @@
                 <!-- Card 1 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-laptop-code text-draft-red text-2xl"></i>
+                        <i class="fas fa-laptop-code text-draft-red text-2xl transition-colors"></i>
                     </div>
                     <h3 class="tilt-content text-xl font-bold text-white mb-4">Vitrine de Alta Conversão</h3>
                     <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
                         Landing Pages e Portais desenvolvidos em <strong>Laravel & Livewire</strong>. Focados em velocidade extrema (Lighthouse 90+) e SEO técnico.
                     </p>
                     <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Design Responsivo</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Carregamento Instantâneo</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Design Responsivo</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Carregamento Instantâneo</li>
                     </ul>
                 </div>
 
                 <!-- Card 2 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.1s;">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-chart-bar text-draft-red text-2xl"></i>
+                        <i class="fas fa-chart-bar text-draft-red text-2xl transition-colors"></i>
                     </div>
                     <h3 class="tilt-content text-xl font-bold text-white mb-4">Hub de Dados & BI</h3>
                     <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
                         Transformamos planilhas soltas em <strong>Dashboards de Decisão</strong>. Visualize lucro, churn e metas em tempo real.
                     </p>
                     <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Power BI & SQL</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Relatórios Automáticos</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Power BI & SQL</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Relatórios Automáticos</li>
                     </ul>
                 </div>
 
                 <!-- Card 3 -->
                 <div class="tilt-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.2s;">
                     <div class="tilt-content w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-cogs text-draft-red text-2xl"></i>
+                        <i class="fas fa-cogs text-draft-red text-2xl transition-colors"></i>
                     </div>
                     <h3 class="tilt-content text-xl font-bold text-white mb-4">Motor de Operação</h3>
                     <p class="tilt-content text-draft-muted text-sm mb-6 leading-relaxed">
                         Desenvolvimento de sistemas internos sob medida para organizar o fluxo de trabalho da sua equipe.
                     </p>
                     <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Redução de Erro Humano</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3"></i> Integração de APIs</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Redução de Erro Humano</li>
+                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Integração de APIs</li>
                     </ul>
                 </div>
 
@@ -447,13 +541,13 @@
         </div>
     </section>
 
-    <!-- Portfolio -->
-    <section id="portfolio" class="py-32 bg-draft-black border-t border-draft-border">
+    <!-- Portfolio (Com Deep Dive Modal) -->
+    <section id="portfolio" class="py-32 bg-draft-black border-t border-draft-border transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-up">
                 <div>
                     <h2 class="text-3xl font-bold text-white">Cases & Soluções</h2>
-                    <p class="mt-2 text-draft-muted">Tecnologia aplicada na prática.</p>
+                    <p class="mt-2 text-draft-muted">Tecnologia aplicada na prática. Clique para ver detalhes.</p>
                 </div>
                 <div class="hidden md:block px-4 py-2 border border-draft-border rounded-sm text-xs text-draft-muted font-mono uppercase tracking-widest">
                     Selected Works 2024-2025
@@ -463,82 +557,101 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Case 1 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('conectados')">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png" alt="CT Conectados" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Performance Web</span>
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Performance Web</span>
                         <h3 class="text-lg font-bold text-white mt-1">CT Conectados</h3>
+                        <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
 
                 <!-- Case 2 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none" style="animation-delay: 0.1s;">
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('camila')" style="animation-delay: 0.1s;">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png" alt="Dra Camila Costa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Saúde & Estética</span>
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Saúde & Estética</span>
                         <h3 class="text-lg font-bold text-white mt-1">Dra. Camila Costa</h3>
+                        <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
 
                 <!-- Case 3 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none" style="animation-delay: 0.2s;">
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('open')" style="animation-delay: 0.2s;">
                     <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png" alt="Open In Your Closet" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">E-commerce</span>
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">E-commerce</span>
                         <h3 class="text-lg font-bold text-white mt-1">Open In Your Closet</h3>
+                        <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
-
-                <!-- Case 4 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
+                
+                <!-- Cases Fictícios com ícones -->
+                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('bi')">
                     <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
                         <i class="fas fa-chart-line text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">BI & Dados</span>
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">BI & Dados</span>
                         <h3 class="text-lg font-bold text-white mt-1">Dashboard ZM</h3>
-                        <p class="text-xs text-draft-muted mt-2">DRE e fluxo de caixa em tempo real.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Case 5 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
-                        <i class="fas fa-network-wired text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+    <!-- FAQ Section (Terminal Style) -->
+    <section class="py-24 bg-draft-dark border-t border-draft-border transition-colors duration-500">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-10 text-center">Protocolos de Dúvidas (FAQ)</h2>
+            
+            <div class="space-y-4">
+                <!-- Q1 -->
+                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
+                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
+                        <span>> root@user:~$ "É caro contratar o Hub?"</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
+                        <p>Não trabalhamos com "caro" ou "barato", mas com retorno sobre investimento (ROI). Nossas soluções de Landing Page começam em valores acessíveis para pequenos negócios, enquanto sistemas complexos são orçados sob medida. Use o simulador acima para ter uma ideia!</p>
                     </div>
-                    <div class="p-6 tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Sistema Interno</span>
-                        <h3 class="text-lg font-bold text-white mt-1">Gestor de Estoque Pro</h3>
-                        <p class="text-xs text-draft-muted mt-2">Controle de entrada/saída com alertas.</p>
-                    </div>
-                </div>
+                </details>
 
-                <!-- Case 6 -->
-                <div class="tilt-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-none">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
-                        <i class="fas fa-robot text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                <!-- Q2 -->
+                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
+                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
+                        <span>> root@user:~$ "Quanto tempo demora?"</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
+                        <p>Graças à nossa stack moderna (Laravel/Livewire), entregamos Landing Pages em 7 a 14 dias. Sistemas complexos dependem do escopo, mas nossa metodologia ágil garante entregas parciais funcionais em semanas, não meses.</p>
                     </div>
-                    <div class="p-6 tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide">Automação</span>
-                        <h3 class="text-lg font-bold text-white mt-1">Bot de Triagem</h3>
-                        <p class="text-xs text-draft-muted mt-2">Filtro de leads via API.</p>
-                    </div>
-                </div>
+                </details>
 
+                <!-- Q3 -->
+                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
+                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
+                        <span>> root@user:~$ "Vocês dão manutenção?"</span>
+                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
+                    </summary>
+                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
+                        <p>Sim. Todos os projetos incluem 30 dias de suporte pós-lançamento. Depois disso, oferecemos planos de sustentação para manter seu sistema seguro, atualizado e rodando 24/7.</p>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
 
     <!-- Footer Area -->
-    <section id="contato" class="py-32 relative overflow-hidden border-t border-draft-border bg-draft-dark">
+    <section id="contato" class="py-32 relative overflow-hidden border-t border-draft-border bg-draft-dark transition-colors duration-500">
         <div class="absolute inset-0 bg-tech-grid opacity-30"></div>
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-gradient-to-t from-draft-red/10 to-transparent blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-gradient-to-t from-draft-red/10 to-transparent blur-[100px] pointer-events-none transition-colors duration-500"></div>
         
         <div class="max-w-4xl mx-auto px-4 text-center relative z-10 fade-in-up">
             <h2 class="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">Pronto para estruturar <br> o crescimento?</h2>
@@ -556,12 +669,12 @@
         </div>
     </section>
 
-    <footer class="bg-draft-black border-t border-draft-border py-12">
+    <footer class="bg-draft-black border-t border-draft-border py-12 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-draft-muted">
             <div class="mb-4 md:mb-0 text-center md:text-left">
-                <span class="text-white font-bold text-lg tracking-tighter">DRAFT<span class="text-draft-red">.</span>HUB</span>
+                <span class="text-white font-bold text-lg tracking-tighter">DRAFT<span class="text-draft-red transition-colors">.</span>HUB</span>
                 <p class="text-xs mt-1">Engenharia Digital & Performance.</p>
-                <p class="text-[10px] mt-2 text-gray-700 font-mono">Pressione 'D' para modo Arquiteto.</p>
+                <p class="text-[10px] mt-2 text-gray-700 font-mono">Pressione 'D' para modo Debug.</p>
             </div>
             <div class="font-mono text-xs text-gray-600">
                 © 2026 Draft Tech Hub. All systems operational.
@@ -569,15 +682,51 @@
         </div>
     </footer>
 
+    <!-- MODAL DEEP DIVE -->
+    <div id="case-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-4">
+        <div class="bg-draft-panel border border-draft-border w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-sm relative shadow-2xl animate-fade-in-up">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-draft-muted hover:text-white z-10"><i class="fas fa-times text-2xl"></i></button>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="h-64 md:h-auto bg-black relative">
+                    <img id="modal-img" src="" class="w-full h-full object-cover opacity-80" alt="Case Image">
+                    <div class="absolute inset-0 bg-gradient-to-t from-draft-panel to-transparent"></div>
+                </div>
+                <div class="p-8">
+                    <span id="modal-tag" class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide mb-2 block">Tag</span>
+                    <h3 id="modal-title" class="text-3xl font-bold text-white mb-4">Title</h3>
+                    <p id="modal-desc" class="text-draft-muted text-sm mb-6 leading-relaxed">Description...</p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase">Desafio</span>
+                            <p id="modal-challenge" class="text-white text-sm">O desafio aqui...</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase">Solução</span>
+                            <p id="modal-solution" class="text-white text-sm">A solução aqui...</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 border-t border-draft-border pt-6">
+                        <div>
+                            <div class="text-2xl font-bold text-white">99</div>
+                            <div class="text-xs text-draft-muted">Performance</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-white">100%</div>
+                            <div class="text-xs text-draft-muted">SEO Score</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // === 0. BOOT SEQUENCE (Loader) ===
+        // === 0. BOOT SEQUENCE ===
         document.addEventListener("DOMContentLoaded", () => {
-            const logs = [
-                "> Initializing Draft Core...",
-                "> Loading Architecture Modules...",
-                "> Optimizing Assets...",
-                "> System Ready."
-            ];
+            const logs = ["> Initializing Draft Core...", "> Loading Architecture...", "> Optimizing Assets...", "> System Ready."];
             const logContainer = document.getElementById('boot-log');
             const bootBar = document.getElementById('boot-bar');
             const loader = document.getElementById('boot-loader');
@@ -587,16 +736,11 @@
             logs.forEach((log, index) => {
                 setTimeout(() => {
                     const p = document.createElement('div');
-                    p.className = 'boot-text';
-                    p.innerText = log;
+                    p.className = 'boot-text'; p.innerText = log;
                     logContainer.appendChild(p);
-                    
-                    // Update bar
-                    const progress = ((index + 1) / logs.length) * 100;
-                    bootBar.style.width = `${progress}%`;
-
+                    bootBar.style.width = `${((index + 1) / logs.length) * 100}%`;
                 }, delay);
-                delay += 400; // Tempo entre linhas
+                delay += 300;
             });
 
             setTimeout(() => {
@@ -604,19 +748,145 @@
                 loader.style.transition = 'opacity 0.5s ease';
                 setTimeout(() => {
                     loader.style.display = 'none';
-                    body.classList.remove('overflow-hidden');
-                    body.classList.remove('h-screen');
+                    body.classList.remove('overflow-hidden', 'h-screen');
                 }, 500);
-            }, delay + 400);
+            }, delay + 300);
         });
 
-        // === 1. Menu Mobile ===
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+        // === 1. Blueprint Toggle ===
+        const btnToggle = document.getElementById('blueprint-toggle');
+        const btnToggleMobile = document.getElementById('blueprint-toggle-mobile');
+        const body = document.body;
+
+        function toggleBlueprint() {
+            body.classList.toggle('blueprint-mode');
+            const isBlue = body.classList.contains('blueprint-mode');
+            
+            // Troca ícone
+            btnToggle.innerHTML = isBlue ? '<i class="fas fa-microchip"></i>' : '<i class="fas fa-ruler-combined"></i>';
+            btnToggle.title = isBlue ? "Voltar ao Modo Dark" : "Modo Blueprint";
         }
 
-        // === 2. Scroll Progress ===
+        btnToggle.addEventListener('click', toggleBlueprint);
+        btnToggleMobile.addEventListener('click', toggleBlueprint);
+
+
+        // === 2. Project Simulator Logic ===
+        function calculateProject() {
+            const type = document.querySelector('input[name="project_type"]:checked').value;
+            const urgency = document.querySelector('input[name="urgency"]:checked').value;
+            
+            let minPrice = 0, maxPrice = 0, time = "", stack = "", includes = "";
+
+            if (type === 'lp') {
+                minPrice = 1500; maxPrice = 2500; time = "7 a 14 dias";
+                stack = "Laravel, Livewire, Tailwind";
+                includes = "SEO, Analytics, Hosting Setup";
+            } else if (type === 'bi') {
+                minPrice = 3000; maxPrice = 5000; time = "15 a 30 dias";
+                stack = "Power BI, SQL, Python ETL";
+                includes = "Data Cleaning, Dashboard, Auto-Update";
+            } else if (type === 'system') {
+                minPrice = 5000; maxPrice = 15000; time = "30 a 60 dias";
+                stack = "Laravel, MySQL, React/Livewire";
+                includes = "Auth, Admin Panel, API, Database";
+            }
+
+            // Urgency Multiplier
+            if (urgency === 'high') {
+                minPrice *= 1.3; maxPrice *= 1.3;
+                time = "Prioridade Máxima (Express)";
+            }
+
+            // Animate Numbers
+            animateValue(document.getElementById('price-display'), minPrice, maxPrice);
+            document.getElementById('time-display').innerText = time;
+            document.getElementById('stack-display').innerText = stack;
+            document.getElementById('includes-display').innerText = includes;
+        }
+
+        function updateUrgency(el) {
+            const label = el.parentElement;
+            const textSpan = label.querySelector('span');
+            // Reset styles visually if needed, but CSS handles checked state mostly via logic
+            calculateProject();
+        }
+
+        function animateValue(obj, start, end) {
+            obj.innerHTML = `${start.toLocaleString('pt-BR')} - ${end.toLocaleString('pt-BR')}`;
+            // Simulação simples, num real usaria requestAnimationFrame para contar
+        }
+
+        // === 3. Modal Logic ===
+        const modal = document.getElementById('case-modal');
+        const modalContent = {
+            'conectados': {
+                title: 'CT Conectados', tag: 'Performance Web',
+                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png',
+                desc: 'Landing Page de alta conversão para centro de treinamento.',
+                challenge: 'O cliente precisava aumentar a conversão de leads vindos do Instagram.',
+                solution: 'Desenvolvemos uma LP ultra-leve em Laravel com carregamento em <1s.'
+            },
+            'camila': {
+                title: 'Dra. Camila', tag: 'Saúde',
+                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png',
+                desc: 'Posicionamento digital premium para área médica.',
+                challenge: 'Transmitir autoridade e sofisticação para público de alto padrão.',
+                solution: 'Design minimalista focado em tipografia e fotografia de alta qualidade.'
+            },
+            'open': {
+                title: 'Open Closet', tag: 'E-commerce',
+                img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png',
+                desc: 'Catálogo digital para moda circular.',
+                challenge: 'Gerenciar estoque único de peças exclusivas.',
+                solution: 'Sistema de catálogo dinâmico integrado ao WhatsApp.'
+            },
+            'bi': {
+                title: 'Dashboard ZM', tag: 'BI & Dados',
+                img: '', // Placeholder ou ícone
+                desc: 'Painel financeiro integrando 3 filiais.',
+                challenge: 'Dados dispersos em 15 planilhas Excel diferentes.',
+                solution: 'ETL automatizado no SQL Server + Power BI.'
+            }
+        };
+
+        function openModal(id) {
+            const data = modalContent[id] || modalContent['conectados'];
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-tag').innerText = data.tag;
+            document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-challenge').innerText = data.challenge;
+            document.getElementById('modal-solution').innerText = data.solution;
+            
+            const imgEl = document.getElementById('modal-img');
+            if(data.img) {
+                imgEl.src = data.img;
+                imgEl.parentElement.style.display = 'block';
+            } else {
+                imgEl.parentElement.style.display = 'none';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            body.classList.remove('modal-open');
+        }
+        
+        // Fechar ao clicar fora
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        })
+
+        // === 4. General UI (Scroll, Tilt, Cursor) ===
+        // ... (Mantendo a lógica anterior de Scroll, Tilt e Cursor) ...
+        
+        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        
         window.onscroll = function() {
             var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -624,130 +894,78 @@
             document.getElementById("scroll-progress").style.width = scrolled + "%";
         };
 
-        // === 3. Observer: FadeIn, Counters & Terminal Typing ===
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    
-                    // Contadores
+                    // Counters logic...
                     const counters = entry.target.querySelectorAll('.counter');
-                    if (counters.length > 0) {
-                        counters.forEach(counter => {
-                            const target = +counter.getAttribute('data-target');
-                            const speed = 200; 
-                            const updateCount = () => {
-                                const count = +counter.innerText;
-                                const inc = target / speed;
-                                if(count < target) {
-                                    counter.innerText = Math.ceil(count + inc);
-                                    setTimeout(updateCount, 20);
-                                } else {
-                                    counter.innerText = target;
-                                }
-                            }
-                            updateCount();
-                        });
-                    }
-
-                    // Terminal Typing Effect
-                    if (entry.target.querySelector('#terminal-content')) {
-                        typeTerminal();
-                    }
-
-                    observer.unobserve(entry.target);
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        let count = 0;
+                        const inc = target / 50;
+                        const update = () => {
+                            count += inc;
+                            if(count < target) { counter.innerText = Math.ceil(count); requestAnimationFrame(update); }
+                            else counter.innerText = target;
+                        }
+                        update();
+                    });
+                    
+                    if (entry.target.querySelector('#terminal-content')) typeTerminal();
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
 
-        // Função de Digitação do Terminal
         function typeTerminal() {
             const lines = [
-                { id: 'line-1', text: '> Initializing Core Systems...' },
-                { id: 'line-2', text: '> Optimizing Database Queries... [OK]' },
-                { id: 'line-3', text: '> Loading High-Performance Assets... [OK]' },
-                { id: 'line-4', text: '> Deploying Analytics Hub... [OK]' },
-                { id: 'line-5', text: '> Ready for Scale_' }
+                {id: 'line-1', text: '> Initializing...'},
+                {id: 'line-2', text: '> Database... [OK]'},
+                {id: 'line-3', text: '> Assets... [OK]'},
+                {id: 'line-4', text: '> Analytics... [OK]'},
+                {id: 'line-5', text: '> Ready.'}
             ];
-
             let delay = 0;
-            lines.forEach((line, index) => {
+            lines.forEach((l, i) => {
                 setTimeout(() => {
-                    const el = document.getElementById(line.id);
+                    const el = document.getElementById(l.id);
                     el.classList.remove('hidden');
-                    
-                    // Remove cursor from previous line
-                    if(index > 0) {
-                         document.getElementById(lines[index-1].id).classList.remove('typing-cursor');
-                    }
-                    
-                    // Add cursor to current
-                    if(index < lines.length -1) {
-                         el.classList.add('typing-cursor');
-                    }
-                    
-                    // "Type" the text (simple implementation: just show it, 
-                    // for real char-by-char we'd need more complex JS, 
-                    // this simulates line-by-line logging)
-                    el.innerText = line.text; 
-
+                    el.innerText = l.text;
                 }, delay);
-                delay += 800;
+                delay += 500;
             });
         }
 
-        // === 4. Cursor Personalizado ===
-        const cursorDot = document.getElementById("cursor-dot");
-        const cursorOutline = document.getElementById("cursor-outline");
-        const body = document.body;
-
-        window.addEventListener("mousemove", function (e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+        // Cursor Logic
+        const cDot = document.getElementById("cursor-dot");
+        const cOutline = document.getElementById("cursor-outline");
+        window.addEventListener("mousemove", (e) => {
+            cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px";
+            cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+        });
+        document.querySelectorAll('.hover-trigger, a, button').forEach(t => {
+            t.addEventListener('mouseenter', () => body.classList.add('hovering'));
+            t.addEventListener('mouseleave', () => body.classList.remove('hovering'));
         });
 
-        const hoverTriggers = document.querySelectorAll('a, button, .hover-trigger');
-        hoverTriggers.forEach(trigger => {
-            trigger.addEventListener('mouseenter', () => body.classList.add('hovering'));
-            trigger.addEventListener('mouseleave', () => body.classList.remove('hovering'));
-        });
-
-        // === 5. Easter Egg (Debug) ===
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'd' || event.key === 'D') {
-                body.classList.toggle('debug-mode');
-            }
-        });
-
-        // === 6. Tilt Effect ===
-        const cards = document.querySelectorAll('.tilt-card');
-        cards.forEach(card => {
+        // Tilt Logic
+        document.querySelectorAll('.tilt-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -5; 
-                const rotateY = ((x - centerX) / centerX) * 5;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                const x = e.clientX - rect.left - rect.width/2;
+                const y = e.clientY - rect.top - rect.height/2;
+                card.style.transform = `perspective(1000px) rotateX(${-y/10}deg) rotateY(${x/10}deg)`;
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-                card.style.transition = 'transform 0.5s ease';
-                setTimeout(() => { card.style.transition = ''; }, 500);
             });
         });
+
+        // Debug Key
+        document.addEventListener('keydown', (e) => { if(e.key.toLowerCase() === 'd') body.classList.toggle('debug-mode'); });
+
     </script>
 </body>
 </html>
