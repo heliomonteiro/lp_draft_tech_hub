@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- SEO BLINDADO -->
     <title>Draft Tech Hub | Engenharia Digital em Uberaba e Ribeirão Preto</title>
     <meta name="description" content="Engenharia de Software e Inteligência de Dados. Sistemas sob medida, Dashboards de BI e Sites de Alta Performance em Uberaba e região.">
     <meta name="keywords" content="Desenvolvimento Web, Laravel, Uberaba, Ribeirão Preto, Power BI, Automação, Landing Page, Site Rápido, Consultoria de TI, Oracle, AWS">
@@ -11,8 +12,15 @@
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#050505">
 
-    <!-- FAVICON (SVG Embutido) -->
+    <!-- FAVICON (SVG Embutido para performance) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%230a0a0a%22/><text y=%22.9em%22 font-size=%2290%22 font-family=%22Arial%22 font-weight=%22bold%22 fill=%22%23ef4444%22>D</text></svg>">
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drafttechhub.com.br/">
+    <meta property="og:title" content="Draft Tech Hub | Engenharia Digital de Alta Performance">
+    <meta property="og:description" content="Estrutura de multinacional para o seu negócio. Sites rápidos, dados precisos e automação.">
+    <meta property="og:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,18 +73,12 @@
                         marquee: {
                             '0%': { transform: 'translateX(0%)' },
                             '100%': { transform: 'translateX(-100%)' }
-                        },
-                        scanline: {
-                            '0%': { top: '-20%', opacity: '0' },
-                            '50%': { opacity: '1' },
-                            '100%': { top: '120%', opacity: '0' }
                         }
                     },
                     animation: {
                         'glitch': 'glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite',
                         'radar': 'radar 2s infinite ease-out',
                         'marquee': 'marquee 25s linear infinite',
-                        'scanline': 'scanline 2.5s ease-in-out infinite',
                     }
                 }
             }
@@ -84,7 +86,9 @@
     </script>
 
     <style>
+        /* Ajuste de Scroll Padding para o menu fixo não cobrir títulos */
         html { scroll-padding-top: 100px; }
+
         body { background-color: #050505; color: #e5e5e5; cursor: none; overflow-x: hidden; transition: background-color 0.5s ease; }
         
         /* BLUEPRINT MODE */
@@ -101,16 +105,15 @@
         body.blueprint-mode #cursor-dot { background-color: #38bdf8; }
         body.blueprint-mode #cursor-outline { border-color: #38bdf8; }
         body.blueprint-mode.hovering #cursor-outline { background-color: rgba(56, 189, 248, 0.2); border-color: #38bdf8; }
-        body.blueprint-mode #slider-handle { background: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); }
-        body.blueprint-mode .comp-overlay { border-right-color: #38bdf8; }
 
         /* DEBUG MODE */
         body.debug-mode * { outline: 1px solid rgba(239, 68, 68, 0.5) !important; }
         body.blueprint-mode.debug-mode * { outline: 1px solid rgba(56, 189, 248, 0.6) !important; }
 
         /* Elements */
-        #cursor-dot { position: fixed; top: 0; left: 0; width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%; z-index: 9999; pointer-events: none; transition: background-color 0.3s; transform: translate(-50%, -50%); }
-        #cursor-outline { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid rgba(239, 68, 68, 0.5); border-radius: 50%; z-index: 9999; pointer-events: none; transition: all 0.2s; transform: translate(-50%, -50%); }
+        #cursor-dot, #cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 9999; pointer-events: none; }
+        #cursor-dot { width: 8px; height: 8px; background-color: #ef4444; transition: background-color 0.3s; }
+        #cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(239, 68, 68, 0.5); transition: all 0.2s; }
         body.hovering #cursor-outline { width: 60px; height: 60px; background-color: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
 
         .bg-tech-grid { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px); mask-image: radial-gradient(circle at center, black 40%, transparent 100%); }
@@ -167,8 +170,8 @@
 
         .comparison-container { position: relative; width: 100%; height: 300px; overflow: hidden; border: 1px solid #333; border-radius: 4px; }
         .comp-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .comp-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid #ef4444; background: #111; z-index: 10; transition: width 0.1s ease-out; }
-        .comp-handle { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: #ef4444; border-radius: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); border: 2px solid white; }
+        .comp-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid #ef4444; background: #111; z-index: 10; transition: width 0.1s; }
+        .comp-handle { position: absolute; top: 50%; right: -15px; width: 30px; height: 30px; background: #ef4444; border-radius: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); }
         body.blueprint-mode .comp-overlay { border-right-color: #38bdf8; }
         body.blueprint-mode .comp-handle { background: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); }
         
@@ -178,21 +181,33 @@
 
         /* LIVE FEED */
         #live-feed {
-            position: fixed; bottom: 20px; left: 20px; z-index: 40;
-            background: rgba(10, 10, 10, 0.9); border: 1px solid #333; border-left: 3px solid #ef4444;
-            padding: 12px; border-radius: 2px; max-width: 300px;
-            font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a3a3a3;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 40;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid #333;
+            border-left: 3px solid #ef4444;
+            padding: 12px;
+            border-radius: 2px;
+            max-width: 300px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #a3a3a3;
             transform: translateY(150%);
-            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-            backdrop-filter: blur(5px); opacity: 0.9;
+            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); 
+            backdrop-filter: blur(5px);
+            opacity: 0.8;
         }
         #live-feed.active { transform: translateY(0); }
         body.blueprint-mode #live-feed { background: rgba(15, 23, 42, 0.9); border-color: #334155; border-left-color: #38bdf8; color: #cbd5e1; }
 
         /* PARTICLE CANVAS */
-        #particles-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        #particles-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
+        }
 
-        /* SPOTLIGHT & SCANLINE STRONGER */
         .spotlight-card { position: relative; overflow: hidden; }
         .spotlight-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -203,33 +218,6 @@
         body.blueprint-mode .spotlight-card::before {
             background: radial-gradient(800px circle at var(--x) var(--y), rgba(56, 189, 248, 0.08), transparent 40%);
         }
-        
-        .scan-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, transparent 40%, rgba(239, 68, 68, 0.6) 50%, transparent 60%);
-            background-size: 100% 200%;
-            opacity: 0; pointer-events: none; z-index: 20;
-        }
-        .group:hover .scan-overlay { opacity: 1; animation: scanline 2s ease-in-out infinite; }
-        body.blueprint-mode .scan-overlay { background: linear-gradient(to bottom, transparent 40%, rgba(56, 189, 248, 0.6) 50%, transparent 60%); }
-
-        .scramble-text { display: inline-block; white-space: nowrap; }
-        
-        /* Tooltip */
-        .tech-item:hover .tech-tooltip { opacity: 1; transform: translateY(0); }
-        .tech-tooltip {
-            pointer-events: none; opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
-            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-            background: #ef4444; color: white; padding: 4px 8px; border-radius: 4px; 
-            font-size: 10px; font-weight: bold; white-space: nowrap; margin-bottom: 8px; z-index: 30;
-        }
-        .tech-tooltip::after {
-            content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px;
-            border-width: 5px; border-style: solid; border-color: #ef4444 transparent transparent transparent;
-        }
-        body.blueprint-mode .tech-tooltip { background: #38bdf8; }
-        body.blueprint-mode .tech-tooltip::after { border-color: #38bdf8 transparent transparent transparent; }
-
     </style>
 </head>
 <body class="antialiased h-screen overflow-hidden" id="main-body">
@@ -255,9 +243,9 @@
     <div id="live-feed">
         <div class="flex items-center mb-1">
             <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
-            <span class="font-bold text-white tracking-wide">MONITORAMENTO</span>
+            <span class="font-bold text-white tracking-wide">SYSTEM ACTIVITY</span>
         </div>
-        <p id="feed-message">Sistemas operando normalmente...</p>
+        <p id="feed-message">Monitoramento ativo...</p>
     </div>
 
     <!-- Botão WhatsApp Flutuante -->
@@ -387,11 +375,11 @@
         </div>
     </section>
 
-    <!-- TRANSFORMATION SLIDER (FIXED) -->
+    <!-- TRANSFORMATION SLIDER -->
     <section class="py-24 bg-draft-black border-b border-draft-border overflow-hidden">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center mb-12 fade-in-up">
-                <h2 class="text-3xl font-bold text-white mb-4 scramble-text">Do Caos ao Controle</h2>
+                <h2 class="text-3xl font-bold text-white mb-4">Do Caos ao Controle</h2>
                 <p class="text-draft-muted">Arraste para ver a diferença entre "achar que sabe" e "ter certeza".</p>
             </div>
 
@@ -404,9 +392,7 @@
                     <div class="w-full bg-green-500 h-[90%] rounded-t-sm"></div>
                     <div class="absolute top-4 left-8 text-white font-bold text-2xl font-mono">LUCRO: +42%</div>
                 </div>
-                
-                <!-- Initial State 50% -->
-                <div class="comp-overlay" id="overlay" style="width: 50%">
+                <div class="comp-overlay" id="overlay">
                     <div class="fake-sheet w-[200%] h-full">
                         <div class="sheet-header">A</div><div class="sheet-header">B</div><div class="sheet-header">C</div><div class="sheet-header">D</div><div class="sheet-header">E</div>
                         <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
@@ -418,7 +404,7 @@
                         <div class="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-2xl rotate-12 opacity-80" style="text-shadow: 0 0 10px white;">CAOS OPERACIONAL</div>
                     </div>
                 </div>
-                <div class="comp-handle" id="slider-handle" style="left: 50%">
+                <div class="comp-handle" id="slider-handle">
                     <i class="fas fa-arrows-alt-h text-white text-xs"></i>
                 </div>
             </div>
@@ -436,7 +422,7 @@
     <section id="solucoes" class="py-24 bg-draft-dark relative border-t border-draft-border transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 fade-in-up">
-                <h2 class="text-3xl font-bold text-white scramble-text">Nossas Verticais Técnicas</h2>
+                <h2 class="text-3xl font-bold text-white">Nossas Verticais Técnicas</h2>
                 <p class="mt-4 text-draft-muted">O ecossistema completo para sustentar o seu crescimento.</p>
             </div>
 
@@ -499,7 +485,7 @@
                             Interactive Preview
                         </span>
                     </div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 scramble-text">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
                         Sinta a Potência <br>
                         <span class="text-draft-red">em Tempo Real.</span>
                     </h2>
@@ -593,7 +579,7 @@
     <section id="metodo" class="py-32 bg-draft-black relative transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20 fade-in-up">
-                <h2 class="text-3xl font-bold text-white mb-4 scramble-text">Do Rascunho à Escala</h2>
+                <h2 class="text-3xl font-bold text-white mb-4">Do Rascunho à Escala</h2>
                 <p class="text-draft-muted">Como transformamos sua ideia em engenharia de resultado.</p>
             </div>
 
@@ -648,7 +634,7 @@
     <section class="py-24 bg-draft-black border-y border-draft-border relative overflow-hidden">
         <div class="max-w-5xl mx-auto px-4 relative z-10">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-3xl font-bold text-white mb-4 scramble-text">Por que não somos uma agência comum?</h2>
+                <h2 class="text-3xl font-bold text-white mb-4">Por que não somos uma agência comum?</h2>
                 <p class="text-draft-muted">Compare a engenharia real com soluções genéricas.</p>
             </div>
 
@@ -692,7 +678,7 @@
     <section id="simulador" class="py-24 bg-draft-dark border-y border-draft-border relative transition-colors duration-500">
         <div class="max-w-5xl mx-auto px-4">
             <div class="text-center mb-12 fade-in-up">
-                <h2 class="text-3xl font-bold text-white mb-2 scramble-text">Simulador de Projeto</h2>
+                <h2 class="text-3xl font-bold text-white mb-2">Simulador de Projeto</h2>
                 <p class="text-draft-muted">Selecione as variáveis para estimar o escopo.</p>
             </div>
 
@@ -761,7 +747,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-in-up">
                 <div>
-                    <h2 class="text-3xl font-bold text-white scramble-text">Cases & Soluções</h2>
+                    <h2 class="text-3xl font-bold text-white">Cases & Soluções</h2>
                     <p class="mt-2 text-draft-muted">Tecnologia aplicada na prática. Clique para ver detalhes.</p>
                 </div>
                 <div class="hidden md:block px-4 py-2 border border-draft-border rounded-sm text-xs text-draft-muted font-mono uppercase tracking-widest">
@@ -772,9 +758,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Case 1 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('conectados')">
-                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity relative">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png" alt="CT Conectados" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Performance Web</span>
@@ -784,9 +769,8 @@
                 </div>
                 <!-- Case 2 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('camila')" style="animation-delay: 0.1s;">
-                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity relative">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png" alt="Dra Camila Costa" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Saúde & Estética</span>
@@ -796,9 +780,8 @@
                 </div>
                 <!-- Case 3 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('open')" style="animation-delay: 0.2s;">
-                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity relative">
+                    <div class="aspect-video w-full overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
                         <img loading="lazy" src="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png" alt="Open In Your Closet" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 border-t border-draft-border tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">E-commerce</span>
@@ -808,9 +791,8 @@
                 </div>
                 <!-- Fictional Case -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('bi')">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
                         <i class="fas fa-chart-line text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">BI & Dados</span>
@@ -819,9 +801,8 @@
                 </div>
                 <!-- Case 5 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('agro')" style="animation-delay: 0.1s;">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
                         <i class="fas fa-tractor text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Agronegócio</span>
@@ -830,9 +811,8 @@
                 </div>
                 <!-- Case 6 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('fleet')" style="animation-delay: 0.2s;">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors">
                         <i class="fas fa-truck text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
-                        <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Logística</span>
@@ -846,7 +826,7 @@
     <!-- FAQ -->
     <section class="py-24 bg-draft-dark border-t border-draft-border transition-colors duration-500">
         <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-white mb-10 text-center scramble-text">Protocolos de Dúvidas (FAQ)</h2>
+            <h2 class="text-3xl font-bold text-white mb-10 text-center">Protocolos de Dúvidas (FAQ)</h2>
             <div class="space-y-4">
                 <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
                     <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
@@ -883,53 +863,45 @@
     <section id="tech-stack" class="py-24 bg-draft-black border-t border-draft-border transition-colors duration-500 relative">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-2xl font-bold text-draft-muted uppercase tracking-widest mb-4 scramble-text">Tech Stack & Infraestrutura</h2>
+                <h2 class="text-2xl font-bold text-draft-muted uppercase tracking-widest mb-4">Tech Stack & Infraestrutura</h2>
                 <p class="text-white text-3xl md:text-4xl font-bold">Arsenal de Elite</p>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <!-- Infra -->
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fab fa-aws text-4xl text-draft-muted group-hover:text-[#FF9900] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">AWS Cloud</span>
-                    <div class="tech-tooltip">Escalabilidade Global</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fas fa-database text-4xl text-draft-muted group-hover:text-[#F80000] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Oracle Database</span>
-                     <div class="tech-tooltip">Alta Performance</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fab fa-microsoft text-4xl text-draft-muted group-hover:text-[#00A4EF] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Microsoft Azure</span>
-                     <div class="tech-tooltip">Enterprise Cloud</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fab fa-docker text-4xl text-draft-muted group-hover:text-[#2496ED] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Docker</span>
-                     <div class="tech-tooltip">Ambiente Isolado</div>
                 </div>
 
                 <!-- Dev & Data -->
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fas fa-project-diagram text-4xl text-draft-muted group-hover:text-green-500 transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Apache Hop</span>
-                     <div class="tech-tooltip">ETL de Dados</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fas fa-chart-pie text-4xl text-draft-muted group-hover:text-[#F2C811] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Power BI</span>
-                     <div class="tech-tooltip">Inteligência Visual</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fab fa-laravel text-4xl text-draft-muted group-hover:text-[#FF2D20] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Laravel</span>
-                     <div class="tech-tooltip">Robustez & Segurança</div>
                 </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
+                <div class="group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default">
                     <i class="fas fa-bolt text-4xl text-draft-muted group-hover:text-[#FB70A9] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Livewire</span>
-                     <div class="tech-tooltip">Interatividade Real-time</div>
                 </div>
             </div>
         </div>
@@ -958,7 +930,7 @@
 
     <footer class="bg-draft-black border-t border-draft-border py-12 transition-colors duration-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-draft-muted">
-            <div class="mb-4 md:mb-0 md:text-left text-center">
+            <div class="mb-4 md:mb-0 text-center md:text-left">
                 <span class="text-white font-bold text-lg tracking-tighter">DRAFT<span class="text-draft-red transition-colors">.</span>HUB</span>
                 <p class="text-xs mt-1">Engenharia Digital & Performance.</p>
                 <!-- Dica Ciclica no Footer -->
@@ -966,30 +938,17 @@
                     <span class="hint-1">Dica: 'D' para Modo Estrutural</span>
                     <span class="hint-2 hidden">Segredo: ↑ ↑ ↓ ↓ ← → ← → B A</span>
                 </p>
-            </div>
-            
-            <div class="font-mono text-xs text-gray-600 flex flex-col md:items-end items-center">
-                <span>© 2026 Draft Tech Hub. All rights reserved.</span>
-                <div class="mt-2 text-[10px] text-green-500 flex items-center gap-2">
-                     <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                     Status da Infraestrutura: Online
+                <!-- Status System (Novo) -->
+                <div class="mt-4 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-[10px] text-green-500 font-mono uppercase tracking-widest">Todos os sistemas operacionais</span>
                 </div>
+            </div>
+            <div class="font-mono text-xs text-gray-600">
+                © 2026 Draft Tech Hub. All systems operational.
             </div>
         </div>
     </footer>
-
-    <!-- LGPD ALERT -->
-    <div id="lgpd-alert" class="fixed bottom-4 left-4 z-[200] max-w-sm bg-draft-panel border border-draft-red/50 p-4 rounded-sm shadow-2xl flex flex-col gap-3 translate-y-[200%] transition-transform duration-500">
-        <div class="flex items-center gap-2 text-draft-red font-mono text-xs font-bold uppercase tracking-widest">
-            <i class="fas fa-shield-alt"></i> Protocolo de Privacidade
-        </div>
-        <p class="text-xs text-draft-muted leading-relaxed">
-            Utilizamos cookies para otimizar a performance do sistema. Ao continuar, você concorda com nossos protocolos de segurança.
-        </p>
-        <button onclick="acceptCookies()" class="bg-draft-red hover:bg-draft-redDark text-white text-xs font-bold py-2 px-4 rounded-sm transition-colors w-full">
-            CONFIRMAR ACESSO
-        </button>
-    </div>
 
     <!-- MODAL DEEP DIVE -->
     <div id="case-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 p-4">
@@ -1086,18 +1045,12 @@
                     logContainer.appendChild(p);
                     bootBar.style.width = `${((index + 1) / logs.length) * 100}%`;
                 }, delay);
-                delay += 100; // Speed up
+                delay += 300;
             });
             setTimeout(() => {
-                loader.style.opacity = '0'; loader.style.transition = 'opacity 0.3s ease';
-                setTimeout(() => { loader.style.display = 'none'; body.classList.remove('overflow-hidden', 'h-screen'); }, 300);
-            }, delay + 200);
-
-            // LGPD Alert Show
-            setTimeout(() => {
-                const lgpd = document.getElementById('lgpd-alert');
-                if(lgpd) lgpd.classList.remove('translate-y-[200%]');
-            }, 3000);
+                loader.style.opacity = '0'; loader.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => { loader.style.display = 'none'; body.classList.remove('overflow-hidden', 'h-screen'); }, 500);
+            }, delay + 300);
 
             // Footer Hint Cycle
             const hints = document.querySelectorAll('.hint-cycle span');
@@ -1111,7 +1064,7 @@
             // Start Auto Chart Animation
             autoUpdateChart();
             
-            // Project Simulator Logic
+            // Project Simulator Logic (Update WhatsApp Button)
             calculateProject();
 
             // Slider Logic
@@ -1149,83 +1102,7 @@
             }
         });
 
-        // === 1. Scramble Text Effect ===
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.chars = '!<>-_\\/[]{}—=+*^?#________';
-                this.update = this.update.bind(this);
-            }
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise((resolve) => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40);
-                    const end = start + Math.floor(Math.random() * 40);
-                    this.queue.push({ from, to, start, end });
-                }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="text-draft-red">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-            randomChar() {
-                return this.chars[Math.floor(Math.random() * this.chars.length)];
-            }
-        }
-
-        const scrambleObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    if (!el.dataset.scrambled) {
-                        const fx = new TextScramble(el);
-                        fx.setText(el.innerText);
-                        el.dataset.scrambled = "true";
-                        scrambleObserver.unobserve(el);
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.scramble-text').forEach(el => scrambleObserver.observe(el));
-
-        // === 2. Cookies Accept ===
-        function acceptCookies() {
-            const lgpd = document.getElementById('lgpd-alert');
-            if(lgpd) lgpd.classList.add('translate-y-[200%]');
-        }
-
-        // === 3. Blueprint Toggle ===
+        // === 1. Blueprint Toggle ===
         const btnToggle = document.getElementById('blueprint-toggle');
         const btnToggleMobile = document.getElementById('blueprint-toggle-mobile');
         const body = document.body;
@@ -1240,7 +1117,7 @@
         if(btnToggle) btnToggle.addEventListener('click', toggleBlueprint);
         if(btnToggleMobile) btnToggleMobile.addEventListener('click', toggleBlueprint);
 
-        // === 4. Project Simulator ===
+        // === 2. Project Simulator ===
         function calculateProject() {
             const typeEl = document.querySelector('input[name="project_type"]:checked');
             const urgencyEl = document.querySelector('input[name="urgency"]:checked');
@@ -1276,7 +1153,11 @@
         }
         function updateUrgency(el) { calculateProject(); }
 
-        // === 5. Demo Interactive Lab ===
+        function animateValue(obj, start, end) {
+            obj.innerHTML = `${start.toLocaleString('pt-BR')} - ${end.toLocaleString('pt-BR')}`;
+        }
+
+        // === 3. Demo Interactive Lab ===
         function updateChart(period) {
             const container = document.getElementById('demo-chart');
             if(!container) return;
@@ -1357,7 +1238,7 @@
             }
         }
 
-        // === 6. Modal Logic ===
+        // === 4. Modal Logic ===
         const modal = document.getElementById('case-modal');
         const modalContent = {
             'conectados': { title: 'CT Conectados', tag: 'Performance Web', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png', desc: 'Landing Page de alta conversão.', challenge: 'Aumentar conversão de leads.', solution: 'LP ultra-leve em Laravel.' },
@@ -1382,7 +1263,7 @@
         function closeModal() { if(modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); } }
         if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-        // === 7. General UI ===
+        // === 5. General UI ===
         function toggleMenu() { 
             const menu = document.getElementById('mobile-menu');
             if(menu) menu.classList.toggle('hidden'); 
@@ -1458,7 +1339,7 @@
             });
         });
 
-        // === 9. Konami Code ===
+        // === 7. Konami Code ===
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0; let matrixInterval;
         document.addEventListener('keydown', (e) => {
@@ -1470,6 +1351,7 @@
             if(!canvas) return;
             const ctx = canvas.getContext('2d');
             
+            // Turn off
             if (!body.classList.contains('matrix-mode')) { 
                 clearInterval(matrixInterval); 
                 ctx.clearRect(0, 0, canvas.width, canvas.height); 
@@ -1499,7 +1381,7 @@
             matrixInterval = setInterval(draw, 30);
         }
 
-        // === 10. Terminal Logic (Translated) ===
+        // === 8. Terminal Logic (Translated) ===
         const termModal = document.getElementById('terminal-modal');
         const termInput = document.getElementById('terminal-input');
         const termOutput = document.getElementById('terminal-output');
@@ -1553,7 +1435,7 @@
             });
         }
 
-        // === 11. Restricted Area ===
+        // === 9. Restricted Area ===
         const restrictedModal = document.getElementById('restricted-modal');
         function openRestricted() {
             if(restrictedModal) {
@@ -1570,7 +1452,7 @@
         // Fechar ao clicar fora
         if(restrictedModal) restrictedModal.addEventListener('click', (e) => { if(e.target === restrictedModal) closeRestricted(); });
 
-        // === 12. Live Feed Simulation (Updated Logic) ===
+        // === 10. Live Feed Simulation ===
         const liveFeedContainer = document.getElementById('live-feed');
         const feedMessage = document.getElementById('feed-message');
         const feedMessages = [
@@ -1580,9 +1462,7 @@
             "Latência do Sistema: 18ms",
             "Verificação de Segurança: Nenhuma ameaça detectada",
             "Sincronização de nós: 100%",
-            "Verificação de redundância: OK",
-            "Firewall ativo e atualizado",
-            "Análise de logs de erro: 0 críticos"
+            "Verificação de redundância: OK"
         ];
 
         function showFeedNotification() {
@@ -1597,24 +1477,19 @@
             }, 4000);
         }
 
-        // Loop natural (entre 1 e 3 minutos)
-        function scheduleNextFeed() {
-            const delay = Math.random() * (180000 - 60000) + 60000; 
-            setTimeout(() => {
+        // Start feed loop randomly between 5s and 10s
+        setTimeout(() => {
+            showFeedNotification();
+            setInterval(() => {
                 showFeedNotification();
-                scheduleNextFeed();
-            }, delay);
-        }
-        // Initial delay
-        setTimeout(scheduleNextFeed, 5000);
+            }, Math.random() * (10000 - 5000) + 5000); 
+        }, 3000);
 
-        // === 13. Particle Constellation (Hero) ===
+        // === 11. Particle Constellation (Hero) ===
         const particleCanvas = document.getElementById('particles-canvas');
         if (particleCanvas) {
             const ctx = particleCanvas.getContext('2d');
             let particlesArray;
-            // Reduce particle count significantly for performance
-            const particleDensity = 25000; 
 
             // Set canvas size
             particleCanvas.width = window.innerWidth;
@@ -1645,7 +1520,7 @@
 
             function initParticles() {
                 particlesArray = [];
-                let numberOfParticles = (particleCanvas.width * particleCanvas.height) / particleDensity;
+                let numberOfParticles = (particleCanvas.width * particleCanvas.height) / 15000;
                 for (let i = 0; i < numberOfParticles; i++) {
                     particlesArray.push(new Particle());
                 }
@@ -1664,9 +1539,9 @@
                         const dx = particlesArray[i].x - particlesArray[j].x;
                         const dy = particlesArray[i].y - particlesArray[j].y;
                         const distance = Math.sqrt(dx*dx + dy*dy);
-                        if (distance < 150) {
+                        if (distance < 120) {
                             ctx.beginPath();
-                            ctx.strokeStyle = `rgba(239, 68, 68, ${1 - distance/150})`;
+                            ctx.strokeStyle = `rgba(239, 68, 68, ${1 - distance/120})`;
                             ctx.lineWidth = 0.5;
                             ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
                             ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
@@ -1685,6 +1560,7 @@
                 initParticles();
             });
         }
+
     </script>
 </body>
 </html>
