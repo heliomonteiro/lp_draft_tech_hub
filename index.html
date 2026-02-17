@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#050505">
     <meta name="robots" content="index, follow">
 
-    <!-- OPEN GRAPH (WhatsApp/LinkedIn Bonito) -->
+    <!-- OPEN GRAPH -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://drafthub.com.br/">
     <meta property="og:title" content="Draft Tech Hub | Engenharia Digital">
@@ -23,7 +23,7 @@
     <meta name="twitter:description" content="Engenharia de Software e Inteligência de Dados.">
     <meta name="twitter:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
 
-    <!-- JSON-LD (Estratégia Local + Big Tech) -->
+    <!-- JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -115,6 +115,22 @@
                             '0%': { top: '-20%', opacity: '0' },
                             '50%': { opacity: '1' },
                             '100%': { top: '120%', opacity: '0' }
+                        },
+                        pulseGreen: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.5 },
+                        },
+                        bounceX: {
+                            '0%, 100%': { transform: 'translateX(-50%) translateY(0)' },
+                            '50%': { transform: 'translateX(-50%) translateY(-5px)' },
+                        },
+                        sliderWiggle: {
+                            '0%': { left: '50%' }, '20%': { left: '45%' }, '40%': { left: '55%' },
+                            '60%': { left: '48%' }, '80%': { left: '52%' }, '100%': { left: '50%' }
+                        },
+                        sliderWidthWiggle: {
+                            '0%': { width: '50%' }, '20%': { width: '45%' }, '40%': { width: '55%' },
+                            '60%': { width: '48%' }, '80%': { width: '52%' }, '100%': { width: '50%' }
                         }
                     },
                     animation: {
@@ -122,6 +138,8 @@
                         'radar': 'radar 2s infinite ease-out',
                         'marquee': 'marquee 25s linear infinite',
                         'scanline': 'scanline 2.5s ease-in-out infinite',
+                        'pulse-green': 'pulseGreen 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-hint': 'bounceX 1s infinite',
                     }
                 }
             }
@@ -186,7 +204,7 @@
         .typing-cursor::after { content: '_'; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        #case-modal, #terminal-modal, #restricted-modal { backdrop-filter: blur(8px); }
+        #case-modal, #terminal-modal, #restricted-modal, #whatsapp-simulator { backdrop-filter: blur(8px); }
         .modal-open { overflow: hidden; }
         
         details > summary { list-style: none; }
@@ -212,15 +230,11 @@
 
         .comparison-container { position: relative; width: 100%; height: 350px; overflow: hidden; border: 1px solid #333; border-radius: 4px; }
         .comp-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .comp-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid #ef4444; background: #111; z-index: 10; transition: width 0.1s ease-out; }
+        .comp-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid #ef4444; background: #fff; z-index: 10; transition: width 0.1s ease-out; }
         .comp-handle { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: #ef4444; border-radius: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); border: 2px solid white; }
         body.blueprint-mode .comp-overlay { border-right-color: #38bdf8; }
         body.blueprint-mode .comp-handle { background: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); }
         
-        .fake-sheet { width: 100%; height: 100%; background: #e5e5e5; display: grid; grid-template-columns: 40px repeat(5, 1fr); grid-template-rows: 30px repeat(10, 1fr); gap: 1px; border: 1px solid #ccc; padding: 10px; opacity: 0.5; filter: blur(1px); }
-        .sheet-cell { background: white; border: 1px solid #ccc; }
-        .sheet-header { background: #f0f0f0; font-weight: bold; color: #333; display: flex; align-items: center; justify-content: center; font-size: 10px; font-family: sans-serif; }
-
         /* LIVE FEED */
         #live-feed {
             position: fixed; bottom: 20px; left: 20px; z-index: 40;
@@ -274,6 +288,10 @@
         }
         body.blueprint-mode .tech-tooltip { background: #38bdf8; }
         body.blueprint-mode .tech-tooltip::after { border-color: #38bdf8 transparent transparent transparent; }
+        
+        /* Auto-Wiggle effects from Tailwind Config */
+        .wiggle-effect .comp-handle { animation: sliderWiggle 1.5s ease-in-out forwards; }
+        .wiggle-effect .comp-overlay { animation: sliderWidthWiggle 1.5s ease-in-out forwards; }
 
     </style>
 </head>
@@ -305,11 +323,11 @@
         <p id="feed-message">Sistemas operando normalmente...</p>
     </div>
 
-    <!-- Botão WhatsApp Flutuante -->
-    <a href="https://wa.me/5534999358189?text=Ol%C3%A1!%20Estou%20no%20site%20e%20gostaria%20de%20tirar%20uma%20d%C3%BAvida." target="_blank" class="magnetic-btn hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none group">
+    <!-- Botão WhatsApp Flutuante com Simulator -->
+    <button onclick="startWhatsAppFlow()" class="magnetic-btn hover-trigger fixed bottom-8 right-8 z-40 bg-green-600 hover:bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.4)] transition-all hover:scale-110 hover:rotate-12 animate-bounce cursor-none group">
         <i class="fab fa-whatsapp text-3xl"></i>
         <span class="absolute right-16 bg-white text-black px-3 py-1 rounded-sm text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Online Agora</span>
-    </a>
+    </button>
 
     <!-- Navbar -->
     <nav class="fixed w-full z-40 bg-draft-black/95 border-b border-draft-border backdrop-blur-sm transition-colors duration-500">
@@ -328,9 +346,9 @@
                         <a href="#demo" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Demo</a>
                         <a href="#metodo" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Método</a>
                         <a href="#portfolio" class="hover-trigger hover:text-draft-red transition-colors px-3 py-2 rounded-md text-sm font-medium">Cases</a>
-                        <a href="#contato" class="magnetic-btn hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-5 py-2 rounded-sm text-sm font-bold transition-all border border-transparent hover:scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                        <button onclick="startWhatsAppFlow()" class="magnetic-btn hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-5 py-2 rounded-sm text-sm font-bold transition-all border border-transparent hover:scale-105 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
                             DIAGNÓSTICO
-                        </a>
+                        </button>
                         <button onclick="openRestricted()" class="hover-trigger ml-4 text-draft-muted hover:text-draft-red transition-colors border border-draft-border p-2 rounded-sm" title="Área do Cliente">
                             <i class="fas fa-lock"></i>
                         </button>
@@ -366,7 +384,7 @@
                 <button id="blueprint-toggle-mobile" class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:text-draft-red text-draft-muted">
                     <i class="fas fa-ruler-combined mr-2"></i> Modo Blueprint
                 </button>
-                <a href="https://wa.me/5534999358189?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20diagn%C3%B3stico%20t%C3%A9cnico." target="_blank" class="block w-full text-center mt-4 bg-draft-red text-white px-5 py-3 rounded-sm font-bold">SOLICITAR DIAGNÓSTICO</a>
+                <button onclick="startWhatsAppFlow()" class="block w-full text-center mt-4 bg-draft-red text-white px-5 py-3 rounded-sm font-bold">SOLICITAR DIAGNÓSTICO</button>
             </div>
         </div>
     </nav>
@@ -399,9 +417,9 @@
             </p>
 
             <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4 fade-in-up" style="animation-delay: 0.3s;">
-                <a href="#contato" class="magnetic-btn hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-10 py-5 rounded-sm text-base font-bold transition-all hover:-translate-y-1 flex items-center justify-center border border-transparent shadow-[0_4px_14px_0_rgba(239,68,68,0.39)]">
+                <button onclick="startWhatsAppFlow()" class="magnetic-btn hover-trigger bg-draft-red hover:bg-draft-redDark text-white px-10 py-5 rounded-sm text-base font-bold transition-all hover:-translate-y-1 flex items-center justify-center border border-transparent shadow-[0_4px_14px_0_rgba(239,68,68,0.39)]">
                     QUERO ESCALAR <i class="fas fa-arrow-right ml-3"></i>
-                </a>
+                </button>
                 <a href="#solucoes" class="magnetic-btn hover-trigger border border-draft-border hover:border-white text-draft-text hover:text-white px-10 py-5 rounded-sm text-base font-bold transition-all bg-draft-panel/50 backdrop-blur-sm flex items-center justify-center">
                     Ver Soluções
                 </a>
@@ -433,7 +451,7 @@
         </div>
     </section>
 
-    <!-- TRANSFORMATION SLIDER (FIXED) -->
+    <!-- TRANSFORMATION SLIDER (RESTAURADO & IMPROVED) -->
     <section class="py-24 bg-draft-black border-b border-draft-border overflow-hidden">
         <div class="max-w-6xl mx-auto px-4">
             <div class="text-center mb-12 fade-in-up">
@@ -441,194 +459,74 @@
                 <p class="text-draft-muted">Arraste para ver a diferença entre "achar que sabe" e "ter certeza".</p>
             </div>
 
-            <div class="comparison-container hover-trigger fade-in-up shadow-2xl relative" id="slider-container">
-                <div class="comp-img bg-draft-panel flex items-end justify-between p-8 space-x-2">
-                    <div class="w-full bg-green-500/50 h-[30%] rounded-t-sm"></div>
-                    <div class="w-full bg-green-500/60 h-[50%] rounded-t-sm"></div>
-                    <div class="w-full bg-green-500/80 h-[80%] rounded-t-sm"></div>
-                    <div class="w-full bg-green-500 h-[60%] rounded-t-sm"></div>
-                    <div class="w-full bg-green-500 h-[90%] rounded-t-sm"></div>
-                    <div class="absolute top-4 left-8 text-white font-bold text-2xl font-mono">LUCRO: +42%</div>
+            <div class="comparison-container hover-trigger fade-in-up shadow-2xl relative bg-black group" id="slider-container">
+                
+                <!-- Right Layer (Control - Bottom) -->
+                <div class="comp-img bg-draft-panel p-6 relative overflow-hidden flex items-center justify-center">
+                     <div class="grid grid-cols-2 gap-8 w-full max-w-2xl">
+                         <div class="bg-draft-black border border-green-900/30 p-6 rounded-sm shadow-2xl">
+                             <div class="text-xs text-green-500 mb-2 font-mono uppercase">Receita Mensal</div>
+                             <div class="text-4xl font-bold text-white mb-4">R$ 142.050</div>
+                             <div class="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                 <div class="bg-green-500 h-full w-[80%] animate-pulse"></div>
+                             </div>
+                             <div class="mt-2 text-right text-[10px] text-green-500 font-mono">▲ 12% vs mês anterior</div>
+                         </div>
+                         <div class="bg-draft-black border border-green-900/30 p-6 rounded-sm shadow-2xl">
+                             <div class="text-xs text-green-500 mb-2 font-mono uppercase">Taxa de Conversão</div>
+                             <div class="text-4xl font-bold text-white mb-4">18.4%</div>
+                             <div class="flex gap-1 mt-2 items-end h-6">
+                                 <div class="w-3 h-full bg-green-500 rounded-sm"></div>
+                                 <div class="w-3 h-[80%] bg-green-500/80 rounded-sm"></div>
+                                 <div class="w-3 h-[60%] bg-green-500/60 rounded-sm"></div>
+                                 <div class="w-3 h-[90%] bg-green-500/90 rounded-sm"></div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="absolute top-4 right-4 text-green-500 flex items-center gap-2 text-xs font-mono border border-green-500/30 px-3 py-1 rounded-full bg-green-900/10">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> SYSTEM: ONLINE
+                     </div>
+                     <div class="absolute bottom-4 left-4 text-gray-500 text-[10px] font-mono">
+                         > Data_Sync: 0.02ms latency
+                     </div>
+                </div>
+
+                <!-- Left Layer (Chaos - Top Overlay) -->
+                <div class="comp-overlay" id="overlay" style="width: 50%;">
+                    <div style="width: 1200px; height: 100%; position: relative;" class="bg-gray-200">
+                         <div class="absolute inset-0 bg-white p-6 grid grid-cols-3 gap-2 opacity-40 pointer-events-none overflow-hidden content-start">
+                             <div class="border border-gray-300 h-8 bg-gray-50"></div> <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8"></div>
+                             <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8 bg-red-100"></div> <div class="border border-gray-300 h-8"></div>
+                             <div class="border border-gray-300 h-8 bg-yellow-50"></div> <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8"></div>
+                             <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8 bg-red-100"></div>
+                             <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8"></div> <div class="border border-gray-300 h-8"></div>
+                         </div>
+                         
+                         <div class="absolute top-1/4 left-[15%] transform -rotate-6 bg-yellow-100 text-red-800 border border-yellow-300 p-4 shadow-xl font-mono text-sm font-bold w-48 text-center z-10">
+                             ⚠️ ERROR: DATA NOT FOUND
+                         </div>
+                         
+                         <div class="absolute bottom-1/3 left-[20%] transform rotate-3 bg-white text-black border border-gray-400 p-4 shadow-2xl w-64 z-20">
+                             <h4 class="font-bold border-b border-gray-300 mb-2 pb-1 text-xs text-red-600 truncate">Financeiro_v2_FINAL_agora_vai.xls</h4>
+                             <div class="text-xs text-gray-500 mt-2">O arquivo está corrompido ou em uso.</div>
+                             <div class="mt-3 flex justify-end"><span class="bg-gray-300 text-gray-600 px-2 py-1 text-[10px] rounded">Cancelar</span></div>
+                         </div>
+                         
+                         <div class="absolute top-10 left-10 text-red-600 font-black text-6xl opacity-10 select-none transform -rotate-12">???</div>
+                         <div class="absolute bottom-10 left-[40%] text-red-600 font-black text-8xl opacity-10 select-none">404</div>
+                         
+                         <div class="absolute top-1/2 left-[10%] transform -translate-y-1/2 -rotate-90 text-gray-400 font-mono text-xs tracking-widest opacity-50">
+                             MANUAL_PROCESS_FAILURE
+                         </div>
+                    </div>
                 </div>
                 
-                <!-- Initial State 50% -->
-                <div class="comp-overlay" id="overlay" style="width: 50%">
-                    <div class="fake-sheet w-[200%] h-full">
-                        <div class="sheet-header">A</div><div class="sheet-header">B</div><div class="sheet-header">C</div><div class="sheet-header">D</div><div class="sheet-header">E</div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div><div class="sheet-cell"></div>
-                        <div class="absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 text-black font-bold text-2xl rotate-12 opacity-80" style="text-shadow: 0 0 10px white;">CAOS OPERACIONAL</div>
-                    </div>
-                </div>
                 <div class="comp-handle" id="slider-handle" style="left: 50%">
                     <i class="fas fa-arrows-alt-h text-white text-xs"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TICKER -->
-    <div class="bg-draft-red text-white py-2 overflow-hidden border-y border-draft-border relative z-20">
-        <div class="whitespace-nowrap animate-marquee font-bold font-mono text-sm">
-            CÓDIGO 100% SEU • SEM MENSALIDADE OBRIGATÓRIA • SUPORTE LOCAL • GARANTIA DE 30 DIAS • HOSPEDAGEM OTIMIZADA • CÓDIGO 100% SEU • SEM MENSALIDADE OBRIGATÓRIA • SUPORTE LOCAL • GARANTIA DE 30 DIAS • HOSPEDAGEM OTIMIZADA
-        </div>
-    </div>
-
-    <!-- Solutions -->
-    <section id="solucoes" class="py-24 bg-draft-dark relative border-t border-draft-border transition-colors duration-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20 fade-in-up">
-                <h2 class="text-3xl font-bold text-white scramble-text">Nossas Verticais Técnicas</h2>
-                <p class="mt-4 text-draft-muted">O ecossistema completo para sustentar o seu crescimento.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="tilt-card spotlight-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default">
-                    <div class="tilt-content relative z-10 w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-laptop-code text-draft-red text-2xl transition-colors"></i>
-                    </div>
-                    <h3 class="tilt-content relative z-10 text-xl font-bold text-white mb-4">Vitrine de Alta Conversão</h3>
-                    <p class="tilt-content relative z-10 text-draft-muted text-sm mb-6 leading-relaxed">
-                        Landing Pages e Portais desenvolvidos em <strong>Laravel & Livewire</strong>. Focados em velocidade extrema (Lighthouse 90+) e SEO técnico.
-                    </p>
-                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content relative z-10">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Design Responsivo</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Carregamento Instantâneo</li>
-                    </ul>
-                </div>
-                <!-- Card 2 -->
-                <div class="tilt-card spotlight-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.1s;">
-                    <div class="tilt-content relative z-10 w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-chart-bar text-draft-red text-2xl transition-colors"></i>
-                    </div>
-                    <h3 class="tilt-content relative z-10 text-xl font-bold text-white mb-4">Hub de Dados & BI</h3>
-                    <p class="tilt-content relative z-10 text-draft-muted text-sm mb-6 leading-relaxed">
-                        Transformamos planilhas soltas em <strong>Painéis de Controle</strong>. Visualize lucro, churn e metas em tempo real.
-                    </p>
-                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content relative z-10">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Power BI & SQL</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Relatórios Automáticos</li>
-                    </ul>
-                </div>
-                <!-- Card 3 -->
-                <div class="tilt-card spotlight-card group hover-trigger bg-draft-panel border border-draft-border hover:border-draft-red p-10 transition-all duration-300 fade-in-up h-full cursor-default" style="animation-delay: 0.2s;">
-                    <div class="tilt-content relative z-10 w-14 h-14 bg-draft-black border border-draft-border group-hover:border-draft-red flex items-center justify-center mb-8 transition-colors">
-                        <i class="fas fa-cogs text-draft-red text-2xl transition-colors"></i>
-                    </div>
-                    <h3 class="tilt-content relative z-10 text-xl font-bold text-white mb-4">Motor de Operação</h3>
-                    <p class="tilt-content relative z-10 text-draft-muted text-sm mb-6 leading-relaxed">
-                        Desenvolvimento de sistemas internos sob medida para organizar o fluxo de trabalho da sua equipe.
-                    </p>
-                    <ul class="text-xs text-draft-muted space-y-3 border-t border-draft-border pt-6 font-mono tilt-content relative z-10">
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Redução de Erro Humano</li>
-                        <li class="flex items-center"><i class="fas fa-caret-right text-draft-red mr-3 transition-colors"></i> Integração de APIs</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INTERACTIVE LAB -->
-    <section id="demo" class="py-24 bg-draft-black border-y border-draft-border relative overflow-hidden">
-        <div class="absolute inset-0 bg-tech-grid opacity-10"></div>
-        
-        <div class="max-w-6xl mx-auto px-4 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="fade-in-up">
-                    <div class="inline-block mb-4 px-3 py-1 border border-draft-red/30 rounded-full bg-draft-red/10">
-                        <span class="text-xs font-bold text-draft-red font-mono uppercase tracking-wider">
-                            Interactive Preview
-                        </span>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 scramble-text">
-                        Sinta a Potência <br>
-                        <span class="text-draft-red">em Tempo Real.</span>
-                    </h2>
-                    <p class="text-draft-muted text-lg mb-8 leading-relaxed">
-                        Nós não fazemos apenas "sites". Nós construímos <strong>Sistemas Operacionais</strong> para o seu negócio. Alterne entre as visões para entender o poder da nossa entrega.
-                    </p>
-                    
-                    <div class="flex space-x-4 mb-6">
-                        <button onclick="switchDemo('bi')" id="btn-bi" class="hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all demo-tab-active border border-transparent">
-                            <i class="fas fa-chart-line mr-2"></i> Visão Gestor (BI)
-                        </button>
-                        <button onclick="switchDemo('ops')" id="btn-ops" class="hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all demo-tab-inactive">
-                            <i class="fas fa-tasks mr-2"></i> Visão Operacional
-                        </button>
-                    </div>
-                </div>
-
-                <div class="fade-in-up delay-200">
-                    <div class="bg-draft-panel border border-draft-border rounded-lg shadow-2xl overflow-hidden hover:border-draft-red/30 transition-all duration-300 h-[400px] relative">
-                        <div class="bg-draft-black border-b border-draft-border px-4 py-3 flex items-center justify-between">
-                            <div class="flex space-x-2">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <div class="text-xs text-draft-muted font-mono bg-draft-dark px-3 py-1 rounded-sm border border-draft-border">
-                                admin.drafthub.com/app
-                            </div>
-                            <div class="w-4"></div>
-                        </div>
-
-                        <!-- BI VIEW -->
-                        <div id="view-bi" class="p-6 h-full transition-opacity duration-300">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-white font-bold">Vendas Recentes</h3>
-                                <div class="flex space-x-2">
-                                    <button onclick="updateChart('week')" class="hover-trigger px-2 py-1 text-[10px] font-bold rounded-sm bg-draft-red text-white">7 Dias</button>
-                                    <button class="px-2 py-1 text-[10px] font-bold rounded-sm bg-draft-dark text-draft-muted border border-draft-border">30 Dias</button>
-                                </div>
-                            </div>
-                            <div class="flex items-end justify-between h-32 mb-6 space-x-2" id="demo-chart"></div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="bg-draft-dark p-4 rounded-sm border border-draft-border">
-                                    <div class="text-xs text-draft-muted uppercase">Leads Hoje</div>
-                                    <div class="text-2xl font-bold text-white mt-1 flex items-center">
-                                        <span id="demo-leads">142</span>
-                                        <span class="text-xs text-green-500 ml-2 animate-pulse" id="lead-pulse">+1</span>
-                                    </div>
-                                </div>
-                                <button onclick="simulateAction()" class="hover-trigger w-full bg-draft-dark hover:bg-draft-black border border-draft-border border-dashed hover:border-draft-red text-draft-muted hover:text-white p-4 rounded-sm flex flex-col items-center justify-center transition-all group">
-                                    <i class="fas fa-file-export text-xl mb-2 group-hover:scale-110 transition-transform"></i>
-                                    <span class="text-xs font-bold">Gerar Relatório</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- OPS VIEW -->
-                        <div id="view-ops" class="p-6 h-full absolute inset-0 top-[50px] opacity-0 pointer-events-none transition-opacity duration-300 bg-draft-panel">
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-white font-bold">Fluxo de Pedidos</h3>
-                                <button class="px-2 py-1 text-[10px] bg-green-600 text-white rounded-sm">+ Novo Pedido</button>
-                            </div>
-                            <div class="grid grid-cols-3 gap-3 h-64">
-                                <div class="bg-draft-dark p-2 rounded-sm border border-draft-border">
-                                    <div class="text-[10px] text-draft-muted uppercase mb-2 font-bold">Novos</div>
-                                    <div class="bg-draft-panel p-2 mb-2 rounded-sm border border-draft-border text-xs text-white kanban-card hover:border-draft-red">Pedido #4023 <br><span class="text-[9px] text-gray-500">João Silva</span></div>
-                                    <div class="bg-draft-panel p-2 mb-2 rounded-sm border border-draft-border text-xs text-white kanban-card hover:border-draft-red">Pedido #4024 <br><span class="text-[9px] text-gray-500">Maria Oliveira</span></div>
-                                </div>
-                                <div class="bg-draft-dark p-2 rounded-sm border border-draft-border">
-                                    <div class="text-[10px] text-draft-muted uppercase mb-2 font-bold">Em Produção</div>
-                                    <div class="bg-draft-panel p-2 mb-2 rounded-sm border border-draft-border text-xs text-white kanban-card hover:border-draft-red">Pedido #4021 <br><span class="text-[9px] text-gray-500">Carlos Lima</span></div>
-                                </div>
-                                <div class="bg-draft-dark p-2 rounded-sm border border-draft-border">
-                                    <div class="text-[10px] text-draft-muted uppercase mb-2 font-bold">Concluído</div>
-                                    <div class="bg-draft-panel p-2 mb-2 rounded-sm border border-draft-border text-xs text-gray-400 kanban-card opacity-60">Pedido #4019</div>
-                                    <div class="bg-draft-panel p-2 mb-2 rounded-sm border border-draft-border text-xs text-gray-400 kanban-card opacity-60">Pedido #4018</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="demo-toast" class="absolute bottom-4 right-4 bg-green-600 text-white text-xs font-bold px-4 py-2 rounded-sm transform translate-y-20 opacity-0 transition-all duration-300 shadow-lg">
-                            <i class="fas fa-check-circle mr-2"></i> Ação Executada!
-                        </div>
+                    <!-- NOVA SINALIZAÇÃO DE ARRASTE -->
+                    <div id="drag-hint" class="absolute -top-12 left-1/2 -translate-x-1/2 text-white text-[10px] font-bold font-mono bg-draft-red px-3 py-1.5 rounded-sm opacity-100 transition-opacity duration-300 whitespace-nowrap animate-bounce-hint border border-white/20 shadow-lg pointer-events-none">
+                        &lt; ARRASTE &gt;
+                        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-draft-red rotate-45"></div>
                     </div>
                 </div>
             </div>
@@ -690,7 +588,7 @@
         </div>
     </section>
 
-    <!-- COMPARISON TABLE (TABELA DA VERDADE REFINADA) -->
+    <!-- COMPARISON TABLE -->
     <section class="py-24 bg-draft-black border-y border-draft-border relative overflow-hidden">
         <div class="max-w-5xl mx-auto px-4 relative z-10">
             <div class="text-center mb-16 fade-in-up">
@@ -793,9 +691,9 @@
                             <p class="mt-1">> Tech Stack: <span id="stack-display">Laravel, Livewire, Tailwind</span></p>
                         </div>
 
-                        <a id="sim-whatsapp-btn" href="#" target="_blank" class="magnetic-btn hover-trigger mt-6 w-full bg-white text-black hover:bg-draft-red hover:text-white py-3 rounded-sm text-center font-bold text-sm transition-all uppercase tracking-wide flex items-center justify-center">
+                        <button onclick="startWhatsAppFlow('simulador')" id="sim-whatsapp-btn" class="magnetic-btn hover-trigger mt-6 w-full bg-white text-black hover:bg-draft-red hover:text-white py-3 rounded-sm text-center font-bold text-sm transition-all uppercase tracking-wide flex items-center justify-center">
                             <i class="fab fa-whatsapp mr-2 text-lg"></i> Enviar Configuração
-                        </a>
+                        </button>
                     </div>
                  </div>
             </div>
@@ -852,21 +750,21 @@
                         <div class="absolute right-6 top-6 opacity-0 group-hover:opacity-100 transition-opacity text-draft-red"><i class="fas fa-plus-circle"></i></div>
                     </div>
                 </div>
-                <!-- Fictional Case -->
-                <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('bi')">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
-                        <i class="fas fa-chart-line text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                <!-- CondoLeve -->
+                <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('condoleve')">
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative overflow-hidden">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="CondoLeve" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                         <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
-                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">BI & Dados</span>
-                        <h3 class="text-lg font-bold text-white mt-1">Dashboard ZM</h3>
+                        <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">SaaS / Condomínios</span>
+                        <h3 class="text-lg font-bold text-white mt-1">CondoLeve</h3>
                     </div>
                 </div>
                 <!-- Case 5 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('agro')" style="animation-delay: 0.1s;">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
-                        <i class="fas fa-tractor text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative overflow-hidden">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1625246333195-58197bd47d26?auto=format&fit=crop&w=800&q=80" alt="AgroTech" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                         <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
@@ -876,149 +774,14 @@
                 </div>
                 <!-- Case 6 -->
                 <div class="tilt-card spotlight-card group hover-trigger relative overflow-hidden rounded-sm border border-draft-border hover:border-draft-red transition-all duration-300 fade-in-up bg-draft-panel cursor-pointer" onclick="openModal('fleet')" style="animation-delay: 0.2s;">
-                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative">
-                        <i class="fas fa-truck text-5xl text-draft-muted group-hover:text-draft-red transition-colors duration-500 tilt-content transform group-hover:scale-110"></i>
+                    <div class="aspect-video w-full bg-draft-dark flex items-center justify-center border-b border-draft-border group-hover:bg-draft-panel transition-colors relative overflow-hidden">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80" alt="FleetControl" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 transform group-hover:scale-105">
                         <div class="scan-overlay"></div>
                     </div>
                     <div class="p-6 tilt-content bg-draft-panel relative z-10">
                         <span class="text-draft-red text-xs font-bold font-mono uppercase tracking-wide transition-colors">Logística</span>
                         <h3 class="text-lg font-bold text-white mt-1">FleetControl</h3>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials (Resultados em Produção - SYSTEM LOGS RESTAURADO) -->
-    <section class="py-24 bg-draft-dark border-t border-draft-border transition-colors duration-500">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-white mb-12 text-center scramble-text">Resultados em Produção</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-sm">
-                <!-- Log 1 -->
-                <div class="bg-draft-black border border-draft-border p-6 rounded-sm hover:border-draft-red/50 transition-colors group">
-                    <div class="flex justify-between text-xs text-draft-muted mb-4 border-b border-draft-border pb-2 group-hover:text-white transition-colors">
-                        <span>[LOG_ID: 001]</span>
-                        <span class="text-green-500">STATUS: SUCCESS</span>
-                    </div>
-                    <p class="text-white mb-4">"A velocidade da Landing Page superou a expectativa. O carregamento instantâneo aumentou nossa retenção de leads em 40%."</p>
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-draft-panel rounded-full flex items-center justify-center mr-3 border border-draft-border group-hover:border-draft-red transition-colors">
-                            <i class="fas fa-dumbbell text-draft-red"></i>
-                        </div>
-                        <div>
-                            <div class="text-white font-bold">CT Conectados</div>
-                            <div class="text-draft-muted text-xs">Centro de Treinamento</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Log 2 -->
-                <div class="bg-draft-black border border-draft-border p-6 rounded-sm hover:border-draft-red/50 transition-colors group">
-                    <div class="flex justify-between text-xs text-draft-muted mb-4 border-b border-draft-border pb-2 group-hover:text-white transition-colors">
-                        <span>[LOG_ID: 002]</span>
-                        <span class="text-green-500">STATUS: SUCCESS</span>
-                    </div>
-                    <p class="text-white mb-4">"Profissionalismo técnico raro de encontrar. O projeto transmite exatamente a sofisticação que minha clínica precisava."</p>
-                    <div class="flex items-center">
-                        <div class="w-8 h-8 bg-draft-panel rounded-full flex items-center justify-center mr-3 border border-draft-border group-hover:border-draft-red transition-colors">
-                            <i class="fas fa-user-md text-draft-red"></i>
-                        </div>
-                        <div>
-                            <div class="text-white font-bold">Dra. Camila Costa</div>
-                            <div class="text-draft-muted text-xs">Médica</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="py-24 bg-draft-dark border-t border-draft-border transition-colors duration-500">
-        <div class="max-w-4xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-white mb-10 text-center scramble-text">Protocolos de Dúvidas (FAQ)</h2>
-            <div class="space-y-4">
-                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
-                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
-                        <span>> root@user:~$ "É caro contratar o Hub?"</span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
-                    </summary>
-                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>Não trabalhamos com "caro" ou "barato", mas com retorno sobre investimento (ROI). Nossas soluções de Landing Page começam em valores acessíveis para pequenos negócios.</p>
-                    </div>
-                </details>
-                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
-                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
-                        <span>> root@user:~$ "Quanto tempo demora?"</span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
-                    </summary>
-                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>Graças à nossa stack moderna (Laravel/Livewire), entregamos Landing Pages em 7 a 14 dias.</p>
-                    </div>
-                </details>
-                <details class="group bg-draft-panel border border-draft-border rounded-sm open:border-draft-red transition-colors">
-                    <summary class="hover-trigger flex items-center justify-between p-5 cursor-pointer text-white font-mono hover:text-draft-red">
-                        <span>> root@user:~$ "O que acontece após a entrega?"</span>
-                        <i class="fas fa-chevron-down group-open:rotate-180 transition-transform text-draft-muted"></i>
-                    </summary>
-                    <div class="px-5 pb-5 text-draft-muted text-sm leading-relaxed border-t border-draft-border/50 pt-3">
-                        <p>O código é seu, mas oferecemos planos de manutenção para manter a segurança e atualizações em dia, garantindo que sua infraestrutura nunca pare.</p>
-                    </div>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Stack / Arsenal Tecnológico -->
-    <section id="tech-stack" class="py-24 bg-draft-black border-t border-draft-border transition-colors duration-500 relative">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-2xl font-bold text-draft-muted uppercase tracking-widest mb-4 scramble-text">Tech Stack & Infraestrutura</h2>
-                <p class="text-white text-3xl md:text-4xl font-bold">Arsenal de Elite</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Infra -->
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fab fa-aws text-4xl text-draft-muted group-hover:text-[#FF9900] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">AWS Cloud</span>
-                    <div class="tech-tooltip">Escalabilidade Global</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fas fa-database text-4xl text-draft-muted group-hover:text-[#F80000] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Oracle Database</span>
-                     <div class="tech-tooltip">Alta Performance</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fab fa-microsoft text-4xl text-draft-muted group-hover:text-[#00A4EF] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Microsoft Azure</span>
-                     <div class="tech-tooltip">Enterprise Cloud</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fab fa-docker text-4xl text-draft-muted group-hover:text-[#2496ED] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Docker</span>
-                     <div class="tech-tooltip">Ambiente Isolado</div>
-                </div>
-
-                <!-- Dev & Data -->
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fas fa-project-diagram text-4xl text-draft-muted group-hover:text-green-500 transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Apache Hop</span>
-                     <div class="tech-tooltip">ETL de Dados</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fas fa-chart-pie text-4xl text-draft-muted group-hover:text-[#F2C811] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Power BI</span>
-                     <div class="tech-tooltip">Inteligência Visual</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fas fa-laravel text-4xl text-draft-muted group-hover:text-[#FF2D20] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Laravel</span>
-                     <div class="tech-tooltip">Robustez & Segurança</div>
-                </div>
-                <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fas fa-bolt text-4xl text-draft-muted group-hover:text-[#FB70A9] transition-colors mb-3"></i>
-                    <span class="text-sm font-mono text-white">Livewire</span>
-                     <div class="tech-tooltip">Interatividade Real-time</div>
                 </div>
             </div>
         </div>
@@ -1035,9 +798,9 @@
                 Vamos agendar uma conversa técnica. Sem "papo de vendedor", direto ao ponto sobre o que seu negócio precisa.
             </p>
             
-            <a href="https://wa.me/5534999358189?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20diagn%C3%B3stico%20t%C3%A9cnico." target="_blank" class="magnetic-btn hover-trigger inline-flex items-center justify-center bg-draft-red hover:bg-draft-redDark text-white px-12 py-6 rounded-sm text-xl font-bold transition-all hover:-translate-y-2 shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:shadow-[0_0_50px_rgba(239,68,68,0.5)] group">
+            <button onclick="startWhatsAppFlow()" class="magnetic-btn hover-trigger inline-flex items-center justify-center bg-draft-red hover:bg-draft-redDark text-white px-12 py-6 rounded-sm text-xl font-bold transition-all hover:-translate-y-2 shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:shadow-[0_0_50px_rgba(239,68,68,0.5)] group">
                 <i class="fab fa-whatsapp mr-4 text-3xl group-hover:animate-bounce"></i> AGENDAR DIAGNÓSTICO
-            </a>
+            </button>
             
             <p class="mt-8 text-xs text-draft-muted font-mono uppercase tracking-[0.2em] opacity-70">
                 Uberaba • Triângulo Mineiro • Ribeirão Preto
@@ -1082,6 +845,51 @@
         <button onclick="acceptCookies()" class="bg-draft-red hover:bg-draft-redDark text-white text-xs font-bold py-2 px-4 rounded-sm transition-colors w-full">
             CONFIRMAR ACESSO
         </button>
+    </div>
+
+    <!-- WHATSAPP SIMULATOR MODAL -->
+    <div id="whatsapp-simulator" class="fixed inset-0 z-[250] hidden items-center justify-center bg-black/95 p-4 font-mono">
+        <div class="bg-draft-panel border border-draft-red/50 w-full max-w-md p-6 rounded-sm shadow-[0_0_50px_rgba(239,68,68,0.2)] text-center relative flex flex-col items-center">
+            
+            <!-- Stage 1: Connecting -->
+            <div id="wa-stage-1" class="w-full">
+                <i class="fas fa-satellite-dish text-4xl text-draft-red mb-6 animate-pulse"></i>
+                <h3 class="text-xl font-bold text-white mb-2">Estabelecendo Conexão Segura...</h3>
+                <div class="w-full bg-draft-dark h-1 rounded-full mt-4 overflow-hidden">
+                    <div class="h-full bg-draft-red animate-[width_2s_ease-in-out_infinite]" style="width: 30%"></div>
+                </div>
+                <div class="text-xs text-draft-muted mt-2 text-left font-mono space-y-1">
+                    <div class="text-green-500">> Handshake protocol... OK</div>
+                    <div class="text-green-500">> Encrypting data... OK</div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Locating -->
+            <div id="wa-stage-2" class="hidden w-full">
+                <i class="fas fa-map-marker-alt text-4xl text-draft-red mb-6 animate-bounce"></i>
+                <h3 class="text-xl font-bold text-white mb-2">Localizando Unidade...</h3>
+                <p class="text-draft-muted text-sm mb-4">Analisando sua região para o melhor atendimento.</p>
+                <div class="flex justify-center space-x-2">
+                     <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
+                     <span class="w-2 h-2 bg-white rounded-full animate-ping delay-100"></span>
+                     <span class="w-2 h-2 bg-white rounded-full animate-ping delay-200"></span>
+                </div>
+            </div>
+
+            <!-- Stage 3: Found -->
+            <div id="wa-stage-3" class="hidden w-full">
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-white shadow-[0_0_20px_rgba(34,197,94,0.6)]">
+                    <i class="fas fa-check text-2xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">Especialista Encontrado!</h3>
+                <div class="bg-draft-black border border-green-500/30 p-4 rounded-sm mb-4">
+                    <p class="text-green-400 font-bold text-lg">Consultor: Helio</p>
+                    <p class="text-draft-muted text-xs">Engenheiro de Soluções • Online Agora</p>
+                </div>
+                <p class="text-white text-sm animate-pulse">Redirecionando para o WhatsApp...</p>
+            </div>
+
+        </div>
     </div>
 
     <!-- MODAL DEEP DIVE -->
@@ -1181,178 +989,76 @@
     </div>
 
     <script>
-        // === 0. BOOT SEQUENCE ===
-        document.addEventListener("DOMContentLoaded", () => {
-            // Sequencia de boot simulada
-            const logs = ["> Initializing Draft Core...", "> Loading Architecture...", "> Optimizing Assets...", "> System Ready."];
-            const logContainer = document.getElementById('boot-log');
-            const bootBar = document.getElementById('boot-bar');
-            const loader = document.getElementById('boot-loader');
-            const body = document.getElementById('main-body');
-            let delay = 0;
-            logs.forEach((log, index) => {
-                setTimeout(() => {
-                    const p = document.createElement('div');
-                    p.className = 'boot-text'; p.innerText = log;
-                    logContainer.appendChild(p);
-                    bootBar.style.width = `${((index + 1) / logs.length) * 100}%`;
-                }, delay);
-                delay += 100; // Speed up
-            });
-            setTimeout(() => {
-                loader.style.opacity = '0'; loader.style.transition = 'opacity 0.3s ease';
-                setTimeout(() => { loader.style.display = 'none'; body.classList.remove('overflow-hidden', 'h-screen'); }, 300);
-            }, delay + 200);
+        // === GLOBAL FUNCTIONS ===
 
-            // LGPD Alert Show
-            setTimeout(() => {
-                const lgpd = document.getElementById('lgpd-alert');
-                if(lgpd) lgpd.classList.remove('translate-y-[200%]');
-            }, 3000);
-
-            // Footer Hint Cycle
-            const hints = document.querySelectorAll('.hint-cycle span');
-            let currentHint = 0;
-            setInterval(() => {
-                hints.forEach(h => h.classList.add('hidden'));
-                hints[currentHint].classList.remove('hidden');
-                currentHint = (currentHint + 1) % hints.length;
-            }, 4000);
-            
-            // Start Auto Chart Animation
-            autoUpdateChart();
-            
-            // Project Simulator Logic
-            calculateProject();
-
-            // Slider Logic
-            const slider = document.getElementById('slider-container');
-            const handle = document.getElementById('slider-handle');
-            const overlay = document.getElementById('overlay');
-            let isDragging = false;
-
-            if (slider && handle && overlay) {
-                slider.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return;
-                    const rect = slider.getBoundingClientRect();
-                    let x = e.clientX - rect.left;
-                    if (x < 0) x = 0;
-                    if (x > rect.width) x = rect.width;
-                    overlay.style.width = `${x}px`;
-                    handle.style.left = `${x}px`;
-                });
-
-                handle.addEventListener('mousedown', () => isDragging = true);
-                window.addEventListener('mouseup', () => isDragging = false);
-                
-                // Touch support
-                slider.addEventListener('touchmove', (e) => {
-                    if (!isDragging) return;
-                    const rect = slider.getBoundingClientRect();
-                    let x = e.touches[0].clientX - rect.left;
-                    if (x < 0) x = 0;
-                    if (x > rect.width) x = rect.width;
-                    overlay.style.width = `${x}px`;
-                    handle.style.left = `${x}px`;
-                });
-                handle.addEventListener('touchstart', () => isDragging = true);
-                window.addEventListener('touchend', () => isDragging = false);
-            }
-        });
-
-        // === 1. Scramble Text Effect ===
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.chars = '!<>-_\\/[]{}—=+*^?#________';
-                this.update = this.update.bind(this);
-            }
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise((resolve) => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40);
-                    const end = start + Math.floor(Math.random() * 40);
-                    this.queue.push({ from, to, start, end });
-                }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="text-draft-red">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-            randomChar() {
-                return this.chars[Math.floor(Math.random() * this.chars.length)];
-            }
+        function toggleMenu() { 
+            const menu = document.getElementById('mobile-menu');
+            if(menu) menu.classList.toggle('hidden'); 
         }
 
-        const scrambleObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    if (!el.dataset.scrambled) {
-                        const fx = new TextScramble(el);
-                        fx.setText(el.innerText);
-                        el.dataset.scrambled = "true";
-                        scrambleObserver.unobserve(el);
-                    }
-                }
-            });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.scramble-text').forEach(el => scrambleObserver.observe(el));
-
-
-        // === 2. Cookies Accept ===
         function acceptCookies() {
             const lgpd = document.getElementById('lgpd-alert');
             if(lgpd) lgpd.classList.add('translate-y-[200%]');
         }
 
-        // === 3. Blueprint Toggle ===
-        const btnToggle = document.getElementById('blueprint-toggle');
-        const btnToggleMobile = document.getElementById('blueprint-toggle-mobile');
-        const body = document.body;
         function toggleBlueprint() {
+            const body = document.body;
             body.classList.toggle('blueprint-mode');
             const isBlue = body.classList.contains('blueprint-mode');
+            const btnToggle = document.getElementById('blueprint-toggle');
             if(btnToggle) {
                 btnToggle.innerHTML = isBlue ? '<i class="fas fa-microchip"></i>' : '<i class="fas fa-ruler-combined"></i>';
                 btnToggle.title = isBlue ? "Voltar ao Modo Dark" : "Modo Blueprint";
             }
         }
-        if(btnToggle) btnToggle.addEventListener('click', toggleBlueprint);
-        if(btnToggleMobile) btnToggleMobile.addEventListener('click', toggleBlueprint);
 
-        // === 4. Project Simulator ===
+        // WhatsApp Simulator Logic
+        function startWhatsAppFlow(source = 'geral') {
+            const modal = document.getElementById('whatsapp-simulator');
+            const s1 = document.getElementById('wa-stage-1');
+            const s2 = document.getElementById('wa-stage-2');
+            const s3 = document.getElementById('wa-stage-3');
+
+            if (!modal || !s1 || !s2 || !s3) return;
+
+            // Reset UI
+            s1.classList.remove('hidden');
+            s2.classList.add('hidden');
+            s3.classList.add('hidden');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Message Logic based on Source
+            let message = "Olá! Gostaria de agendar um diagnóstico técnico.";
+            if(source === 'simulador') {
+                 // Get Simulator Values if available, otherwise generic
+                 const price = document.getElementById('price-display')?.innerText || "Estimado";
+                 message = `Olá! Vim pelo simulador do site. Orçamento estimado: R$ ${price}. Gostaria de confirmar disponibilidade.`;
+            }
+
+            console.log('Iniciando fluxo WhatsApp para:', message);
+
+            // Sequence
+            setTimeout(() => {
+                s1.classList.add('hidden');
+                s2.classList.remove('hidden');
+            }, 1000); // 1s connecting
+
+            setTimeout(() => {
+                s2.classList.add('hidden');
+                s3.classList.remove('hidden');
+            }, 2500); // 1.5s locating
+
+            setTimeout(() => {
+                window.location.href = `https://wa.me/5534999358189?text=${encodeURIComponent(message)}`;
+                // Close modal after redirect (optional)
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }, 1000);
+            }, 3500); // 1s found -> redirect
+        }
+
         function calculateProject() {
             const typeEl = document.querySelector('input[name="project_type"]:checked');
             const urgencyEl = document.querySelector('input[name="urgency"]:checked');
@@ -1365,24 +1071,49 @@
             else if (type === 'system') { minPrice = 5000; maxPrice = 15000; time = "30 a 60 dias"; stack = "Laravel, MySQL, React/Livewire"; includes = "Auth, Admin Panel, API, Database"; typeLabel = "Sistema Web"; }
             if (urgency === 'high') { minPrice *= 1.3; maxPrice *= 1.3; time = "Prioridade Máxima (Express)"; urgencyLabel = "Urgente"; } else { urgencyLabel = "Padrão"; }
             
-            document.getElementById('price-display').innerHTML = `${minPrice.toLocaleString('pt-BR')} - ${maxPrice.toLocaleString('pt-BR')}`;
-            document.getElementById('time-display').innerText = time;
-            document.getElementById('stack-display').innerText = stack;
-            document.getElementById('includes-display').innerText = includes;
+            const priceDisplay = document.getElementById('price-display');
+            if(priceDisplay) priceDisplay.innerHTML = `${minPrice.toLocaleString('pt-BR')} - ${maxPrice.toLocaleString('pt-BR')}`;
+            
+            const timeDisplay = document.getElementById('time-display');
+            if(timeDisplay) timeDisplay.innerText = time;
+            
+            const stackDisplay = document.getElementById('stack-display');
+            if(stackDisplay) stackDisplay.innerText = stack;
+            
+            const includesDisplay = document.getElementById('includes-display');
+            if(includesDisplay) includesDisplay.innerText = includes;
+        }
 
-            const whatsappBtn = document.getElementById('sim-whatsapp-btn');
-            if(whatsappBtn) {
-                const message = `Olá! Simulei um projeto no Draft Hub: ${typeLabel} + Urgência ${urgencyLabel}. Orçamento estimado: R$ ${minPrice.toLocaleString('pt-BR')} - ${maxPrice.toLocaleString('pt-BR')}. Gostaria de verificar disponibilidade.`;
-                whatsappBtn.href = `https://wa.me/5534999358189?text=${encodeURIComponent(message)}`;
+        function updateUrgency(el) { calculateProject(); }
+
+        function switchDemo(view) {
+            const biView = document.getElementById('view-bi');
+            const opsView = document.getElementById('view-ops');
+            const btnBi = document.getElementById('btn-bi');
+            const btnOps = document.getElementById('btn-ops');
+            const body = document.body;
+            const isBlueprint = body.classList.contains('blueprint-mode');
+
+            if(!biView || !opsView || !btnBi || !btnOps) return;
+
+            btnBi.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
+            btnOps.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
+
+            if(view === 'bi') {
+                biView.style.opacity = '1'; biView.style.pointerEvents = 'auto';
+                opsView.style.opacity = '0'; opsView.style.pointerEvents = 'none';
+                
+                btnBi.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
+                btnOps.classList.add('text-draft-muted', 'border-draft-border');
+            } else {
+                biView.style.opacity = '0'; biView.style.pointerEvents = 'none';
+                opsView.style.opacity = '1'; opsView.style.pointerEvents = 'auto';
+                
+                btnOps.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
+                btnBi.classList.add('text-draft-muted', 'border-draft-border');
             }
         }
-        function updateUrgency() { calculateProject(); }
 
-        function animateValue(obj, start, end) {
-            obj.innerHTML = `${start.toLocaleString('pt-BR')} - ${end.toLocaleString('pt-BR')}`;
-        }
-
-        // === 5. Demo Interactive Lab ===
         function updateChart(period) {
             const container = document.getElementById('demo-chart');
             if(!container) return;
@@ -1400,7 +1131,6 @@
             }
         }
 
-        // Make Chart Live!
         function autoUpdateChart() {
             updateChart('week');
             setInterval(() => {
@@ -1436,244 +1166,64 @@
             }
         }
 
-        // Switch Demo View Logic
-        function switchDemo(view) {
-            const biView = document.getElementById('view-bi');
-            const opsView = document.getElementById('view-ops');
-            const btnBi = document.getElementById('btn-bi');
-            const btnOps = document.getElementById('btn-ops');
-            const body = document.body;
-            const isBlueprint = body.classList.contains('blueprint-mode');
-
-            btnBi.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
-            btnOps.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
-
-            if(view === 'bi') {
-                biView.style.opacity = '1'; biView.style.pointerEvents = 'auto';
-                opsView.style.opacity = '0'; opsView.style.pointerEvents = 'none';
-                
-                btnBi.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
-                btnOps.classList.add('text-draft-muted', 'border-draft-border');
-            } else {
-                biView.style.opacity = '0'; biView.style.pointerEvents = 'none';
-                opsView.style.opacity = '1'; opsView.style.pointerEvents = 'auto';
-                
-                btnOps.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
-                btnBi.classList.add('text-draft-muted', 'border-draft-border');
-            }
-        }
-
-        // === 6. Modal Logic ===
-        const modal = document.getElementById('case-modal');
+        // Modal Content Data
         const modalContent = {
             'conectados': { title: 'CT Conectados', tag: 'Performance Web', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png', desc: 'Landing Page de alta conversão.', challenge: 'Aumentar conversão de leads.', solution: 'LP ultra-leve em Laravel.' },
             'camila': { title: 'Dra. Camila', tag: 'Saúde', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png', desc: 'Posicionamento digital premium.', challenge: 'Transmitir sofisticação.', solution: 'Design minimalista focado em fotografia.' },
             'open': { title: 'Open Closet', tag: 'E-commerce', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png', desc: 'Catálogo digital moda circular.', challenge: 'Gerenciar estoque único.', solution: 'Catálogo integrado ao WhatsApp.' },
-            'bi': { title: 'Dashboard ZM', tag: 'BI & Dados', img: '', desc: 'Painel financeiro 3 filiais.', challenge: 'Dados dispersos.', solution: 'ETL automatizado SQL + Power BI.' },
-            'agro': { title: 'AgroTech Monitor', tag: 'Agronegócio', img: '', desc: 'Sistema de monitoramento de safra com alertas em tempo real.', challenge: 'Falta de visibilidade sobre condições da lavoura.', solution: 'Dashboard IoT integrado com sensores de campo.' },
-            'fleet': { title: 'FleetControl', tag: 'Logística', img: '', desc: 'Gestão de frotas e roteirização inteligente.', challenge: 'Custos operacionais elevados e falta de rastreio.', solution: 'Sistema web para controle de combustível e manutenção.' }
+            'condoleve': { title: 'CondoLeve', tag: 'SaaS / Gestão', img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80', desc: 'Plataforma completa para gestão financeira e operacional de condomínios.', challenge: 'Processos manuais e falta de transparência.', solution: 'Sistema Web com área do condômino e automação de boletos.' },
+            'agro': { title: 'AgroTech Monitor', tag: 'Agronegócio', img: 'https://images.unsplash.com/photo-1625246333195-58197bd47d26?auto=format&fit=crop&w=800&q=80', desc: 'Sistema de monitoramento de safra com alertas em tempo real.', challenge: 'Falta de visibilidade sobre condições da lavoura.', solution: 'Dashboard IoT integrado com sensores de campo.' },
+            'fleet': { title: 'FleetControl', tag: 'Logística', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80', desc: 'Gestão de frotas e roteirização inteligente.', challenge: 'Custos operacionais elevados e falta de rastreio.', solution: 'Sistema web para controle de combustível e manutenção.' }
         };
+
         function openModal(id) {
+            const modal = document.getElementById('case-modal');
+            const body = document.body;
             if(!modal) return;
+            
             const data = modalContent[id] || modalContent['conectados'];
-            document.getElementById('modal-title').innerText = data.title;
-            document.getElementById('modal-tag').innerText = data.tag;
-            document.getElementById('modal-desc').innerText = data.desc;
-            document.getElementById('modal-challenge').innerText = data.challenge;
-            document.getElementById('modal-solution').innerText = data.solution;
+            
+            // Set content
+            const titleEl = document.getElementById('modal-title');
+            if(titleEl) titleEl.innerText = data.title;
+            
+            const tagEl = document.getElementById('modal-tag');
+            if(tagEl) tagEl.innerText = data.tag;
+            
+            const descEl = document.getElementById('modal-desc');
+            if(descEl) descEl.innerText = data.desc;
+            
+            const challEl = document.getElementById('modal-challenge');
+            if(challEl) challEl.innerText = data.challenge;
+            
+            const solEl = document.getElementById('modal-solution');
+            if(solEl) solEl.innerText = data.solution;
+            
             const imgEl = document.getElementById('modal-img');
-            if(data.img) { imgEl.src = data.img; imgEl.parentElement.style.display = 'block'; } else { imgEl.parentElement.style.display = 'none'; }
-            modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open');
+            if(imgEl) {
+                if(data.img) { 
+                    imgEl.src = data.img; 
+                    imgEl.parentElement.style.display = 'block'; 
+                } else { 
+                    imgEl.parentElement.style.display = 'none'; 
+                }
+            }
+            
+            modal.classList.remove('hidden'); 
+            modal.classList.add('flex'); 
+            body.classList.add('modal-open');
         }
+
         function closeModal() { 
+            const modal = document.getElementById('case-modal');
+            const body = document.body;
             if(modal) {
                 modal.classList.add('hidden'); 
                 modal.classList.remove('flex'); 
                 body.classList.remove('modal-open'); 
             }
         }
-        
-        // Add modal event listener with null check
-        const caseModal = document.getElementById('case-modal');
-        if(caseModal) {
-            caseModal.addEventListener('click', (e) => { 
-                if (e.target === caseModal) closeModal(); 
-            });
-        }
 
-        // === 7. General UI ===
-        function toggleMenu() { 
-            const menu = document.getElementById('mobile-menu');
-            if(menu) menu.classList.toggle('hidden'); 
-        }
-        
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            const progress = document.getElementById("scroll-progress");
-            if(progress) progress.style.width = scrolled + "%";
-        };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    const counters = entry.target.querySelectorAll('.counter');
-                    counters.forEach(counter => {
-                        const target = +counter.getAttribute('data-target');
-                        let count = 0; const inc = target / 50;
-                        const update = () => { count += inc; if(count < target) { counter.innerText = Math.ceil(count); requestAnimationFrame(update); } else counter.innerText = target; }; update();
-                    });
-                    if (entry.target.querySelector('#terminal-content')) typeTerminal();
-                }
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
-
-        function typeTerminal() {
-            const lines = [{id: 'line-1', text: '> Initializing...'}, {id: 'line-2', text: '> Database... [OK]'}, {id: 'line-3', text: '> Assets... [OK]'}, {id: 'line-4', text: '> Analytics... [OK]'}, {id: 'line-5', text: '> Ready.'}];
-            let delay = 0;
-            lines.forEach((l, i) => { setTimeout(() => { const el = document.getElementById(l.id); if(el) { el.classList.remove('hidden'); el.innerText = l.text; } }, delay); delay += 500; });
-        }
-
-        const cDot = document.getElementById("cursor-dot"); const cOutline = document.getElementById("cursor-outline");
-        window.addEventListener("mousemove", (e) => { 
-            if(cDot) { cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px"; }
-            if(cOutline) cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" }); 
-        });
-        document.querySelectorAll('.hover-trigger, a, button').forEach(t => { t.addEventListener('mouseenter', () => body.classList.add('hovering')); t.addEventListener('mouseleave', () => body.classList.remove('hovering')); });
-
-        document.querySelectorAll('.tilt-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2; const y = e.clientY - rect.top - rect.height/2;
-                card.style.transform = `perspective(1000px) rotateX(${-y/10}deg) rotateY(${x/10}deg)`;
-            });
-            card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'; });
-        });
-
-        // Debug Key
-        document.addEventListener('keydown', (e) => { 
-            if(e.key.toLowerCase() === 'd') {
-                body.classList.toggle('debug-mode');
-                const indicator = document.getElementById('debug-indicator');
-                if (body.classList.contains('debug-mode')) {
-                    indicator.classList.remove('hidden');
-                } else {
-                    indicator.classList.add('hidden');
-                }
-            } 
-        });
-
-        // Magnetic Buttons Logic
-        document.querySelectorAll('.magnetic-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
-
-        // === 9. Konami Code ===
-        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0; let matrixInterval;
-        document.addEventListener('keydown', (e) => {
-            if (e.key === konamiCode[konamiIndex]) { konamiIndex++; if (konamiIndex === konamiCode.length) { toggleMatrix(); konamiIndex = 0; } } else { konamiIndex = 0; }
-        });
-        function toggleMatrix() {
-            body.classList.toggle('matrix-mode');
-            const canvas = document.getElementById('matrix-canvas'); 
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
-            
-            if (!body.classList.contains('matrix-mode')) { 
-                clearInterval(matrixInterval); 
-                ctx.clearRect(0, 0, canvas.width, canvas.height); 
-                return; 
-            }
-
-            // Turn on - Set timeout to auto-off after 5 seconds
-            setTimeout(() => {
-                if (body.classList.contains('matrix-mode')) {
-                    toggleMatrix(); // Recursive call to toggle off
-                }
-            }, 5000); // 5 seconds duration
-
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            const fontSize = 16; const columns = canvas.width / fontSize; const rainDrops = Array.from({ length: columns }).fill(1);
-            const draw = () => {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
-                for (let i = 0; i < rainDrops.length; i++) {
-                    const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                    ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                    if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
-                    rainDrops[i]++;
-                }
-            };
-            matrixInterval = setInterval(draw, 30);
-        }
-
-        // === 10. Terminal Logic (Translated) ===
-        const termModal = document.getElementById('terminal-modal');
-        const termInput = document.getElementById('terminal-input');
-        const termOutput = document.getElementById('terminal-output');
-        const termToggle = document.getElementById('terminal-toggle');
-        const termToggleMobile = document.getElementById('terminal-toggle-mobile');
-
-        function openTerminal() {
-            if(termModal) {
-                termModal.classList.remove('hidden');
-                termModal.classList.add('flex');
-                if(termInput) termInput.focus();
-            }
-        }
-        function closeTerminal() {
-            if(termModal) {
-                termModal.classList.add('hidden');
-                termModal.classList.remove('flex');
-            }
-        }
-        if(termToggle) termToggle.addEventListener('click', openTerminal);
-        if(termToggleMobile) termToggleMobile.addEventListener('click', openTerminal);
-
-        if(termInput) {
-            termInput.addEventListener('keydown', (e) => {
-                if(e.key === 'Enter') {
-                    const command = termInput.value.trim().toLowerCase();
-                    const line = document.createElement('div');
-                    line.innerHTML = `<span class="text-green-500">$</span> <span class="text-white">${command}</span>`;
-                    termOutput.appendChild(line);
-                    
-                    let response = '';
-                    switch(command) {
-                        case 'ajuda': response = 'Comandos disponíveis: ajuda, tecnologias, contato, preco, limpar'; break;
-                        case 'tecnologias': response = 'Laravel, Livewire, TailwindCSS, AWS, Oracle, PowerBI'; break;
-                        case 'contato': response = 'Email: contato@drafthub.com.br | WhatsApp: (XX) 99999-9999'; break;
-                        case 'preco': response = 'Use o simulador na seção de preços.'; window.location.href="#simulador"; break;
-                        case 'matrix': response = 'Entrando na Matrix...'; setTimeout(toggleMatrix, 500); break;
-                        case 'limpar': termOutput.innerHTML = ''; response = null; break;
-                        default: response = `Comando não encontrado: ${command}. Digite 'ajuda'.`;
-                    }
-                    
-                    if(response) {
-                        const resLine = document.createElement('div');
-                        resLine.className = 'text-gray-400 mb-2';
-                        resLine.innerText = response;
-                        termOutput.appendChild(resLine);
-                    }
-                    termInput.value = '';
-                    termOutput.scrollTop = termOutput.scrollHeight;
-                }
-            });
-        }
-
-        // === 11. Restricted Area ===
         function openRestricted() {
             const restrictedModal = document.getElementById('restricted-modal');
             if (restrictedModal) {
@@ -1688,11 +1238,7 @@
                 restrictedModal.classList.remove('flex');
             }
         }
-        // Fechar ao clicar fora
-        const resModal = document.getElementById('restricted-modal');
-        if(resModal) resModal.addEventListener('click', (e) => { if(e.target === resModal) closeRestricted(); });
 
-        // Login Simulation
         function simulateLogin() {
             const loginForm = document.getElementById('login-form');
             const loginLoading = document.getElementById('login-loading');
@@ -1723,122 +1269,454 @@
             }
         }
 
-        // === 12. Live Feed Simulation (Updated Logic) ===
-        const liveFeedContainer = document.getElementById('live-feed');
-        const feedMessage = document.getElementById('feed-message');
-        const feedMessages = [
-            "Monitoramento de Servidores: Estável",
-            "Backup Automático: Realizado com sucesso",
-            "Otimização de Cache: Concluída",
-            "Latência do Sistema: 18ms",
-            "Verificação de Segurança: Nenhuma ameaça detectada",
-            "Sincronização de nós: 100%",
-            "Verificação de redundância: OK",
-            "Firewall ativo e atualizado",
-            "Análise de logs de erro: 0 críticos"
-        ];
+        function openTerminal() {
+            const termModal = document.getElementById('terminal-modal');
+            const termInput = document.getElementById('terminal-input');
+            if(termModal) {
+                termModal.classList.remove('hidden');
+                termModal.classList.add('flex');
+                if(termInput) termInput.focus();
+            }
+        }
+        function closeTerminal() {
+            const termModal = document.getElementById('terminal-modal');
+            if(termModal) {
+                termModal.classList.add('hidden');
+                termModal.classList.remove('flex');
+            }
+        }
 
-        function showFeedNotification() {
-            if(!liveFeedContainer) return;
-            const randomMsg = feedMessages[Math.floor(Math.random() * feedMessages.length)];
-            feedMessage.innerText = randomMsg;
-            liveFeedContainer.classList.add('active');
+        // === DOCUMENT READY ===
+        document.addEventListener("DOMContentLoaded", () => {
             
-            // Hide after 4s
-            setTimeout(() => {
-                liveFeedContainer.classList.remove('active');
-            }, 4000);
-        }
+            // 1. Boot Sequence
+            const logs = ["> Initializing Draft Core...", "> Loading Architecture...", "> Optimizing Assets...", "> System Ready."];
+            const logContainer = document.getElementById('boot-log');
+            const bootBar = document.getElementById('boot-bar');
+            const loader = document.getElementById('boot-loader');
+            const body = document.getElementById('main-body');
+            
+            let delay = 0;
+            if(logContainer && bootBar && loader && body) {
+                logs.forEach((log, index) => {
+                    setTimeout(() => {
+                        const p = document.createElement('div');
+                        p.className = 'boot-text'; p.innerText = log;
+                        logContainer.appendChild(p);
+                        bootBar.style.width = `${((index + 1) / logs.length) * 100}%`;
+                    }, delay);
+                    delay += 100; // Speed up
+                });
+                setTimeout(() => {
+                    loader.style.opacity = '0'; loader.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => { loader.style.display = 'none'; body.classList.remove('overflow-hidden', 'h-screen'); }, 300);
+                }, delay + 200);
+            }
 
-        // Loop natural (entre 1 e 3 minutos)
-        function scheduleNextFeed() {
-            const delay = Math.random() * (180000 - 60000) + 60000; 
-            setTimeout(() => {
-                showFeedNotification();
-                scheduleNextFeed();
-            }, delay);
-        }
-        // Initial delay
-        setTimeout(scheduleNextFeed, 5000);
+            // 2. Initial Calculations
+            calculateProject();
 
-        // === 13. Particle Constellation (Hero) ===
-        const particleCanvas = document.getElementById('particles-canvas');
-        if (particleCanvas) {
-            const ctx = particleCanvas.getContext('2d');
-            let particlesArray;
-            // Reduce particle count significantly for performance
-            const particleDensity = 25000; 
+            // 3. Slider Logic
+            const slider = document.getElementById('slider-container');
+            const handle = document.getElementById('slider-handle');
+            const overlay = document.getElementById('overlay');
+            const dragHint = document.getElementById('drag-hint');
+            let isDragging = false;
 
-            // Set canvas size
-            particleCanvas.width = window.innerWidth;
-            particleCanvas.height = window.innerHeight;
+            // Auto-Wiggle when in view
+            const sliderObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        slider.classList.add('wiggle-effect');
+                        sliderObserver.unobserve(entry.target); // Only once
+                    }
+                });
+            }, { threshold: 0.5 });
+            if(slider) sliderObserver.observe(slider);
 
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * particleCanvas.width;
-                    this.y = Math.random() * particleCanvas.height;
-                    this.directionX = (Math.random() * 0.4) - 0.2;
-                    this.directionY = (Math.random() * 0.4) - 0.2;
-                    this.size = Math.random() * 2 + 1; 
+            function updateSlider(x) {
+                 if (x < 0) x = 0;
+                 if (x > slider.offsetWidth) x = slider.offsetWidth;
+                 overlay.style.width = `${x}px`;
+                 handle.style.left = `${x}px`;
+                 
+                 // Hide hint on interaction
+                 if(dragHint && dragHint.style.opacity !== '0') {
+                     dragHint.style.opacity = '0';
+                     setTimeout(() => {
+                        if(dragHint) dragHint.classList.remove('animate-bounce-hint');
+                     }, 300);
+                 }
+            }
+
+            if (slider && handle && overlay) {
+                slider.addEventListener('mousemove', (e) => {
+                    if (!isDragging) return;
+                    const rect = slider.getBoundingClientRect();
+                    updateSlider(e.clientX - rect.left);
+                });
+
+                handle.addEventListener('mousedown', () => isDragging = true);
+                window.addEventListener('mouseup', () => isDragging = false);
+                
+                // Touch support
+                slider.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    const rect = slider.getBoundingClientRect();
+                    updateSlider(e.touches[0].clientX - rect.left);
+                });
+                handle.addEventListener('touchstart', () => isDragging = true);
+                window.addEventListener('touchend', () => isDragging = false);
+                
+                // Allow click to move as well
+                slider.addEventListener('click', (e) => {
+                    const rect = slider.getBoundingClientRect();
+                    updateSlider(e.clientX - rect.left);
+                });
+            }
+
+            // 4. Scramble Text Effect
+            class TextScramble {
+                constructor(el) {
+                    this.el = el;
+                    this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                    this.update = this.update.bind(this);
+                }
+                setText(newText) {
+                    const oldText = this.el.innerText;
+                    const length = Math.max(oldText.length, newText.length);
+                    const promise = new Promise((resolve) => this.resolve = resolve);
+                    this.queue = [];
+                    for (let i = 0; i < length; i++) {
+                        const from = oldText[i] || '';
+                        const to = newText[i] || '';
+                        const start = Math.floor(Math.random() * 40);
+                        const end = start + Math.floor(Math.random() * 40);
+                        this.queue.push({ from, to, start, end });
+                    }
+                    cancelAnimationFrame(this.frameRequest);
+                    this.frame = 0;
+                    this.update();
+                    return promise;
                 }
                 update() {
-                    this.x += this.directionX;
-                    this.y += this.directionY;
-                    // Bounce edges
-                    if (this.x > particleCanvas.width || this.x < 0) this.directionX = -this.directionX;
-                    if (this.y > particleCanvas.height || this.y < 0) this.directionY = -this.directionY;
+                    let output = '';
+                    let complete = 0;
+                    for (let i = 0, n = this.queue.length; i < n; i++) {
+                        let { from, to, start, end, char } = this.queue[i];
+                        if (this.frame >= end) {
+                            complete++;
+                            output += to;
+                        } else if (this.frame >= start) {
+                            if (!char || Math.random() < 0.28) {
+                                char = this.randomChar();
+                                this.queue[i].char = char;
+                            }
+                            output += `<span class="text-draft-red">${char}</span>`;
+                        } else {
+                            output += from;
+                        }
+                    }
+                    this.el.innerHTML = output;
+                    if (complete === this.queue.length) {
+                        this.resolve();
+                    } else {
+                        this.frameRequest = requestAnimationFrame(this.update);
+                        this.frame++;
+                    }
                 }
-                draw() {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(239, 68, 68, 0.4)'; // Red-ish
-                    ctx.fill();
+                randomChar() {
+                    return this.chars[Math.floor(Math.random() * this.chars.length)];
                 }
             }
 
-            function initParticles() {
-                particlesArray = [];
-                let numberOfParticles = (particleCanvas.width * particleCanvas.height) / 15000;
-                for (let i = 0; i < numberOfParticles; i++) {
-                    particlesArray.push(new Particle());
-                }
+            const scrambleObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        if (!el.dataset.scrambled) {
+                            const fx = new TextScramble(el);
+                            fx.setText(el.innerText);
+                            el.dataset.scrambled = "true";
+                            scrambleObserver.unobserve(el);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            document.querySelectorAll('.scramble-text').forEach(el => scrambleObserver.observe(el));
+
+            // 5. Scroll Progress
+            window.onscroll = function() {
+                var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                var scrolled = (winScroll / height) * 100;
+                const progress = document.getElementById("scroll-progress");
+                if(progress) progress.style.width = scrolled + "%";
+            };
+
+            // 6. Fade In Up Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.querySelector('#terminal-content')) typeTerminal();
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+            function typeTerminal() {
+                const lines = [{id: 'line-1', text: '> Initializing...'}, {id: 'line-2', text: '> Database... [OK]'}, {id: 'line-3', text: '> Assets... [OK]'}, {id: 'line-4', text: '> Analytics... [OK]'}, {id: 'line-5', text: '> Ready.'}];
+                let delay = 0;
+                lines.forEach((l, i) => { setTimeout(() => { const el = document.getElementById(l.id); if(el) { el.classList.remove('hidden'); el.innerText = l.text; } }, delay); delay += 500; });
             }
 
-            function animateParticles() {
-                requestAnimationFrame(animateParticles);
-                ctx.clearRect(0, 0, innerWidth, innerHeight);
+            // 7. Cursor Logic
+            const cDot = document.getElementById("cursor-dot"); 
+            const cOutline = document.getElementById("cursor-outline");
+            window.addEventListener("mousemove", (e) => { 
+                if(cDot) { cDot.style.left = e.clientX + "px"; cDot.style.top = e.clientY + "px"; }
+                if(cOutline) cOutline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" }); 
+            });
+            document.querySelectorAll('.hover-trigger, a, button').forEach(t => { 
+                t.addEventListener('mouseenter', () => body.classList.add('hovering')); 
+                t.addEventListener('mouseleave', () => body.classList.remove('hovering')); 
+            });
 
-                for (let i = 0; i < particlesArray.length; i++) {
-                    particlesArray[i].update();
-                    particlesArray[i].draw();
-                    
-                    // Draw lines
-                    for (let j = i; j < particlesArray.length; j++) {
-                        const dx = particlesArray[i].x - particlesArray[j].x;
-                        const dy = particlesArray[i].y - particlesArray[j].y;
-                        const distance = Math.sqrt(dx*dx + dy*dy);
-                        if (distance < 150) {
-                            ctx.beginPath();
-                            ctx.strokeStyle = `rgba(239, 68, 68, ${1 - distance/150})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                            ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                            ctx.stroke();
+            // 8. 3D Tilt Card
+            document.querySelectorAll('.tilt-card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width/2; const y = e.clientY - rect.top - rect.height/2;
+                    card.style.transform = `perspective(1000px) rotateX(${-y/10}deg) rotateY(${x/10}deg)`;
+                });
+                card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'; });
+            });
+
+            // 9. Debug Key
+            document.addEventListener('keydown', (e) => { 
+                if(e.key.toLowerCase() === 'd') {
+                    body.classList.toggle('debug-mode');
+                    const indicator = document.getElementById('debug-indicator');
+                    if (body.classList.contains('debug-mode')) {
+                        indicator.classList.remove('hidden');
+                    } else {
+                        indicator.classList.add('hidden');
+                    }
+                } 
+            });
+
+            // 10. Magnetic Buttons
+            document.querySelectorAll('.magnetic-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translate(0, 0)';
+                });
+            });
+
+            // 11. Konami Code
+            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+            let konamiIndex = 0; let matrixInterval;
+            document.addEventListener('keydown', (e) => {
+                if (e.key === konamiCode[konamiIndex]) { konamiIndex++; if (konamiIndex === konamiCode.length) { toggleMatrix(); konamiIndex = 0; } } else { konamiIndex = 0; }
+            });
+            function toggleMatrix() {
+                body.classList.toggle('matrix-mode');
+                const canvas = document.getElementById('matrix-canvas'); 
+                if(!canvas) return;
+                const ctx = canvas.getContext('2d');
+                
+                if (!body.classList.contains('matrix-mode')) { 
+                    clearInterval(matrixInterval); 
+                    ctx.clearRect(0, 0, canvas.width, canvas.height); 
+                    return; 
+                }
+
+                setTimeout(() => {
+                    if (body.classList.contains('matrix-mode')) {
+                        toggleMatrix(); 
+                    }
+                }, 5000); 
+
+                canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+                const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                const fontSize = 16; const columns = canvas.width / fontSize; const rainDrops = Array.from({ length: columns }).fill(1);
+                const draw = () => {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#0F0'; ctx.font = fontSize + 'px monospace';
+                    for (let i = 0; i < rainDrops.length; i++) {
+                        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                        rainDrops[i]++;
+                    }
+                };
+                matrixInterval = setInterval(draw, 30);
+            }
+
+            // 12. Terminal Input Logic
+            const termInput = document.getElementById('terminal-input');
+            const termOutput = document.getElementById('terminal-output');
+            if(termInput) {
+                termInput.addEventListener('keydown', (e) => {
+                    if(e.key === 'Enter') {
+                        const command = termInput.value.trim().toLowerCase();
+                        const line = document.createElement('div');
+                        line.innerHTML = `<span class="text-green-500">$</span> <span class="text-white">${command}</span>`;
+                        termOutput.appendChild(line);
+                        
+                        let response = '';
+                        switch(command) {
+                            case 'ajuda': response = 'Comandos disponíveis: ajuda, tecnologias, contato, preco, limpar'; break;
+                            case 'tecnologias': response = 'Laravel, Livewire, TailwindCSS, AWS, Oracle, PowerBI'; break;
+                            case 'contato': response = 'Email: contato@drafthub.com.br | WhatsApp: (XX) 99999-9999'; break;
+                            case 'preco': response = 'Use o simulador na seção de preços.'; window.location.href="#simulador"; break;
+                            case 'matrix': response = 'Entrando na Matrix...'; setTimeout(toggleMatrix, 500); break;
+                            case 'limpar': termOutput.innerHTML = ''; response = null; break;
+                            default: response = `Comando não encontrado: ${command}. Digite 'ajuda'.`;
+                        }
+                        
+                        if(response) {
+                            const resLine = document.createElement('div');
+                            resLine.className = 'text-gray-400 mb-2';
+                            resLine.innerText = response;
+                            termOutput.appendChild(resLine);
+                        }
+                        termInput.value = '';
+                        termOutput.scrollTop = termOutput.scrollHeight;
+                    }
+                });
+            }
+
+            // 13. Particles
+            const particleCanvas = document.getElementById('particles-canvas');
+            if (particleCanvas) {
+                const ctx = particleCanvas.getContext('2d');
+                let particlesArray;
+                
+                particleCanvas.width = window.innerWidth;
+                particleCanvas.height = window.innerHeight;
+
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * particleCanvas.width;
+                        this.y = Math.random() * particleCanvas.height;
+                        this.directionX = (Math.random() * 0.4) - 0.2;
+                        this.directionY = (Math.random() * 0.4) - 0.2;
+                        this.size = Math.random() * 2 + 1; 
+                    }
+                    update() {
+                        this.x += this.directionX;
+                        this.y += this.directionY;
+                        if (this.x > particleCanvas.width || this.x < 0) this.directionX = -this.directionX;
+                        if (this.y > particleCanvas.height || this.y < 0) this.directionY = -this.directionY;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(239, 68, 68, 0.4)'; // Red-ish
+                        ctx.fill();
+                    }
+                }
+
+                function initParticles() {
+                    particlesArray = [];
+                    let numberOfParticles = (particleCanvas.width * particleCanvas.height) / 15000;
+                    for (let i = 0; i < numberOfParticles; i++) {
+                        particlesArray.push(new Particle());
+                    }
+                }
+
+                function animateParticles() {
+                    requestAnimationFrame(animateParticles);
+                    ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+                    for (let i = 0; i < particlesArray.length; i++) {
+                        particlesArray[i].update();
+                        particlesArray[i].draw();
+                        
+                        // Draw lines
+                        for (let j = i; j < particlesArray.length; j++) {
+                            const dx = particlesArray[i].x - particlesArray[j].x;
+                            const dy = particlesArray[i].y - particlesArray[j].y;
+                            const distance = Math.sqrt(dx*dx + dy*dy);
+                            if (distance < 150) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(239, 68, 68, ${1 - distance/150})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                                ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                                ctx.stroke();
+                            }
                         }
                     }
                 }
+
+                initParticles();
+                animateParticles();
+
+                window.addEventListener('resize', () => {
+                    particleCanvas.width = innerWidth;
+                    particleCanvas.height = innerHeight;
+                    initParticles();
+                });
             }
 
-            initParticles();
-            animateParticles();
+            // 14. Live Feed
+            const liveFeedContainer = document.getElementById('live-feed');
+            const feedMessage = document.getElementById('feed-message');
+            const feedMessages = [
+                "Monitoramento de Servidores: Estável",
+                "Backup Automático: Realizado com sucesso",
+                "Otimização de Cache: Concluída",
+                "Latência do Sistema: 18ms",
+                "Verificação de Segurança: Nenhuma ameaça detectada",
+                "Sincronização de nós: 100%",
+                "Verificação de redundância: OK",
+                "Firewall ativo e atualizado",
+                "Análise de logs de erro: 0 críticos"
+            ];
 
-            window.addEventListener('resize', () => {
-                particleCanvas.width = innerWidth;
-                particleCanvas.height = innerHeight;
-                initParticles();
-            });
-        }
+            function showFeedNotification() {
+                if(!liveFeedContainer) return;
+                const randomMsg = feedMessages[Math.floor(Math.random() * feedMessages.length)];
+                feedMessage.innerText = randomMsg;
+                liveFeedContainer.classList.add('active');
+                
+                // Hide after 4s
+                setTimeout(() => {
+                    liveFeedContainer.classList.remove('active');
+                }, 4000);
+            }
 
+            function scheduleNextFeed() {
+                const delay = Math.random() * (180000 - 60000) + 60000; 
+                setTimeout(() => {
+                    showFeedNotification();
+                    scheduleNextFeed();
+                }, delay);
+            }
+            setTimeout(scheduleNextFeed, 5000);
+
+            // Modal Events (Close on Click Outside)
+            const caseModal = document.getElementById('case-modal');
+            if(caseModal) {
+                caseModal.addEventListener('click', (e) => { 
+                    if (e.target === caseModal) closeModal(); 
+                });
+            }
+            const resModal = document.getElementById('restricted-modal');
+            if(resModal) {
+                resModal.addEventListener('click', (e) => { 
+                    if(e.target === resModal) closeRestricted(); 
+                });
+            }
+        });
     </script>
 </body>
 </html>
