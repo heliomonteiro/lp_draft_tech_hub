@@ -4,9 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Draft Tech Hub | Engenharia Digital em Uberaba e Ribeirão Preto</title>
-    <meta name="description" content="Engenharia de Software e Inteligência de Dados. Sistemas sob medida, Dashboards de BI e Sites de Alta Performance em Uberaba e região.">
+    <!-- SEO & META TAGS OTIMIZADAS -->
+    <title>Draft Tech Hub | Engenharia de Software & BI</title>
+    <meta name="description" content="Estúdio de Engenharia Digital especializado em Sistemas Web, Dashboards de BI e Landing Pages de Alta Performance. Atendendo Uberaba, Ribeirão Preto e todo o Brasil.">
     <meta name="theme-color" content="#050505">
+    <meta name="robots" content="index, follow">
+
+    <!-- OPEN GRAPH (WhatsApp/LinkedIn Bonito) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://drafthub.com.br/">
+    <meta property="og:title" content="Draft Tech Hub | Engenharia Digital">
+    <meta property="og:description" content="Transformamos negócios com Software Sob Medida, Dashboards de BI e Sites de Alta Performance.">
+    <meta property="og:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
+
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Draft Tech Hub | Engenharia Digital">
+    <meta name="twitter:description" content="Engenharia de Software e Inteligência de Dados.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
+
+    <!-- JSON-LD (Estratégia Local + Big Tech) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Draft Tech Hub",
+      "image": "https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png",
+      "description": "Estúdio de Engenharia de Software focado em Landing Pages de Alta Performance, Sistemas Web e Business Intelligence.",
+      "url": "https://drafthub.com.br",
+      "telephone": "+5534999358189",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Uberaba",
+        "addressRegion": "MG",
+        "addressCountry": "BR"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Uberaba" },
+        { "@type": "City", "name": "Ribeirão Preto" },
+        { "@type": "City", "name": "São Paulo" }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ]
+    }
+    </script>
 
     <!-- FAVICON -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%230a0a0a%22/><text y=%22.9em%22 font-size=%2290%22 font-family=%22Arial%22 font-weight=%22bold%22 fill=%22%23ef4444%22>D</text></svg>">
@@ -524,7 +572,7 @@
                                 <div class="w-3 h-3 rounded-full bg-green-500"></div>
                             </div>
                             <div class="text-xs text-draft-muted font-mono bg-draft-dark px-3 py-1 rounded-sm border border-draft-border">
-                                admin.draft-hub.com/app
+                                admin.drafthub.com/app
                             </div>
                             <div class="w-4"></div>
                         </div>
@@ -963,7 +1011,7 @@
                      <div class="tech-tooltip">Inteligência Visual</div>
                 </div>
                 <div class="tech-item group flex flex-col items-center justify-center p-6 border border-draft-border rounded-sm hover:border-draft-red transition-all cursor-default relative">
-                    <i class="fab fa-laravel text-4xl text-draft-muted group-hover:text-[#FF2D20] transition-colors mb-3"></i>
+                    <i class="fas fa-laravel text-4xl text-draft-muted group-hover:text-[#FF2D20] transition-colors mb-3"></i>
                     <span class="text-sm font-mono text-white">Laravel</span>
                      <div class="tech-tooltip">Robustez & Segurança</div>
                 </div>
@@ -1082,7 +1130,7 @@
         <div class="bg-gray-900 border border-gray-700 w-full max-w-2xl h-[500px] rounded-md shadow-2xl flex flex-col relative">
             <!-- Header -->
             <div class="bg-gray-800 border-b border-gray-700 px-4 py-2 flex justify-between items-center text-xs text-gray-400">
-                <span>admin@draft-hub:~</span>
+                <span>admin@drafthub:~</span>
                 <div class="flex space-x-2">
                     <button onclick="closeTerminal()" class="text-red-500 hover:text-white"><i class="fas fa-times"></i></button>
                 </div>
@@ -1416,17 +1464,33 @@
         }
 
         // === 6. Modal Logic ===
-        // ... (Modal Content logic same as before) ...
-        function openModal(id) { 
-            // Simplified modal open call for brevity, assumes data logic exists as in previous versions
-            document.getElementById('case-modal').classList.remove('hidden'); 
-            document.getElementById('case-modal').classList.add('flex'); 
-            body.classList.add('modal-open');
+        const modal = document.getElementById('case-modal');
+        const modalContent = {
+            'conectados': { title: 'CT Conectados', tag: 'Performance Web', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png', desc: 'Landing Page de alta conversão.', challenge: 'Aumentar conversão de leads.', solution: 'LP ultra-leve em Laravel.' },
+            'camila': { title: 'Dra. Camila', tag: 'Saúde', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_dracamilacosta_mtvmor.png', desc: 'Posicionamento digital premium.', challenge: 'Transmitir sofisticação.', solution: 'Design minimalista focado em fotografia.' },
+            'open': { title: 'Open Closet', tag: 'E-commerce', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564619/lp_openinyourcloset_kte7kf.png', desc: 'Catálogo digital moda circular.', challenge: 'Gerenciar estoque único.', solution: 'Catálogo integrado ao WhatsApp.' },
+            'bi': { title: 'Dashboard ZM', tag: 'BI & Dados', img: '', desc: 'Painel financeiro 3 filiais.', challenge: 'Dados dispersos.', solution: 'ETL automatizado SQL + Power BI.' },
+            'agro': { title: 'AgroTech Monitor', tag: 'Agronegócio', img: '', desc: 'Sistema de monitoramento de safra com alertas em tempo real.', challenge: 'Falta de visibilidade sobre condições da lavoura.', solution: 'Dashboard IoT integrado com sensores de campo.' },
+            'fleet': { title: 'FleetControl', tag: 'Logística', img: '', desc: 'Gestão de frotas e roteirização inteligente.', challenge: 'Custos operacionais elevados e falta de rastreio.', solution: 'Sistema web para controle de combustível e manutenção.' }
+        };
+        function openModal(id) {
+            if(!modal) return;
+            const data = modalContent[id] || modalContent['conectados'];
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-tag').innerText = data.tag;
+            document.getElementById('modal-desc').innerText = data.desc;
+            document.getElementById('modal-challenge').innerText = data.challenge;
+            document.getElementById('modal-solution').innerText = data.solution;
+            const imgEl = document.getElementById('modal-img');
+            if(data.img) { imgEl.src = data.img; imgEl.parentElement.style.display = 'block'; } else { imgEl.parentElement.style.display = 'none'; }
+            modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open');
         }
         function closeModal() { 
-            document.getElementById('case-modal').classList.add('hidden'); 
-            document.getElementById('case-modal').classList.remove('flex'); 
-            body.classList.remove('modal-open'); 
+            if(modal) {
+                modal.classList.add('hidden'); 
+                modal.classList.remove('flex'); 
+                body.classList.remove('modal-open'); 
+            }
         }
         
         // Add modal event listener with null check
@@ -1590,7 +1654,7 @@
                     switch(command) {
                         case 'ajuda': response = 'Comandos disponíveis: ajuda, tecnologias, contato, preco, limpar'; break;
                         case 'tecnologias': response = 'Laravel, Livewire, TailwindCSS, AWS, Oracle, PowerBI'; break;
-                        case 'contato': response = 'Email: contato@draft-hub.com | WhatsApp: (XX) 99999-9999'; break;
+                        case 'contato': response = 'Email: contato@drafthub.com.br | WhatsApp: (XX) 99999-9999'; break;
                         case 'preco': response = 'Use o simulador na seção de preços.'; window.location.href="#simulador"; break;
                         case 'matrix': response = 'Entrando na Matrix...'; setTimeout(toggleMatrix, 500); break;
                         case 'limpar': termOutput.innerHTML = ''; response = null; break;
