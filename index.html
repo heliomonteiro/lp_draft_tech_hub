@@ -15,7 +15,8 @@
     <meta property="og:url" content="https://drafthub.com.br/">
     <meta property="og:title" content="Draft Tech Hub | Engenharia Digital">
     <meta property="og:description" content="Transformamos negócios com Software Sob Medida, Dashboards de BI e Sites de Alta Performance.">
-    <meta property="og:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png">
+    <!-- ATUALIZADO: Imagem oficial do Draft Hub -->
+    <meta property="og:image" content="https://res.cloudinary.com/dgt5d9xfq/image/upload/v1771433940/lp_drafthub_kg2i3y.png">
 
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -23,7 +24,7 @@
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Draft Tech Hub",
-      "image": "https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png",
+      "image": "https://res.cloudinary.com/dgt5d9xfq/image/upload/v1771433940/lp_drafthub_kg2i3y.png",
       "description": "Estúdio de Engenharia de Software focado em Landing Pages de Alta Performance, Sistemas Web e Business Intelligence.",
       "url": "https://drafthub.com.br",
       "telephone": "+5534999358189",
@@ -204,7 +205,7 @@
         .kanban-card { transition: transform 0.2s; cursor: grab; }
         .kanban-card:active { cursor: grabbing; transform: scale(1.02); }
 
-        .comparison-container { position: relative; width: 100%; height: 350px; overflow: hidden; border: 1px solid #333; border-radius: 4px; }
+        .comparison-container { position: relative; width: 100%; height: 350px; overflow: hidden; border: 1px solid #333; border-radius: 4px; touch-action: pan-y; }
         .comp-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         .comp-overlay { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; border-right: 2px solid #ef4444; background: #fff; z-index: 10; transition: width 0.1s ease-out; }
         .comp-handle { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: #ef4444; border-radius: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; cursor: ew-resize; z-index: 20; box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); border: 2px solid white; }
@@ -347,11 +348,11 @@
         <!-- Mobile Menu -->
         <div class="md:hidden hidden bg-draft-black border-b border-draft-border" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#solucoes" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Soluções</a>
-                <a href="#demo" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Demo</a>
-                <a href="#metodo" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Método</a>
-                <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Cases</a>
-                <button onclick="openRestricted()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:text-draft-red text-draft-muted">
+                <a href="#solucoes" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Soluções</a>
+                <a href="#demo" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Demo</a>
+                <a href="#metodo" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Método</a>
+                <a href="#portfolio" onclick="toggleMenu()" class="block px-3 py-2 rounded-md text-base font-medium hover:text-draft-red">Cases</a>
+                <button onclick="openRestricted(); toggleMenu()" class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:text-draft-red text-draft-muted">
                     <i class="fas fa-lock mr-2"></i> Área do Cliente
                 </button>
                 <button id="terminal-toggle-mobile" class="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:text-draft-red text-draft-muted">
@@ -1117,86 +1118,6 @@
 
         function updateUrgency(el) { calculateProject(); }
 
-        function switchDemo(view) {
-            const biView = document.getElementById('view-bi');
-            const opsView = document.getElementById('view-ops');
-            const btnBi = document.getElementById('btn-bi');
-            const btnOps = document.getElementById('btn-ops');
-            const body = document.body;
-            const isBlueprint = body.classList.contains('blueprint-mode');
-
-            if(!biView || !opsView || !btnBi || !btnOps) return;
-
-            btnBi.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
-            btnOps.className = 'hover-trigger px-6 py-3 rounded-sm font-bold text-sm transition-all border border-transparent';
-
-            if(view === 'bi') {
-                biView.style.opacity = '1'; biView.style.pointerEvents = 'auto';
-                opsView.style.opacity = '0'; opsView.style.pointerEvents = 'none';
-                
-                btnBi.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
-                btnOps.classList.add('text-draft-muted', 'border-draft-border');
-            } else {
-                biView.style.opacity = '0'; biView.style.pointerEvents = 'none';
-                opsView.style.opacity = '1'; opsView.style.pointerEvents = 'auto';
-                
-                btnOps.classList.add(isBlueprint ? 'bg-[#38bdf8]' : 'bg-draft-red', 'text-white');
-                btnBi.classList.add('text-draft-muted', 'border-draft-border');
-            }
-        }
-
-        function updateChart(period) {
-            const container = document.getElementById('demo-chart');
-            if(!container) return;
-            container.innerHTML = ''; // Clear
-            
-            const count = period === 'week' ? 7 : 12;
-            for(let i=0; i<count; i++) {
-                const height = Math.floor(Math.random() * 80) + 20;
-                const bar = document.createElement('div');
-                bar.className = 'w-full bg-draft-red/50 hover:bg-draft-red transition-all duration-500 rounded-t-sm';
-                bar.style.height = '0%'; // Animate from 0
-                container.appendChild(bar);
-                
-                setTimeout(() => { bar.style.height = `${height}%`; }, 50 * i);
-            }
-        }
-
-        function autoUpdateChart() {
-            updateChart('week');
-            setInterval(() => {
-                const container = document.getElementById('demo-chart');
-                if(!container) return;
-                const bars = container.children;
-                // Randomly change one bar at a time
-                const randomBar = bars[Math.floor(Math.random() * bars.length)];
-                if(randomBar) {
-                    const newHeight = Math.floor(Math.random() * 80) + 20;
-                    randomBar.style.height = `${newHeight}%`;
-                }
-                
-                // Randomly update lead counter
-                const leads = document.getElementById('demo-leads');
-                if(leads && Math.random() > 0.7) {
-                    let current = parseInt(leads.innerText);
-                    leads.innerText = current + 1;
-                    const pulse = document.getElementById('lead-pulse');
-                    if(pulse) {
-                        pulse.classList.remove('hidden');
-                        setTimeout(() => pulse.classList.add('hidden'), 1000);
-                    }
-                }
-            }, 2000);
-        }
-
-        function simulateAction() {
-            const toast = document.getElementById('demo-toast');
-            if(toast) {
-                toast.classList.remove('opacity-0', 'translate-y-20');
-                setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-20'); }, 2000);
-            }
-        }
-
         // Modal Content Data
         const modalContent = {
             'conectados': { title: 'CT Conectados', tag: 'Performance Web', img: 'https://res.cloudinary.com/dgt5d9xfq/image/upload/v1769564618/lp_conectados_apbpnr.png', desc: 'Landing Page de alta conversão.', challenge: 'Aumentar conversão de leads.', solution: 'LP ultra-leve em Laravel.' },
@@ -1407,6 +1328,8 @@
                 // Touch support
                 slider.addEventListener('touchmove', (e) => {
                     if (!isDragging) return;
+                    // Note: We use touch-action: pan-y in CSS to allow vertical scrolling
+                    // but capture horizontal movement here.
                     const rect = slider.getBoundingClientRect();
                     updateSlider(e.touches[0].clientX - rect.left);
                 });
